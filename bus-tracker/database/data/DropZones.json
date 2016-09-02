@@ -1,0 +1,110 @@
+[
+  {
+    "name": "ktm",
+    "description": "KTM station UKM.",
+    "lat": "2.940253",
+    "lng": "101.786455"
+  },
+  {
+    "name": "danau",
+    "description": "Danau golf club.",
+    "lat": "2.933043",
+    "lng": "101.787203"
+  },
+  {
+    "name": "kkm",
+    "description": "Residential college.",
+    "lat": "2.927147",
+    "lng": "101.789219"
+  },
+  {
+    "name": "ps",
+    "description": "UKM Graduate center.",
+    "lat": "2.929603",
+    "lng": "101.786805"
+  },
+  {
+    "name": "kiz",
+    "description": "Residential college.",
+    "lat": "2.930420",
+    "lng": "101.785544"
+  },
+  {
+    "name": "krk",
+    "description": "Residential college.",
+    "lat": "2.931871",
+    "lng": "101.783622"
+  },
+  {
+    "name": "kdo",
+    "description": "Residential college.",
+    "lat": "2.930650",
+    "lng": "101.781173"
+  },
+  {
+    "name": "fssk",
+    "description": "Faculty of social science and humanities.",
+    "lat": "2.930650",
+    "lng": "101.781173"
+  },
+  {
+    "name": "ptsl",
+    "description": "Tun Sri Lanang library.",
+    "lat": "2.926439",
+    "lng": "101.781736"
+  },
+  {
+    "name": "kab",
+    "description": "Residential college.",
+    "lat": "2.925089",
+    "lng": "101.782991"
+  },
+  {
+    "name": "kuo",
+    "description": "Residential college.",
+    "lat": "2.923428",
+    "lng": "101.779839"
+  },
+  {
+    "name": "kbh",
+    "description": "Residential college.",
+    "lat": "2.925997",
+    "lng": "101.778266"
+  },
+  {
+    "name": "fpend",
+    "description": "Faculty of education.",
+    "lat": "2.926298",
+    "lng": "101.775857"
+  },
+  {
+    "name": "fkab",
+    "description": "Faculty of engineering.",
+    "lat": "2.922945",
+    "lng": "101.773437"
+  },
+  {
+    "name": "ftsm",
+    "description": "Faculty of technology and information science.",
+    "lat": "2.919806",
+    "lng": "101.771046"
+  },
+  {
+    "name": "kpz",
+    "description": "Residential college.",
+    "lat": "2.919943",
+    "lng": "101.774007"
+  },
+  {
+    "name": "fuu",
+    "description": "Faculty of law.",
+    "lat": "2.922366",
+    "lng": "101.770719"
+  },
+  {
+    "name": "dectar",
+    "description": "Dewan Cansellor Tun Abdul Razak.",
+    "lat": "2.929925",
+    "lng": "101.778208"
+  }
+]
