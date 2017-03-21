@@ -1,0 +1,72 @@
+/*CUSTOM CSS UKM */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f4f4f4;
+}
+
+.page-header {
+    /*padding-top: 10px;*/
+    padding: 10px 16px 0 16px;
+    color: #d70000;
+    border: none;
+}
+
+#dataTables-busSchedule_wrapper {
+    padding: 10px;
+}
+
+#dataTables-reports_wrapper {
+    padding: 10px;
+}
+
+.nav>li>a {
+    padding: 20px 16px;
+}
+i{
+	margin-right: 8px; 
+}
+.breadcrumb{
+	border-radius: 24px;
+	padding: 16px 24px;
+	background: #eee;
+}
+a{
+	color: #333;
+	transition: 500ms color ease;
+}
+a:focus, a:hover{
+	color: #E91E63;
+}
+.sidebar .nav-second-level li a{
+	background: #f4f4f4;
+}
+.sidebar i{
+	color: #d70000;
+}
+.navbar-default{
+	background: #fff;
+}
+.sidebar ul li a.active, .active> i{
+	background: #d70000;
+	color: white;
+}
+#gmap-container{
+	border-radius: 0;
+}
+#gmap-container .panel-body{
+padding: 0
+}
+@media (min-width: 768px) {
+    .sidebar {
+        margin-top: 0px;
+        margin-left: -250px;
+        transition: 500ms margin-left ease;
+    }
+    .navbar{
+    	margin-left: 250px;
+    }
+    .navbar-brand{
+    	margin-top: 8px;
+    }
+}

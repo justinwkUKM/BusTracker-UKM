@@ -1,7 +1,7 @@
 
 <?php
 //include server
-$root = "http://bt.sprep.me/pages";
+$root = "http://localhost/ukm-cms/pages";
 
 if ($_SESSION['AD_Username'] != null) {
   $_SESSION['AD_Username'] == '';
@@ -39,7 +39,7 @@ $img =  "$root/img/admin/".$_SESSION['AD_Avatar']."";
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php $root ?>">UKM Bus Tracker</a>
+                <a class="navbar-brand" href="<?php $root ?>"><i>UKM Bus Tracker</i></a>
             </div>
             <!-- /.navbar-header -->
 

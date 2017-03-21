@@ -28,6 +28,8 @@ include 'edit_crud.php'
 
     <!-- Custom Fonts -->
     <link href="../../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../../dist/css/ukm_bus.css"> 
+    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

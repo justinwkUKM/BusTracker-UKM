@@ -92,7 +92,7 @@ $readrow = $result->fetch_array();
 
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -106,18 +106,8 @@ $readrow = $result->fetch_array();
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDB4Emcey7j7XO57Pr4LCL4DzUOzIygqWI&sensor=false"></script>
 <script type="text/javascript" src="../dist/js/map_bus.js"></script>
 <link rel='stylesheet' type='text/css' href='../dist/css/map.css'>
+<link rel="stylesheet" type="text/css" href="../dist/css/ukm_bus.css">
 
-<style>
-    .page-header {
-	    padding-top: 10px;
-    }    
-    #dataTables-busSchedule_wrapper{
-            padding: 10px;
-    }
-    #dataTables-reports_wrapper{
-         padding: 10px;
-    }
-</style>
 
 </head>
 
@@ -167,7 +157,7 @@ $readrow = $result->fetch_array();
 <!--            google_map-->
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="gmap-container"">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="data-container">

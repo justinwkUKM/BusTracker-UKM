@@ -67,6 +67,7 @@ $results = $con->query($action);
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDB4Emcey7j7XO57Pr4LCL4DzUOzIygqWI&sensor=false"></script>
 <script type="text/javascript" src="../../dist/js/map_directories.js"></script>
 <link rel='stylesheet' type='text/css' href='../../dist/css/map.css'>
+<link rel="stylesheet" type="text/css" href="../../dist/css/ukm_bus.css"> 
 
 </head>
 

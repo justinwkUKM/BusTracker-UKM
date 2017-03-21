@@ -42,7 +42,7 @@ if (isset($_POST['login'])) {
         $results = $con->query($action);
         
         
-        header("Location: http://bt.sprep.me/");
+        header("Location: http://localhost/ukm-cms/pages");
     } else {
         $errormsg = "Incorrect Username or Password!!!";
     }
@@ -80,7 +80,61 @@ if (isset($_POST['login'])) {
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <style type="text/css">
+        body{
+            font-family: 'Roboto',sans-serif;
+        }
+        #auth{
+            background: #d70000;
+            padding: 24px 16px;
+        }
+        #auth .panel-title{
+            color: white;
+            font-size: 24px;
+            font-weight: 200;
+            text-align: center;
+        }
+        .btn-block {
+            display: block;
+            width: 100%;
+            background: #3F51B5;
+            color: #fff;
+            border-radius: 0;
+            border: 1px #3F51B5 solid;
+            transition: 500ms  background ease;
+        }
+        .btn-block:hover, .btn-block:focus{
+            color: #3F51B5;
+            background: white;
+            border: 1px #3F51B5 solid;
+        }
+        .btn-block:active{
+            background: transparent;
+        }
+        .form-control{
+            border-radius: 0;
+            background: #eee;
+            font-size:16px;
+            border: 0;
+            padding: 24px 16px;
+            box-shadow: none;
+            text-align: center;
+        }
+        .panel-default{
+            border: 0;
+            box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.1);
+        }
+        .ukm-logo{
+            max-width: 224px;
+            width: 100%;
+            margin: 16px auto;
+            display: block;
+            margin-top: 90px;
+        }
+        .login-panel{
+            margin-top: 24px;
+        }
+    </style>
 </head>
 
 <body>
@@ -88,9 +142,10 @@ if (isset($_POST['login'])) {
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
+                <img src="http://www.ftsm.ukm.my/ftsmhandbook/img/UKM.png" alt="" class="ukm-logo">
                 <div class="login-panel panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Please Sign In</h3>
+                    <div class="panel-heading" id="auth">
+                        <h3 class="panel-title">Login</h3>
                     </div>
                     <div class="panel-body">
                         <form role="form "method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>" name="loginform">
@@ -101,20 +156,22 @@ if (isset($_POST['login'])) {
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Password" name="password" type="password" value="">
                                 </div>
-                                <div>
+                                <?php if (isset($errormsg)){ ?><div>
                                     <label class="text-danger">
 <!--									<input id="optionsCheckbox" type="checkbox" value="option1"> Remember me-->
                                         <?php if (isset($errormsg)) { echo $errormsg; } ?>
 								</label>
-                                </div>
+                                </div><?php }?>
                             
                                 <!-- Change this to a button or input when using this as a form -->
 <!--                                <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>-->
-                                <div class="form-actions">
-							<button class="btn btn-lg btn-success btn-block"  name="login" value="Login" type="submit"><span class="awe-signin"></span> Log in</button>
-						</div>
+                            <a href="../registration/fpass.php/">Lost your Password ? </a>
+                                
                             </fieldset>
-                            <hr /> <a href="../registration/fpass.php/">Lost your Password ? </a>
+                            <hr /> 
+                              <div class="form-actions">
+                            <button class="btn btn-lg btn-success btn-block"  name="login" value="Login" type="submit"><span class="awe-signin"></span> Log in</button>
+                        </div>
                         </form>
                     </div>
                 </div>

@@ -1,8 +1,8 @@
 <?php
 
 	$DB_HOST = 'localhost';
-	$DB_USER = 'myxlab';
-	$DB_PASS = 'Abcde12345@';
+	$DB_USER = 'root';
+	$DB_PASS = '';
 	$DB_NAME = 'bus_tracker_ukm';
 	
 	try{

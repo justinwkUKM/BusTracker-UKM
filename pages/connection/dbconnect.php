@@ -1,8 +1,8 @@
 <?php
 define('MYHOST', 'localhost');
 define('MYDATABASE', 'bus_tracker_ukm');
-define('MYUSERNAME', 'myxlab');
-define('MYPASSWORD', 'Abcde12345@');
+define('MYUSERNAME', 'root');
+define('MYPASSWORD', '');
 
 // Create connection
 $con = new mysqli(MYHOST, MYUSERNAME, MYPASSWORD, MYDATABASE);

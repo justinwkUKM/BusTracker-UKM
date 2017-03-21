@@ -1,3 +1,3 @@
 <?php
-$root = "http://bt.sprep.me/pages";
+$root = "http://localhost/ukm-cms/pages";
 ?>

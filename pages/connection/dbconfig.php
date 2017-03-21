@@ -4,8 +4,8 @@ class Database
      
     private $host = "localhost";
     private $db_name = "bus_tracker_ukm";
-    private $username = "myxlab";
-    private $password = "Abcde12345@";
+    private $username = "root";
+    private $password = "";
     public $conn;
      
     public function dbConnection()
