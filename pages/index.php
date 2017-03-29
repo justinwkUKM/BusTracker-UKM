@@ -178,12 +178,187 @@ $readrow = $result->fetch_array();
            
             <!-- /.row -->
             
+            <br><br>
+             <!-- SUMMARY VERSION -->
+        <div> 
+            <div class=""><h2 class="heading">Summary Version</h2></div>
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-3"><h4>Bus Zone 2</h4></div>
+                        <div class="col-sm-9">
+                        <ol class="timeline timeline--summary">
+                            <li class="timeline__step done">
+                                <input class="timeline__step-radio" id="trigger1{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                <label class="timeline__step-label" for="trigger1{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        12 May 2013</span>
+                                </label>
+                                <span class="timeline__step-title">
+                                    KTM</span>
+                                
+                                <i class="timeline__step-marker">1</i>
+                            </li>
+                            <li class="timeline__step done">
+                                <input class="timeline__step-radio" id="trigger2{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                <label class="timeline__step-label" for="trigger2{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        14 May 2013</span>
+                                </label>
+                                <span class="timeline__step-title">
+                                    KKM</span>
+                                <i class="timeline__step-marker">2</i>
+                            </li>
+                            <li class="timeline__step">
+                                <input class="timeline__step-radio" id="trigger3{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                
+                                <label class="timeline__step-label" for="trigger3{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        15 May 2013</span>
+                                </label>
+                                
+                                <span class="timeline__step-title">
+                                    KPZ</span>
+                                
+                                <i class="timeline__step-marker">3</i>
+                            </li>
+                            <li class="timeline__step">
+                                <input class="timeline__step-radio" id="trigger4{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                
+                                <label class="timeline__step-label" for="trigger4{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        16 May 2013</span>
+                                </label>
+                                
+                                <span class="timeline__step-title">
+                                    KIY</span>
+                                
+                                <i class="timeline__step-marker">4</i>
+                            </li>
+                        </ol>
+                        </div>
+                    </div>
+                        <!-- ROW2 -->
+                    <div class="row">
+                        <div class="col-sm-3"><h4>Bus Zone 3U</h4></div>
+                        <div class="col-sm-9">
+                        <ol class="timeline timeline--summary">
+                            <li class="timeline__step done">
+                                <input class="timeline__step-radio" id="trigger1{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                <label class="timeline__step-label" for="trigger1{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        12 May 2013</span>
+                                </label>
+                                <span class="timeline__step-title">
+                                    KTM</span>
+                                
+                                <i class="timeline__step-marker">1</i>
+                            </li>
+                            <li class="timeline__step">
+                                <input class="timeline__step-radio" id="trigger2{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                <label class="timeline__step-label" for="trigger2{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        14 May 2013</span>
+                                </label>
+                                <span class="timeline__step-title">
+                                    KKM</span>
+                                <i class="timeline__step-marker">2</i>
+                            </li>
+                            <li class="timeline__step">
+                                <input class="timeline__step-radio" id="trigger3{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                
+                                <label class="timeline__step-label" for="trigger3{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        15 May 2013</span>
+                                </label>
+                                
+                                <span class="timeline__step-title">
+                                    KPZ</span>
+                                
+                                <i class="timeline__step-marker">3</i>
+                            </li>
+                            <li class="timeline__step">
+                                <input class="timeline__step-radio" id="trigger4{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                
+                                <label class="timeline__step-label" for="trigger4{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        16 May 2013</span>
+                                </label>
+                                
+                                <span class="timeline__step-title">
+                                    KIY</span>
+                                
+                                <i class="timeline__step-marker">4</i>
+                            </li>
+                        </ol>
+                        </div>
+                    </div>
+                    <!-- ROW3 -->
+                    <div class="row">
+                        <div class="col-sm-3"><h4>Bus Zone 6</h4></div>
+                        <div class="col-sm-9">
+                        <ol class="timeline timeline--summary">
+                            <li class="timeline__step done">
+                                <input class="timeline__step-radio" id="trigger1{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                <label class="timeline__step-label" for="trigger1{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        12 May 2013</span>
+                                </label>
+                                <span class="timeline__step-title">
+                                    KTM</span>
+                                
+                                <i class="timeline__step-marker">1</i>
+                            </li>
+                            <li class="timeline__step done">
+                                <input class="timeline__step-radio" id="trigger2{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                <label class="timeline__step-label" for="trigger2{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        14 May 2013</span>
+                                </label>
+                                <span class="timeline__step-title">
+                                    KKM</span>
+                                <i class="timeline__step-marker">2</i>
+                            </li>
+                            <li class="timeline__step done">
+                                <input class="timeline__step-radio" id="trigger3{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                
+                                <label class="timeline__step-label" for="trigger3{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        15 May 2013</span>
+                                </label>
+                                
+                                <span class="timeline__step-title">
+                                    KPZ</span>
+                                
+                                <i class="timeline__step-marker">3</i>
+                            </li>
+                            <li class="timeline__step">
+                                <input class="timeline__step-radio" id="trigger4{{identifier}}" name="trigger{{identifier}}" type="radio">
+                                
+                                <label class="timeline__step-label" for="trigger4{{identifier}}">
+                                    <span class="timeline__step-content">
+                                        16 May 2013</span>
+                                </label>
+                                
+                                <span class="timeline__step-title">
+                                    KIY</span>
+                                
+                                <i class="timeline__step-marker">4</i>
+                            </li>
+                        </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
 <!--         bus schedule table-->
                <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Bus Schedule
+                            <h3>Bus Schedule</h3>
                         </div>
                         <div class="panel-body">
 <!--                           schedule time-->
@@ -262,7 +437,7 @@ $readrow = $result->fetch_array();
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Report
+                            <h3>Report</h3>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -308,66 +483,7 @@ $readrow = $result->fetch_array();
     <!--         //bus schedule table-->
 
 
-
-        <div> 
-        <h2>Summary Version</h2>
-        <br>
-
-        <ol class="timeline timeline--summary">
-            <li class="timeline__step done">
-                <input class="timeline__step-radio" id="trigger1{{identifier}}" name="trigger{{identifier}}" type="radio">
-
-                <label class="timeline__step-label" for="trigger1{{identifier}}">
-                    <span class="timeline__step-content">
-                        12 May 2013</span>
-                </label>
-                
-                <span class="timeline__step-title">
-                    KTM</span>
-                
-                <i class="timeline__step-marker">1</i>
-            </li>
-            <li class="timeline__step done">
-                <input class="timeline__step-radio" id="trigger2{{identifier}}" name="trigger{{identifier}}" type="radio">
-                
-                <label class="timeline__step-label" for="trigger2{{identifier}}">
-                    <span class="timeline__step-content">
-                        14 May 2013</span>
-                </label>
-                
-                <span class="timeline__step-title">
-                    KKM</span>
-
-                <i class="timeline__step-marker">2</i>
-            </li>
-            <li class="timeline__step">
-                <input class="timeline__step-radio" id="trigger3{{identifier}}" name="trigger{{identifier}}" type="radio">
-                
-                <label class="timeline__step-label" for="trigger3{{identifier}}">
-                    <span class="timeline__step-content">
-                        15 May 2013</span>
-                </label>
-                
-                <span class="timeline__step-title">
-                    KPZ</span>
-                
-                <i class="timeline__step-marker">3</i>
-            </li>
-            <li class="timeline__step">
-                <input class="timeline__step-radio" id="trigger4{{identifier}}" name="trigger{{identifier}}" type="radio">
-                
-                <label class="timeline__step-label" for="trigger4{{identifier}}">
-                    <span class="timeline__step-content">
-                        16 May 2013</span>
-                </label>
-                
-                <span class="timeline__step-title">
-                    KIY</span>
-                
-                <i class="timeline__step-marker">4</i>
-            </li>
-        </ol>
-        </div>
+       
     </div>
     <!-- /#wrapper -->
     

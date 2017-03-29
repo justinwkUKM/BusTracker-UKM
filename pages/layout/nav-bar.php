@@ -31,7 +31,11 @@ $img =  "$root/img/admin/".$_SESSION['AD_Avatar']."";
 </style>
        
        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+ <!--        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+
+        </nav> -->
+
+        <nav class="">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -39,7 +43,7 @@ $img =  "$root/img/admin/".$_SESSION['AD_Avatar']."";
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php $root ?>"><i>UKM Bus Tracker</i></a>
+                <a class="navbar-brand visible-xs" href="<?php $root ?>"><i>UKM Bus Tracker</i></a>
             </div>
             <!-- /.navbar-header -->
 
@@ -52,19 +56,19 @@ $img =  "$root/img/admin/".$_SESSION['AD_Avatar']."";
                     
                     
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-	                		<img src="<?php echo $img ?>" width="25"> <?php echo $_SESSION['AD_Name']; ?> <b class="caret"></b>
+                            <!-- <img src="<?php echo $img ?>" width="25"> <?php echo $_SESSION['AD_Name']; ?> <b class="caret"></b> -->
                     </a>
                     
                      <ul class="dropdown-menu dropdown-user">
-                        <li><a href="<?php echo $root ?>/profile/"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <!-- <li><a href="<?php echo $root ?>/profile/"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
                         <li><a href="<?php echo $root ?>/changepicture/"><i class="fa fa-camera"></i>&nbsp; Change Picture</a>
                         </li>
                         <li><a href="<?php echo $root ?>/registration/changepassword.php?id=<?php echo base64_encode($_SESSION['AD_Id']) ?>&code=<?php echo  $_SESSION['AD_Token']?>"><i class="glyphicon glyphicon-lock"></i> Change Password</a>
-                        </li>
+                        </li> -->
                         <li class="divider"></li>
-                        <li><a href="<?php echo $root ?>/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
+                        <!-- <li><a href="<?php echo $root ?>/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li> -->
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
@@ -74,6 +78,8 @@ $img =  "$root/img/admin/".$_SESSION['AD_Avatar']."";
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
+                    <img src="<?php echo $img ?>" width="100%" class="avatar-cms"> 
+                    <h4 class="text-center">Welcome, <?php echo $_SESSION['AD_Name']; ?></h4> <!-- <b class="caret"></b> -->
                     <ul class="nav" id="side-menu">
                         <li>
                             <a href="<?php echo $root ?>/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
@@ -119,6 +125,19 @@ $img =  "$root/img/admin/".$_SESSION['AD_Avatar']."";
                         </li>
                         <li>
                         <a href="<?php echo $root ?>/users/"><i class="glyphicon glyphicon-user"></i> Users</a>
+                        </li>
+                        <li>
+                            <a href="../#"><i class="fa fa-gear"></i> User Settings<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="<?php echo $root ?>/profile/"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                                </li>
+                                <li><a href="<?php echo $root ?>/changepicture/"><i class="fa fa-camera"></i>&nbsp; Change Picture</a>
+                                </li>
+                                <li><a href="<?php echo $root ?>/registration/changepassword.php?id=<?php echo base64_encode($_SESSION['AD_Id']) ?>&code=<?php echo  $_SESSION['AD_Token']?>"><i class="glyphicon glyphicon-lock"></i> Change Password</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="<?php echo $root ?>/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                 </div>
