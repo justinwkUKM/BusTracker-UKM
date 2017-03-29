@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.myxlab.bustracker.View.MainActivity">
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:menu_icon="@drawable/ic_directions_bus_white"
+        app:menu_animationDelayPerItem="0"
+        app:menu_colorNormal="@color/colorAccent"
+        app:menu_colorPressed="@color/colorAccentDark"
+        app:menu_fab_label="@string/my_location">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_error"
+            app:fab_label="Logout"
+            style="@style/MenuButtonsSmall"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_query_builder"
+            app:fab_label="Refresh Database"
+            style="@style/MenuButtonsSmall"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</RelativeLayout>
