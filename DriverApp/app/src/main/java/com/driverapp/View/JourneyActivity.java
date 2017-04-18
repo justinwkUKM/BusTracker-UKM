@@ -25,7 +25,7 @@ import com.driverapp.R;
 import java.util.List;
 
 public class JourneyActivity extends AppCompatActivity{
-
+//testcomment
     public static final String SEARCH_FRAGMENT = "Search Fragment";
     public static final String SEARCH_KEY = "Search KEY";
     private static final String KEY_ROUTE = "Route";
