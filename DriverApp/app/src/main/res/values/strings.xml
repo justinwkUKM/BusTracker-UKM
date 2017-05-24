@@ -19,7 +19,7 @@
     <string name="title">Lorem ipsum</string>
     <string name="search_bus">Search Bus Plate Number..</string>
     <string name="search_route">Search Route..</string>
-    <string name="journey_overview">Journey Overview : </string>
+    <string name="journey_overview">Journey Overview </string>
     <string name="start_journey">START</string>
     <string name="resume_journey">RESUME</string>
     <string name="stop_journey">STOP</string>
@@ -27,7 +27,7 @@
     <string name="user">User</string>
     <string name="journey_detail">Journey Detail :</string>
     <string name="details">Details</string>
-    <string name="next_bus_stop_null">Next Bus Stop : (Please Start Journey)</string>
+    <string name="next_bus_stop_null">Next Bus Stop (Waiting)</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="setting_up">Setting Up..</string>
     <string name="checking_connectivity">Checking Connectivity..</string>

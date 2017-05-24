@@ -36,6 +36,7 @@ import com.driverapp.Model.UserInstance;
 import com.driverapp.R;
 import com.driverapp.Controller.VolleyApp;
 import com.driverapp.Utility;
+import com.github.florent37.viewanimator.ViewAnimator;
 
 import tyrantgit.explosionfield.ExplosionField;
 
@@ -153,6 +154,7 @@ public class LoginActivity extends AppCompatActivity{
 
             }
         });
+
 
 
     }

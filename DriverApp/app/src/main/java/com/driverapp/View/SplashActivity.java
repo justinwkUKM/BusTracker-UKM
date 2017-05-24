@@ -46,14 +46,15 @@ public class SplashActivity extends AppCompatActivity {
                 .translationY(0, 0)
                 .alpha(0, 1)
 
-                .translationX(2000, -200)
+                .translationX(2000, -250)
                 .interpolator(new DecelerateInterpolator())
                 .duration(2000)
 
                 .thenAnimate(imageView)
-                .translationX(-200, 0)
+                .translationX(-250, 0)
                 .interpolator(new DecelerateInterpolator())
-                .duration(1000)
+                .bounce().duration(1000)
+
 
                 .start();
     }
