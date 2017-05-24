@@ -19,6 +19,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
@@ -86,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
         initBottomSheet();
         infoHeader = (LinearLayout) findViewById(R.id.infoHeader);
-
         ivInfoIMG = (NetworkImageView) findViewById(R.id.infoIMG);
 
         initTabsIcons();
@@ -375,7 +375,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
+                //Log.e("MainActivity","onSlide");
             }
         });
 

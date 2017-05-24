@@ -464,7 +464,6 @@ public class VolleyApp {
 
         String api = context.getResources().getString(R.string.url_bus_stop) + "/" + UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName()+"/?token=" + UserInstance.getInstance().getAuth().getAuth_token();
 
-
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
                 new Response.Listener<JSONObject>() {
                     @Override

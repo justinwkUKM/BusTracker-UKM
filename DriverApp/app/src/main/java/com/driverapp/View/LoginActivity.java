@@ -1,22 +1,32 @@
 package com.driverapp.View;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+
 import com.driverapp.Model.Auth;
 import com.driverapp.Model.Bus;
 import com.driverapp.Model.BusStop;
@@ -27,16 +37,29 @@ import com.driverapp.R;
 import com.driverapp.Controller.VolleyApp;
 import com.driverapp.Utility;
 
+import tyrantgit.explosionfield.ExplosionField;
+
 public class LoginActivity extends AppCompatActivity{
 
     private EditText mUsernameView, mPasswordView;
     private View mProgressView;
     private ConnectivityManager connectivityManager;
+    private static CheckBox show_hide_password;
+    private TextView tvSignUp;
+    private ExplosionField mExplosionField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+//changing statusbar color
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
+        }
 
         UserInstance.getInstance().setAuth(new Auth());
         UserInstance.getInstance().setBus(new Bus());
@@ -49,6 +72,7 @@ public class LoginActivity extends AppCompatActivity{
 
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        tvSignUp = (TextView) findViewById(R.id.tvSignUp_text);
         mUsernameView = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -71,6 +95,66 @@ public class LoginActivity extends AppCompatActivity{
         });
 
         mProgressView = findViewById(R.id.login_progress);
+        show_hide_password = (CheckBox) findViewById(R.id.show_hide_password);
+        // Set check listener over checkbox for showing and hiding password
+        show_hide_password
+                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton button,
+                                                 boolean isChecked) {
+
+                        // If it is checkec then show password else hide
+                        // password
+                        if (isChecked) {
+
+                            show_hide_password.setText(R.string.hide_pwd);// change
+                            // checkbox
+                            // text
+
+                            mPasswordView.setInputType(InputType.TYPE_CLASS_TEXT);
+                            mPasswordView.setTransformationMethod(HideReturnsTransformationMethod
+                                    .getInstance());// show password
+                        } else {
+                            show_hide_password.setText(R.string.show_pwd);// change
+                            // checkbox
+                            // text
+
+                            mPasswordView.setInputType(InputType.TYPE_CLASS_TEXT
+                                    | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            mPasswordView.setTransformationMethod(PasswordTransformationMethod
+                                    .getInstance());// hide password
+
+                        }
+
+                    }
+                });
+
+        tvSignUp.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mExplosionField = ExplosionField.attach2Window(LoginActivity.this);
+                mExplosionField.explode(tvSignUp);
+                new CountDownTimer(1000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    public void onFinish() {
+//                        Intent i = new Intent(LoginActivity.this, SplashActivity.class);
+//                        startActivity(i);
+                        Toast.makeText(LoginActivity.this, "Open Sign-Up Activity", Toast.LENGTH_SHORT).show();
+                    }
+
+                }.start();
+
+
+
+
+            }
+        });
+
+
     }
 
     private void attemptLogin() {

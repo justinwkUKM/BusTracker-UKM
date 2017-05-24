@@ -27,6 +27,7 @@
         <activity
             android:name=".View.LoginActivity"
             android:label="@string/title_activity_login"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".View.JourneyActivity"

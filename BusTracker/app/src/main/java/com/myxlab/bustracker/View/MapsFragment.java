@@ -1,6 +1,8 @@
 package com.myxlab.bustracker.View;
 
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -51,6 +53,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import me.toptas.fancyshowcase.FancyShowCaseView;
+import me.toptas.fancyshowcase.FocusShape;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -543,8 +548,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_local_florist)));
                 break;
         }
+        map.clear();
+        final Marker marker = map.addMarker(markerOptions);
 
-        Marker marker = map.addMarker(markerOptions);
+        ValueAnimator ani = ValueAnimator.ofFloat(0, 1); //change for (0,1) if you want a fade in
+        ani.setDuration(3000);
+        ani.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                marker.setAlpha((float) animation.getAnimatedValue());
+            }
+        });
+        ani.start();
 
         hashMapMarker.put(marker, type);
 
@@ -561,6 +576,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         customMarkerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         customMarkerView.layout(0, 0, customMarkerView.getMeasuredWidth(), customMarkerView.getMeasuredHeight());
         customMarkerView.buildDrawingCache();
+
+
+
         Bitmap returnedBitmap = Bitmap.createBitmap(customMarkerView.getMeasuredWidth(), customMarkerView.getMeasuredHeight(),
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(returnedBitmap);
