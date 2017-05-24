@@ -49,6 +49,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
+
         context = getActivity().getApplicationContext();
 
         view.setOnTouchListener(new View.OnTouchListener() {
