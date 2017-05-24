@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,8 +28,11 @@ import com.driverapp.Model.UserInstance;
 import com.driverapp.R;
 import com.driverapp.Service.LocationListenerService;
 import com.driverapp.ServiceCallbacks;
+import com.github.florent37.viewanimator.ViewAnimator;
 
 import java.util.Calendar;
+
+import tyrantgit.explosionfield.ExplosionField;
 
 public class TrackActivity extends AppCompatActivity implements ServiceCallbacks{
 
@@ -47,7 +51,7 @@ public class TrackActivity extends AppCompatActivity implements ServiceCallbacks
     private TextView tvNextBusStop;
     private LocationListenerService locationListenerService;
     private boolean bound = false;
-
+    private ExplosionField mExplosionField;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -261,7 +265,7 @@ public class TrackActivity extends AppCompatActivity implements ServiceCallbacks
             toggleTimer();
             startJourneyButton.setText(R.string.stop_journey);
             trackerIcon.setVisibility(View.GONE);
-            startJourneyButton.setBackgroundColor(ContextCompat.getColor(context,R.color.colorAccent));
+            startJourneyButton.setBackground(getResources().getDrawable(R.drawable.cardlayout_coloraccent));
             Intent intent = new Intent(this, LocationListenerService.class);
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         } else {
@@ -270,7 +274,12 @@ public class TrackActivity extends AppCompatActivity implements ServiceCallbacks
     }
 
     public void nextBusStopLabel(String string){
-        tvNextBusStop.setText("Next Bus Stop : "+string.toUpperCase());
+
+        ViewAnimator.animate(tvNextBusStop)
+                .flash()
+                .start();
+        tvNextBusStop.setText("Next Bus Stop " + string.toUpperCase());
+
     }
 
     @Override

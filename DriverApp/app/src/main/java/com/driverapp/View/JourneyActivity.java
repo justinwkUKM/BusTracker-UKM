@@ -56,6 +56,8 @@ public class JourneyActivity extends AppCompatActivity{
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         greed = (TextView) findViewById(R.id.greed_journey);
+
+        //usually error below line
         String iniGreed = "Hai, " + UserInstance.getInstance().getDriver().getDriver_id();
         greed.setText(iniGreed);
 
