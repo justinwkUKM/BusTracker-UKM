@@ -76,6 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="@dimen/medium_dp"
+                        android:textStyle="bold"
                         android:paddingRight="@dimen/large_dp"
                         android:text="@string/next_bus_stop_null"
                         android:textColor="@color/colorAccent" />
@@ -113,6 +114,7 @@
                             android:paddingLeft="@dimen/medium_dp"
                             android:paddingRight="@dimen/large_dp"
                             android:text="@string/details"
+                            android:textStyle="bold"
                             android:textColor="@color/white" />
 
                     </LinearLayout>

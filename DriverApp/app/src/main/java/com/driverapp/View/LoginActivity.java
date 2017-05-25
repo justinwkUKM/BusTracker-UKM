@@ -16,11 +16,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +45,7 @@ import com.github.florent37.viewanimator.ViewAnimator;
 
 import tyrantgit.explosionfield.ExplosionField;
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
 
     private EditText mUsernameView, mPasswordView;
     private View mProgressView;
@@ -48,7 +53,7 @@ public class LoginActivity extends AppCompatActivity{
     private static CheckBox show_hide_password;
     private TextView tvSignUp;
     private ExplosionField mExplosionField;
-
+    private RelativeLayout relativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +77,7 @@ public class LoginActivity extends AppCompatActivity{
         UserInstance.getInstance().setQueue(Volley.newRequestQueue(getApplicationContext()));
 
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
+        relativeLayout = (RelativeLayout) findViewById(R.id.relativeImageLayout);
         tvSignUp = (TextView) findViewById(R.id.tvSignUp_text);
         mUsernameView = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -150,11 +155,8 @@ public class LoginActivity extends AppCompatActivity{
                 }.start();
 
 
-
-
             }
         });
-
 
 
     }
@@ -202,7 +204,13 @@ public class LoginActivity extends AppCompatActivity{
 
                 mProgressView.setVisibility(View.VISIBLE);
 
-                UserInstance.getInstance().getVolleyApp().UserLoginTask(getString(R.string.url_login),username,password,getApplicationContext(), mProgressView, this);
+                UserInstance.getInstance().getVolleyApp().UserLoginTask(getString(R.string.url_login), username, password, getApplicationContext(), mProgressView, this);
+
+                if (mProgressView.getVisibility() == View.VISIBLE) {
+                    simpleAnimation();
+                } else {
+                relativeLayout.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -214,6 +222,16 @@ public class LoginActivity extends AppCompatActivity{
     private boolean isPasswordValid(String password) {
         return password.length() > 3;
     }
+    protected void simpleAnimation() {
+        ViewAnimator.animate(relativeLayout)
+                .translationY(0, 0)
+                ./*translationX(0,50)
+                .interpolator(new AccelerateInterpolator())
+                .duration(250)
+                .thenAnimate(relativeLayout).*/translationX(0, -2000).alpha(1, 0).interpolator(new AnticipateOvershootInterpolator())
+                .duration(1000)
 
+                .start();
+    }
 }
 

@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -202,6 +203,10 @@ public class TrackActivity extends AppCompatActivity implements ServiceCallbacks
         } else {
 
             if (!settingUP) {
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.setup_fragment_layout, new SetupFragment()).addToBackStack(SETUP_FRAGMENT).commit();
+/*
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.start_your_journey);
                 builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -218,6 +223,7 @@ public class TrackActivity extends AppCompatActivity implements ServiceCallbacks
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
+*/
             } else {
                 trackBus();
             }
@@ -263,6 +269,7 @@ public class TrackActivity extends AppCompatActivity implements ServiceCallbacks
         if (status) {
             status = false;
             toggleTimer();
+            simpleAnimation();
             startJourneyButton.setText(R.string.stop_journey);
             trackerIcon.setVisibility(View.GONE);
             startJourneyButton.setBackground(getResources().getDrawable(R.drawable.cardlayout_coloraccent));
@@ -276,7 +283,7 @@ public class TrackActivity extends AppCompatActivity implements ServiceCallbacks
     public void nextBusStopLabel(String string){
 
         ViewAnimator.animate(tvNextBusStop)
-                .flash()
+                .flash().pulse()
                 .start();
         tvNextBusStop.setText("Next Bus Stop " + string.toUpperCase());
 
@@ -319,4 +326,9 @@ public class TrackActivity extends AppCompatActivity implements ServiceCallbacks
             bound = false;
         }
     };
+
+    protected void simpleAnimation() {
+        ViewAnimator.animate(tickTockView)
+               .rubber().duration(1500).start();
+    }
 }
