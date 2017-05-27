@@ -52,18 +52,15 @@ public class SetupFragment extends Fragment {
 
         closeRecyclerView = (RelativeLayout) view.findViewById(R.id.close_fail_rl);
         connectivityManager = ((TrackActivity) getActivity()).connectivityManager;
-
         setupTextView = (TextView) view.findViewById(R.id.setup_detail_tv);
         checkingConTextView = (TextView) view.findViewById(R.id.checking_con_tv);
         driverTextView = (TextView) view.findViewById(R.id.setup_driver_tv);
         busTextView = (TextView) view.findViewById(R.id.setup_bus_tv);
         routeTextView = (TextView) view.findViewById(R.id.setup_route_tv);
-
         checkingConProgressBar = view.findViewById(R.id.checking_con_progress);
         driverProgressBar = view.findViewById(R.id.setup_driver_progress);
         busProgressBar = view.findViewById(R.id.setup_bus_progress);
         routeProgressBar = view.findViewById(R.id.setup_route_progress);
-
         networkCheck = UserInstance.getInstance().getUtility().getNetworkInfo(connectivityManager);
 
         CardView closeCardView = (CardView) view.findViewById(R.id.close_fail_cv);

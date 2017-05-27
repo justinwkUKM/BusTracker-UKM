@@ -85,7 +85,7 @@
         android:layout_width="400dp"
         android:layout_height="400dp"
         app:colorGenerator="com.github.glomadrian.grav.generator.paint.ArrayColorGenerator"
-        app:array_colors="@array/red"
+        app:array_colors="@array/Spectral"
         app:pointGenerator="com.github.glomadrian.grav.generator.point.RegularPointGenerator"
         app:regular_cell_size="150"
         app:regular_variance="100"

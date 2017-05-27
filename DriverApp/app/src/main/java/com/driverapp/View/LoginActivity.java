@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
@@ -25,6 +26,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,18 +44,22 @@ import com.driverapp.R;
 import com.driverapp.Controller.VolleyApp;
 import com.driverapp.Utility;
 import com.github.florent37.viewanimator.ViewAnimator;
+import com.github.glomadrian.roadrunner.IndeterminateRoadRunner;
 
 import tyrantgit.explosionfield.ExplosionField;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mUsernameView, mPasswordView;
-    private View mProgressView;
+    private ProgressBar mProgressView;
     private ConnectivityManager connectivityManager;
     private static CheckBox show_hide_password;
     private TextView tvSignUp;
     private ExplosionField mExplosionField;
     private RelativeLayout relativeLayout;
+    private IndeterminateRoadRunner indeterminateRoadRunner;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +106,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mProgressView = findViewById(R.id.login_progress);
+        mProgressView = (ProgressBar) findViewById(R.id.login_progress);
+        indeterminateRoadRunner = (IndeterminateRoadRunner) findViewById(R.id.material);
+
         show_hide_password = (CheckBox) findViewById(R.id.show_hide_password);
         // Set check listener over checkbox for showing and hiding password
         show_hide_password
@@ -166,8 +174,8 @@ public class LoginActivity extends AppCompatActivity {
         mUsernameView.setError(null);
         mPasswordView.setError(null);
 
-        String username = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String username = mUsernameView.getText().toString();
+        final String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -202,14 +210,31 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.check_internet, Toast.LENGTH_SHORT).show();
             } else {
 
-                mProgressView.setVisibility(View.VISIBLE);
 
-                UserInstance.getInstance().getVolleyApp().UserLoginTask(getString(R.string.url_login), username, password, getApplicationContext(), mProgressView, this);
+//                mProgressView.setIndeterminate(true);
+//                //mProgressView.setIndeterminateDrawable(getResources().getDrawable(R.drawable.driver_bus));
+//                mProgressView.setInterpolator(new AccelerateDecelerateInterpolator());
+//                mProgressView.setVisibility(View.VISIBLE);
+                indeterminateRoadRunner.setVisibility(View.VISIBLE);
+//                indeterminateRoadRunner.restart();
 
-                if (mProgressView.getVisibility() == View.VISIBLE) {
-                    simpleAnimation();
+                new CountDownTimer(1000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    public void onFinish() {
+                       UserInstance.getInstance().getVolleyApp().UserLoginTask(getString(R.string.url_login), username, password, getApplicationContext(), mProgressView, LoginActivity.this);
+
+                    }
+
+                }.start();
+
+                if (indeterminateRoadRunner.getVisibility() == View.VISIBLE) {
+                    outAnimation();
                 } else {
-                relativeLayout.setVisibility(View.VISIBLE);
+                inAnimation();
+                    //indeterminateRoadRunner.stop();
                 }
             }
         }
@@ -222,14 +247,25 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isPasswordValid(String password) {
         return password.length() > 3;
     }
-    protected void simpleAnimation() {
+    protected void outAnimation() {
         ViewAnimator.animate(relativeLayout)
                 .translationY(0, 0)
                 ./*translationX(0,50)
                 .interpolator(new AccelerateInterpolator())
                 .duration(250)
                 .thenAnimate(relativeLayout).*/translationX(0, -2000).alpha(1, 0).interpolator(new AnticipateOvershootInterpolator())
-                .duration(1000)
+                .duration(1500)
+
+                .start();
+    }
+    protected void inAnimation() {
+        ViewAnimator.animate(relativeLayout)
+                .translationY(0, 0)
+                ./*translationX(0,50)
+                .interpolator(new AccelerateInterpolator())
+                .duration(250)
+                .thenAnimate(relativeLayout).*/translationX(2000, 0).alpha(0, 1).interpolator(new AnticipateOvershootInterpolator())
+                .duration(1500)
 
                 .start();
     }
