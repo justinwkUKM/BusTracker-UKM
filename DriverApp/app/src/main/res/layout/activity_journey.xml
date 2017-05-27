@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_journey"
     android:layout_width="match_parent"
@@ -15,11 +16,55 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_gravity="center_vertical"
             android:padding="5dp">
 
+            <RelativeLayout
+                android:id="@+id/journey_title_tracker"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <LinearLayout
+                <ImageView
+                    android:layout_width="1000dp"
+                    android:layout_height="150dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/driver_bus" />
+
+                <com.github.glomadrian.grav.GravView
+                    android:id="@+id/grav"
+                    android:layout_width="200dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerInParent="true"
+                    app:alpha_from="100"
+                    app:alpha_max_duration="3000"
+                    app:alpha_min_duration="1600"
+                    app:alpha_to="200"
+                    app:animationGenerators="@array/GravAnimations"
+                    app:ball_from_size="2dp"
+                    app:ball_to_size="5dp"
+                    app:colorGenerator="com.github.glomadrian.grav.generator.paint.OneColorGenerator"
+                    app:gravGenerator="com.github.glomadrian.grav.generator.grav.BallGenerator"
+                    app:percent_points_array="@array/walla_points_percent_points"
+                    app:pointGenerator="com.github.glomadrian.grav.generator.point.PercentPointGenerator"
+                    app:shake_direction="vertical"
+                    app:shake_max_duration="3500"
+                    app:shake_min_duration="1100"
+                    app:shake_variance="3dp"
+                    app:single_color="#FFF" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:padding="@dimen/medium_dp"
+                    android:text="Select your journey"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+<!--            <LinearLayout
                 android:id="@+id/journey_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,30 +87,9 @@
                     android:text="Select your journey"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colorAccent" />
-            </LinearLayout>
+            </LinearLayout>-->
 
-            <LinearLayout
-                android:id="@+id/greed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/journey_title"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/medium_dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_face" />
-                <TextView
-                    android:id="@+id/greed_journey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="@dimen/medium_dp"
-                    android:paddingRight="@dimen/large_dp"
-                    android:text="@string/user"
-                    android:textColor="@color/colorAccent" />
-            </LinearLayout>
+
 
 
             <LinearLayout
@@ -76,6 +100,28 @@
                 android:orientation="vertical"
                 android:padding="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/large_dp">
+                <LinearLayout
+                    android:id="@+id/greed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/journey_title"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/medium_dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_face" />
+                    <TextView
+                        android:id="@+id/greed_journey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="@dimen/medium_dp"
+                        android:paddingRight="@dimen/large_dp"
+                        android:text="@string/user"
+                        android:textColor="@color/colorAccent" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/journey_details_tv"

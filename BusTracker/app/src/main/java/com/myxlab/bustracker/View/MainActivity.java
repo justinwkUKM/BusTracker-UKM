@@ -280,7 +280,6 @@ public class MainActivity extends AppCompatActivity {
 
         scaleOutX.setDuration(50);
         scaleOutY.setDuration(50);
-
         scaleInX.setDuration(150);
         scaleInY.setDuration(150);
 
@@ -337,11 +336,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void infoBottomSheetListener() {
-
         infoBottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     tabLayout.setVisibility(View.GONE);
                     infoHeader.setVisibility(View.GONE);
@@ -453,9 +450,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (search.getText().toString().length() != 0) {
-
                     search_cancel.setVisibility(View.VISIBLE);
-
                 }
 
                 if (rv_search_chip.getVisibility() == View.VISIBLE) {
@@ -495,7 +490,6 @@ public class MainActivity extends AppCompatActivity {
     public void chipSearch(View view) {
 
         switch (view.getId()){
-
             case R.id.faculty_expand :
                 category = "faculty";
                 tv_chip_text.setText(getString(R.string.faculty));
@@ -528,11 +522,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.library_expand :
                 if (!expand_toggle){
-
                     searchFragment.ll_expand_layout_category.setVisibility(View.VISIBLE);
                     searchFragment.iv_library_expand_ico.setImageResource(R.drawable.ic_local_library);
                     searchFragment.tv_library_expand_text.setText(R.string.library);
-
                 }else {
                     category = "library";
                     tv_chip_text.setText(getString(R.string.library));
@@ -543,7 +535,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (view.getId() == R.id.library_expand){
-
             if (expand_toggle){
                 searchCatRefreshList(category, search.getText().toString(), getApplicationContext());
             } else {
@@ -569,12 +560,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void closeBottomSheet(){
-
         infoBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBusStop.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBus.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetETA.setState(BottomSheetBehavior.STATE_HIDDEN);
-
         if (fab_menu.getVisibility() == View.GONE){
             fab_menu.setVisibility(View.VISIBLE);
         }
@@ -582,7 +571,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setETA(String busETA, String busETAto, Double lat, Double lon, Boolean status){
-
         etaText.setVisibility(View.VISIBLE);
         etaProgress.setVisibility(View.GONE);
         busETATV.setText(busETA);
