@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
                     Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
-            }, 1000);
+            }, 4000);
         } else {
             UserInstance.getInstance().getVolleyApp().autoLogin(getResources().getString(R.string.url_login),getApplicationContext(),this);
         }
