@@ -144,13 +144,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     private void initCamera(Location location) {
-        position = CameraPosition.builder()
-                .target(new LatLng(location.getLatitude(),
-                        location.getLongitude()))
-                .zoom(16f)
-                .bearing(0.0f)
-                .tilt(0.0f)
-                .build();
+        if (location != null) {
+            position = CameraPosition.builder()
+                    .target(new LatLng(location.getLatitude(),
+                            location.getLongitude()))
+                    .zoom(16f)
+                    .bearing(0.0f)
+                    .tilt(0.0f)
+                    .build();
+        } else {
+            position = CameraPosition.builder()
+                    .target(new LatLng(2.930107,
+                            101.777434))
+                    .zoom(16f)
+                    .bearing(0.0f)
+                    .tilt(0.0f)
+                    .build();
+        }
 
         map.animateCamera(CameraUpdateFactory.newCameraPosition(position), null);
 
@@ -188,7 +198,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 for (int i = 0; UserInstance.getInstance().getBuses().size() > i; i++) {
 
                     String title = UserInstance.getInstance().getBuses().get(i).getName() + " (" + UserInstance.getInstance().getBuses().get(i).getPlate() + ")";
-                    Marker busMarker = map.addMarker(busMarkerOptions(UserInstance.getInstance().getBuses().get(i).getName(),title, new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon())));
+                    Marker busMarker = map.addMarker(busMarkerOptions(UserInstance.getInstance().getBuses().get(i).getName(), title, new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon())));
                     busesMarker.add(busMarker);
 
                     int index = busesMarker.size() - 1;
@@ -238,7 +248,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                             for (int j = 0; j < newBuses.size(); j++) {
 
                                 String title = UserInstance.getInstance().getBuses().get(newBuses.get(j)).getName() + " (" + UserInstance.getInstance().getBuses().get(newBuses.get(j)).getPlate() + ")";
-                                Marker busMarker = map.addMarker(busMarkerOptions(UserInstance.getInstance().getBuses().get(j).getName(),title, new LatLng(UserInstance.getInstance().getBuses().get(newBuses.get(j)).getLat(), UserInstance.getInstance().getBuses().get(newBuses.get(j)).getLon())));
+                                Marker busMarker = map.addMarker(busMarkerOptions(UserInstance.getInstance().getBuses().get(j).getName(), title, new LatLng(UserInstance.getInstance().getBuses().get(newBuses.get(j)).getLat(), UserInstance.getInstance().getBuses().get(newBuses.get(j)).getLon())));
                                 busesMarker.add(busMarker);
 
                                 int index = busesMarker.size() - 1;
@@ -576,7 +586,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         customMarkerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         customMarkerView.layout(0, 0, customMarkerView.getMeasuredWidth(), customMarkerView.getMeasuredHeight());
         customMarkerView.buildDrawingCache();
-
 
 
         Bitmap returnedBitmap = Bitmap.createBitmap(customMarkerView.getMeasuredWidth(), customMarkerView.getMeasuredHeight(),

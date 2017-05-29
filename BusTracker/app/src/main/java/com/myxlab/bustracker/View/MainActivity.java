@@ -17,14 +17,22 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -35,6 +43,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.maps.model.LatLng;
 import com.myxlab.bustracker.Controller.PagerAdapter;
 import com.myxlab.bustracker.DBHandler;
@@ -70,11 +79,20 @@ public class MainActivity extends AppCompatActivity {
     private int busStopIndex;
     public MapsFragment mapsFragment;
     public SearchFragment searchFragment;
+    public CardView searchCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//changing statusbar color
+
+        if (android.os.Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
+        }
 
         context = getApplicationContext();
         UserInstance.getInstance().setMainActivity(this);
@@ -88,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         initBottomSheet();
         infoHeader = (LinearLayout) findViewById(R.id.infoHeader);
         ivInfoIMG = (NetworkImageView) findViewById(R.id.infoIMG);
+        searchCardView = (CardView) findViewById(R.id.search_card_view);
 
         initTabsIcons();
         initFab();
@@ -96,17 +115,28 @@ public class MainActivity extends AppCompatActivity {
         initSearch();
         textWatcher();
     }
-
+    protected void simpleAnimation() {
+        ViewAnimator.animate(searchCardView)
+                .tada().interpolator(new DecelerateInterpolator())
+                .duration(1000)
+                .start();
+    }
     private void initSearch() {
         search = (EditText) findViewById(R.id.search);
         search_cancel = (ImageView) findViewById(R.id.clear_search);
         rv_search_chip = (RelativeLayout) findViewById(R.id.search_chip);
         iv_chip_close = (ImageView) findViewById(R.id.chip_close);
         tv_chip_text = (TextView) findViewById(R.id.chip_text);
+
         search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
+
+
                 if (search.hasFocus()) {
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.scalein);
+                    searchCardView.startAnimation(anim);
+                    anim.setFillAfter(true);
 
                     Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_layout);
 
@@ -115,7 +145,13 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction().replace(R.id.fragment_layout, new SearchFragment()).addToBackStack(null).commit();
                     }
 
+                }else{
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.scaleout);
+                    searchCardView.startAnimation(anim);
+                    anim.setFillAfter(true);
+
                 }
+
             }
         });
 
@@ -582,4 +618,60 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+    public static void expand(final View v) {
+        v.measure(CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT);
+        final int targetWidth = v.getMeasuredWidth();
+
+        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+        v.getLayoutParams().width = 1;
+        v.setVisibility(View.VISIBLE);
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                v.getLayoutParams().width = interpolatedTime == 1
+                        ? CardView.LayoutParams.WRAP_CONTENT
+                        : (int)(targetWidth * interpolatedTime);
+                v.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // 1dp/ms
+        a.setDuration((int)(targetWidth / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
+
+    public static void collapse(final View v) {
+        final int initialHeight = v.getMeasuredWidth();
+
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if(interpolatedTime == 1){
+                    v.setVisibility(View.GONE);
+                }else{
+                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    v.requestLayout();
+                }
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // 1dp/ms
+        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
+
 }
