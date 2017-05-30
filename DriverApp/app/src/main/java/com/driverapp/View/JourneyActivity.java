@@ -13,10 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.driverapp.BaseActivity;
 import com.driverapp.Controller.BusStopAdapter;
 import com.driverapp.Model.Bus;
 import com.driverapp.Model.BusStop;
@@ -26,7 +28,7 @@ import com.driverapp.R;
 
 import java.util.List;
 
-public class JourneyActivity extends AppCompatActivity{
+public class JourneyActivity extends BaseActivity{
 //testcomment
     public static final String SEARCH_FRAGMENT = "Search Fragment";
     public static final String SEARCH_KEY = "Search KEY";

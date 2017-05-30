@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -448,6 +449,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(UserInstance.getInstance().getBusStopList().get(i).getLat(), UserInstance.getInstance().getBusStopList().get(i).getLon()));
             markerOptions.title(UserInstance.getInstance().getBusStopList().get(i).getName());
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop)));
+//            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_busstop",10,10)));
+
             Marker marker = map.addMarker(markerOptions);
 
             hashMapMarker.put(marker, "Bus Stop");
@@ -458,7 +461,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         findBusStop();
 
     }
-
+    public Bitmap resizeMapIcons(String iconName,int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return resizedBitmap;
+    }
     private void findBusStop() {
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling

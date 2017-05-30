@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import com.driverapp.BaseActivity;
 import com.driverapp.Model.Auth;
 import com.driverapp.Model.Bus;
 import com.driverapp.Model.BusStop;
@@ -48,7 +49,7 @@ import com.github.glomadrian.roadrunner.IndeterminateRoadRunner;
 
 import tyrantgit.explosionfield.ExplosionField;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private EditText mUsernameView, mPasswordView;
     private ProgressBar mProgressView;

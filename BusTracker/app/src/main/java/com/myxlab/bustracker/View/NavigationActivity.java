@@ -12,11 +12,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Controller.BusStopAdapter;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 
-public class NavigationActivity extends AppCompatActivity {
+public class NavigationActivity extends BaseActivity {
 
     public AppBarLayout appBarLayout;
     int busStopIndex;
