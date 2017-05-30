@@ -11,10 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends BaseActivity{
 
     private EditText mUsernameView, mPasswordView;
     private View mProgressView;

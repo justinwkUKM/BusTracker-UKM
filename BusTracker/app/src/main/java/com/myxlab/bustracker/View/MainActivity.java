@@ -45,6 +45,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.maps.model.LatLng;
+import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Controller.PagerAdapter;
 import com.myxlab.bustracker.DBHandler;
 import com.myxlab.bustracker.Model.Auth;
@@ -55,7 +56,7 @@ import com.myxlab.bustracker.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     public static final String BUS_STOP_KEY = "BUS STOP KEY";
     public static final String BUS_STOP = "busStop";
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private NetworkImageView ivInfoIMG;
     public Context context;
     public EditText search;
-    public ImageView search_cancel, iv_chip_close;
+    public ImageView search_cancel, iv_chip_close, icon_search;
     public RelativeLayout rv_search_chip, rv_bsBusStopIco;
     public String category;
     public boolean expand_toggle = false;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         infoHeader = (LinearLayout) findViewById(R.id.infoHeader);
         ivInfoIMG = (NetworkImageView) findViewById(R.id.infoIMG);
         searchCardView = (CardView) findViewById(R.id.search_card_view);
+        icon_search = (ImageView) findViewById(R.id.icon_search);
 
         initTabsIcons();
         initFab();
@@ -115,12 +117,7 @@ public class MainActivity extends AppCompatActivity {
         initSearch();
         textWatcher();
     }
-    protected void simpleAnimation() {
-        ViewAnimator.animate(searchCardView)
-                .tada().interpolator(new DecelerateInterpolator())
-                .duration(1000)
-                .start();
-    }
+
     private void initSearch() {
         search = (EditText) findViewById(R.id.search);
         search_cancel = (ImageView) findViewById(R.id.clear_search);
@@ -137,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.scalein);
                     searchCardView.startAnimation(anim);
                     anim.setFillAfter(true);
+                    simpleAnimationfadein(icon_search);
+                    icon_search.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_black));
 
                     Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_layout);
 
@@ -149,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.scaleout);
                     searchCardView.startAnimation(anim);
                     anim.setFillAfter(true);
+                    simpleAnimationfadein(icon_search);
+                    icon_search.setImageDrawable(getResources().getDrawable(R.drawable.ic_search));
 
                 }
 
@@ -672,6 +673,18 @@ public class MainActivity extends AppCompatActivity {
         // 1dp/ms
         a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
+    }
+    protected void simpleAnimationfadein(View view) {
+        ViewAnimator.animate(view)
+                .fadeIn()
+                .duration(600)
+                .start();
+    }
+    protected void simpleAnimationfadeout(View view) {
+        ViewAnimator.animate(view)
+                .fadeOut()
+                .duration(600)
+                .start();
     }
 
 }

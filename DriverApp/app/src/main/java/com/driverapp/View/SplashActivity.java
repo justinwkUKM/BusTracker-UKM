@@ -12,10 +12,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.driverapp.BaseActivity;
 import com.driverapp.R;
 import com.github.florent37.viewanimator.ViewAnimator;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     ImageView imageView;
 TextView tvSplash;

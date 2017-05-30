@@ -13,13 +13,14 @@ import android.widget.ImageView;
 
 import com.android.volley.toolbox.Volley;
 import com.github.florent37.viewanimator.ViewAnimator;
+import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Controller.VolleyApp;
 import com.myxlab.bustracker.Model.Auth;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.Utility;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     ImageView imageView ;
     @Override
@@ -61,4 +62,5 @@ public class SplashActivity extends AppCompatActivity {
                 .duration(2000)
                 .start();
     }
+
 }

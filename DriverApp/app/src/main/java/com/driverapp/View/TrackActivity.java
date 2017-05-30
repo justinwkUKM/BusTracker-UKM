@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bcgdv.asia.lib.ticktock.TickTockView;
+import com.driverapp.BaseActivity;
 import com.driverapp.Model.UserInstance;
 import com.driverapp.R;
 import com.driverapp.Service.LocationListenerService;
@@ -35,7 +36,7 @@ import java.util.Calendar;
 
 import tyrantgit.explosionfield.ExplosionField;
 
-public class TrackActivity extends AppCompatActivity implements ServiceCallbacks{
+public class TrackActivity extends BaseActivity implements ServiceCallbacks{
 
     public static final String SETUP_FRAGMENT = "Setup Fragment";
     private boolean status = true;
