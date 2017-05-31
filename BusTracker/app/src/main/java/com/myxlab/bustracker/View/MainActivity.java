@@ -16,7 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,12 +26,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -49,11 +46,13 @@ import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Controller.PagerAdapter;
 import com.myxlab.bustracker.DBHandler;
 import com.myxlab.bustracker.Model.Auth;
+import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.POI;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
@@ -65,9 +64,9 @@ public class MainActivity extends BaseActivity {
     private ArrayList<String> tabs;
     private ViewPager viewPager = null;
     private FloatingActionMenu fab_menu;
-    private BottomSheetBehavior infoBottomSheet, bottomSheetBusStop,bottomSheetBus,bottomSheetETA;
+    private BottomSheetBehavior infoBottomSheet, bottomSheetBusStop, bottomSheetBus, bottomSheetETA;
     private LinearLayout infoHeader;
-    private TextView tvInfoTitle, tvInfoTitleExpand, busTitle, busStopTitle, tv_chip_text,busETAName,busETAFrom,busETATV, etaText;
+    private TextView tvInfoTitle, tvInfoTitleExpand, busTitle, busStopTitle, tv_chip_text, busETAName, busETAFrom, busETATV, etaText, tvpoiBusStops;
     private NetworkImageView ivInfoIMG;
     public Context context;
     public EditText search;
@@ -144,7 +143,7 @@ public class MainActivity extends BaseActivity {
                         fragmentManager.beginTransaction().replace(R.id.fragment_layout, new SearchFragment()).addToBackStack(null).commit();
                     }
 
-                }else{
+                } else {
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.scaleout);
                     searchCardView.startAnimation(anim);
                     anim.setFillAfter(true);
@@ -202,8 +201,9 @@ public class MainActivity extends BaseActivity {
     private void initBottomSheet() {
         infoBottomSheet = BottomSheetBehavior.from(findViewById(R.id.bottomSheetLayout));
         infoBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
-        tvInfoTitle = (TextView) findViewById(R.id.infoTitle);
+        tvInfoTitle = (TextView) findViewById(R.id.infoSwipeTitle);
         tvInfoTitleExpand = (TextView) findViewById(R.id.infoTitleExpand);
+        tvpoiBusStops = (TextView) findViewById(R.id.tv_poi_nearby_busStops);
 
         bottomSheetBus = BottomSheetBehavior.from(findViewById(R.id.bottomSheetBus));
         bottomSheetBus.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -225,7 +225,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
-                intent.putExtra(BUS_STOP_KEY,busStopIndex);
+                intent.putExtra(BUS_STOP_KEY, busStopIndex);
                 startActivity(intent);
                 bottomSheetBusStop.setState(BottomSheetBehavior.STATE_HIDDEN);
             }
@@ -256,7 +256,9 @@ public class MainActivity extends BaseActivity {
         fab_schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserInstance.getInstance().getVolleyApp().updateDB(getString(R.string.url_poi_list),getApplicationContext());
+                //UserInstance.getInstance().getVolleyApp().updatePOIDB(getString(R.string.url_poi_list), getApplicationContext());
+                UserInstance.getInstance().getVolleyApp().updateBSDB(getString(R.string.url_bus_stop_list), getApplicationContext());
+
             }
         });
 
@@ -264,9 +266,16 @@ public class MainActivity extends BaseActivity {
         fab_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                /*Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
-                auth.checkOutAuth(getApplicationContext());
+                auth.checkOutAuth(getApplicationContext());*/
+                DBHandler dbHandler = new DBHandler(context, null);
+                List<BusStop> bs = dbHandler.getBusStopList();
+                for(int i = 0; i < bs.size(); i++) {
+                    //System.out.println(bs.get(i).getName());
+                    Log.e("bs.getName()",bs.get(i).getName());
+                }
+
             }
         });
     }
@@ -336,11 +345,15 @@ public class MainActivity extends BaseActivity {
 
     public void infoBottomSheetCall(Double lat, Double lon, String name, String type, Boolean focus) {
         closeBottomSheet();
+
+        UserInstance.getInstance().getVolleyApp().getPoiBusStops(getString(R.string.url_poi_bus_stop_list), name, this);
+
         fab_menu.setVisibility(View.GONE);
         infoBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        tvInfoTitle.setText(name);
+        //tvInfoTitle.setText(name);
         tvInfoTitleExpand.setText(name);
-        mapsFragment.addMarker(lat,lon, name, type, focus);
+
+        mapsFragment.addMarker(lat, lon, name, type, focus);
 //        imageLoaders(pic);
     }
 
@@ -369,7 +382,7 @@ public class MainActivity extends BaseActivity {
         etaProgress.setVisibility(View.VISIBLE);
         busETATV.setVisibility(View.GONE);
         busETAFrom.setText(R.string.loading);
-        UserInstance.getInstance().getVolleyApp().getETA(getString(R.string.url_eta),bustop, bus, this);
+        UserInstance.getInstance().getVolleyApp().getETA(getString(R.string.url_eta), bustop, bus, this);
     }
 
     private void infoBottomSheetListener() {
@@ -509,12 +522,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if (search.getText().toString().length() == 0){
+                if (search.getText().toString().length() == 0) {
 
                     search_cancel.setVisibility(View.GONE);
 
-                    if (rv_search_chip.getVisibility() != View.VISIBLE)
-                    {
+                    if (rv_search_chip.getVisibility() != View.VISIBLE) {
                         searchFragment.populateData();
                     }
 
@@ -526,43 +538,43 @@ public class MainActivity extends BaseActivity {
 
     public void chipSearch(View view) {
 
-        switch (view.getId()){
-            case R.id.faculty_expand :
+        switch (view.getId()) {
+            case R.id.faculty_expand:
                 category = "faculty";
                 tv_chip_text.setText(getString(R.string.faculty));
                 rv_search_chip.setVisibility(View.VISIBLE);
                 break;
-            case R.id.hostel_expand :
+            case R.id.hostel_expand:
                 category = "hostel";
                 tv_chip_text.setText(getString(R.string.hostel));
                 rv_search_chip.setVisibility(View.VISIBLE);
                 break;
-            case R.id.hall_expand :
+            case R.id.hall_expand:
                 category = "hall";
                 tv_chip_text.setText(getString(R.string.hall));
                 rv_search_chip.setVisibility(View.VISIBLE);
                 break;
-            case R.id.building_expand :
+            case R.id.building_expand:
                 category = "building";
                 tv_chip_text.setText(getString(R.string.building));
                 rv_search_chip.setVisibility(View.VISIBLE);
                 break;
-            case R.id.recreation_expand :
+            case R.id.recreation_expand:
                 category = "recreation";
                 tv_chip_text.setText(getString(R.string.recreation));
                 rv_search_chip.setVisibility(View.VISIBLE);
                 break;
-            case R.id.health_center_expand :
+            case R.id.health_center_expand:
                 category = "health center";
                 tv_chip_text.setText(getString(R.string.health_center));
                 rv_search_chip.setVisibility(View.VISIBLE);
                 break;
-            case R.id.library_expand :
-                if (!expand_toggle){
+            case R.id.library_expand:
+                if (!expand_toggle) {
                     searchFragment.ll_expand_layout_category.setVisibility(View.VISIBLE);
                     searchFragment.iv_library_expand_ico.setImageResource(R.drawable.ic_local_library);
                     searchFragment.tv_library_expand_text.setText(R.string.library);
-                }else {
+                } else {
                     category = "library";
                     tv_chip_text.setText(getString(R.string.library));
                     rv_search_chip.setVisibility(View.VISIBLE);
@@ -571,22 +583,22 @@ public class MainActivity extends BaseActivity {
 
         }
 
-        if (view.getId() == R.id.library_expand){
-            if (expand_toggle){
+        if (view.getId() == R.id.library_expand) {
+            if (expand_toggle) {
                 searchCatRefreshList(category, search.getText().toString(), getApplicationContext());
             } else {
                 expand_toggle = true;
             }
 
-        } else  {
+        } else {
             searchCatRefreshList(category, search.getText().toString(), getApplicationContext());
         }
 
     }
 
-    public void searchCatRefreshList(String category, String key, Context context){
+    public void searchCatRefreshList(String category, String key, Context context) {
 
-        if (key.length() == 0){
+        if (key.length() == 0) {
             key = "";
         }
 
@@ -596,30 +608,49 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void closeBottomSheet(){
+    private void closeBottomSheet() {
         infoBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBusStop.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBus.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetETA.setState(BottomSheetBehavior.STATE_HIDDEN);
-        if (fab_menu.getVisibility() == View.GONE){
+        if (fab_menu.getVisibility() == View.GONE) {
             fab_menu.setVisibility(View.VISIBLE);
         }
 
     }
 
-    public void setETA(String busETA, String busETAto, Double lat, Double lon, Boolean status){
+    public void setETA(String busETA, String busETAto, Double lat, Double lon, Boolean status) {
         etaText.setVisibility(View.VISIBLE);
         etaProgress.setVisibility(View.GONE);
         busETATV.setText(busETA);
         busETATV.setVisibility(View.VISIBLE);
         busETAFrom.setText(busETAto);
 
-        if (status){
-            mapsFragment.focusCamera(new LatLng(lat,lon));
+        if (status) {
+            mapsFragment.focusCamera(new LatLng(lat, lon));
         }
 
     }
 
+    public void setPOIBusStops(List<String> busStops) {
+
+        String s = "";
+        String z = "";
+        List<BusStop> gLobalBusStops = new LinkedList<>();
+        gLobalBusStops = UserInstance.getInstance().getBusStopList();
+
+        for (int i = 0; i < busStops.size(); i++) {
+            z = busStops.get(i);
+            for (int j = 0; j < gLobalBusStops.size(); j++) {
+                if (gLobalBusStops.get(j).getCode().equals(z)){
+                    Log.e("BusStopsInIn", gLobalBusStops.get(j).getName());
+                    s += gLobalBusStops.get(j).getName()+"\n";
+                }
+            }
+        }
+        s = s.replace("Bus Stop ", "");
+        tvpoiBusStops.setText(s);
+    }
 
     public static void expand(final View v) {
         v.measure(CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT);
@@ -628,13 +659,12 @@ public class MainActivity extends BaseActivity {
         // Older versions of android (pre API 21) cancel animations for views with a height of 0.
         v.getLayoutParams().width = 1;
         v.setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 v.getLayoutParams().width = interpolatedTime == 1
                         ? CardView.LayoutParams.WRAP_CONTENT
-                        : (int)(targetWidth * interpolatedTime);
+                        : (int) (targetWidth * interpolatedTime);
                 v.requestLayout();
             }
 
@@ -645,21 +675,20 @@ public class MainActivity extends BaseActivity {
         };
 
         // 1dp/ms
-        a.setDuration((int)(targetWidth / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int) (targetWidth / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 
     public static void collapse(final View v) {
         final int initialHeight = v.getMeasuredWidth();
 
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
+                if (interpolatedTime == 1) {
                     v.setVisibility(View.GONE);
-                }else{
-                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                } else {
+                    v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
                     v.requestLayout();
                 }
             }
@@ -671,15 +700,17 @@ public class MainActivity extends BaseActivity {
         };
 
         // 1dp/ms
-        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
+
     protected void simpleAnimationfadein(View view) {
         ViewAnimator.animate(view)
                 .fadeIn()
                 .duration(600)
                 .start();
     }
+
     protected void simpleAnimationfadeout(View view) {
         ViewAnimator.animate(view)
                 .fadeOut()

@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v4.util.LruCache;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -234,6 +235,7 @@ public class VolleyApp {
                                     JSONObject json = resultArray.getJSONObject(i);
 
                                     String name = String.valueOf(json.getString("name"));
+                                    String code = String.valueOf(json.getString("code"));
                                     Double lat = Double.valueOf(json.getString("lat"));
                                     Double lon = Double.valueOf(json.getString("lon"));
                                     JSONArray bus = json.getJSONArray("buses");
@@ -243,7 +245,7 @@ public class VolleyApp {
                                         busItem.add(bus.getString(j));
                                     }
 
-                                    BusStop busStop = new BusStop(name, lat, lon, busItem);
+                                    BusStop busStop = new BusStop(name, code, lat, lon, busItem);
                                     busStops.add(busStop);
 
                                 } catch (JSONException e) {
@@ -348,6 +350,134 @@ public class VolleyApp {
         }
     }
 
+
+    /*public void getPOIBusStops(String url, final String poi, final MainActivity mainActivity) {
+        String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
+
+        Map<String, String> params = new HashMap<>();
+        params.put("poi", poi);
+        JSONObject parameters = new JSONObject(params);
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, api, parameters,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("VolleyAPP Response",response.toString());
+                       *//* String eta = null;
+                        String etaTo = null;
+                        Double lat = null;
+                        Double lon = null;
+
+                        try {
+                            JSONArray resultArray = response.getJSONArray("results");
+
+                            JSONObject obj = resultArray.getJSONObject(0);
+
+                            eta = obj.getString("eta");
+                            etaTo = "to " + poi;
+                            lat = Double.valueOf(obj.getString("lat"));
+                            lon = Double.valueOf(obj.getString("lon"));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        assert eta != null;
+                        if (!eta.equals("Please wait for next Trip")) {
+                            mainActivity.setETA(eta, etaTo, lat, lon, true);
+
+                        } else {
+                            mainActivity.setETA("Next", eta, lat, lon, false);
+                        }*//*
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    addQueue(jsonRequest);
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+*/
+    public static final String KEY_POI = "poi";
+    public void getPoiBusStops(String url, final String poi, final MainActivity mainActivity) {
+        String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
+        Map<String, String> params = new HashMap<>();
+        params.put(KEY_POI, poi);
+        JSONObject parameters = new JSONObject(params);
+        Log.e("url",api);
+        Log.e("poi",poi);
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, api, parameters,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        Log.e("VolleyAPP Response",response.toString());
+                        try {
+                            JSONArray resultArray = response.getJSONArray("results");
+
+
+                            List<String> busStops = new LinkedList<>();
+
+                            for (int j = 0; j < resultArray.length(); j++) {
+                                busStops.add(resultArray.getString(j));
+                            }
+
+                            mainActivity.setPOIBusStops(busStops);
+
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                       /* assert eta != null;
+                        if (!eta.equals("Please wait for next Trip")) {
+                            mainActivity.setETA(eta, etaTo, lat, lon, true);
+
+                        } else {
+                            mainActivity.setETA("Next", eta, lat, lon, false);
+                        }*/
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("VolleyAPP ERR",error.toString());
+                    }
+                });
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mainActivity.getApplication() != null) {
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+
     public void getBuses(String url, final Context context, final MapsFragment mapsFragment) {
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
@@ -413,7 +543,11 @@ public class VolleyApp {
         }
     }
 
-    public void updateDB(String url, final Context context) {
+
+
+
+
+    public void updatePOIDB(String url, final Context context) {
 
         String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
 
@@ -441,6 +575,73 @@ public class VolleyApp {
                                         poi.setType(String.valueOf(json.getString("category")));
                                         poi.setCode(String.valueOf(json.getString("code")));
                                         dbHandler.addPOI(poi);
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        volleyErrorResponse(error, context);
+                    }
+                }) {
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+
+                return volleyParseNetworkResponse(response);
+            }
+
+        };
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    addQueue(jsonRequest);
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+
+    public void updateBSDB(String url, final Context context) {
+
+        String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray resultArray = response.getJSONArray("station");
+
+                            if (resultArray.length() != 0) {
+                                DBHandler dbHandler = new DBHandler(context, null);
+                                dbHandler.delAllBusStopsData();
+
+                                for (int i = 0; i < resultArray.length(); i++) {
+                                    JSONObject json;
+                                    BusStop bs;
+
+                                    try {
+                                        json = resultArray.getJSONObject(i);
+                                        bs = new BusStop();
+                                        bs.setName(String.valueOf(json.getString("name")));
+                                        bs.setLat(Double.valueOf((json.getString("lat"))));
+                                        bs.setLon(Double.valueOf(json.getString("lon")));
+                                        bs.setCode(String.valueOf(json.getString("code")));
+                                        dbHandler.addBusStop(bs);
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
