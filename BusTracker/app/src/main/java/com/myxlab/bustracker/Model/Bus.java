@@ -2,8 +2,17 @@ package com.myxlab.bustracker.Model;
 
 public class Bus {
 
-    private String name, plate;
+
+    private String name, plate, id;
     private Double lat, lon;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Bus(String name, Double lat, Double lon, String plate) {
         this.name = name;

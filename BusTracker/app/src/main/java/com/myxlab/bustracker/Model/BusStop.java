@@ -4,9 +4,12 @@ import java.util.List;
 
 public class BusStop {
 
-    private String name;
+    private String name,code;
     private Double lat, lon;
     private List<String> bus;
+
+    public BusStop() {
+    }
 
     public BusStop(String name, Double lat, Double lon, List<String> bus) {
         this.name = name;
@@ -14,6 +17,24 @@ public class BusStop {
         this.lon = lon;
         this.bus = bus;
     }
+
+    public BusStop(String name, String code, Double lat, Double lon, List<String> bus) {
+        this.name = name;
+        this.code = code;
+        this.lat = lat;
+        this.lon = lon;
+        this.bus = bus;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+
 
     public String getName() {
         return name;

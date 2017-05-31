@@ -6,7 +6,7 @@
     android:layout_height="?attr/actionBarSize"
     app:behavior_hideable="true"
     android:visibility="visible"
-    app:behavior_peekHeight="?attr/actionBarSize"
+    app:behavior_peekHeight="auto"
     android:background="@android:color/white"
     app:layout_behavior="@string/bottom_sheet_behavior">
 

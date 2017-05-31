@@ -2,6 +2,7 @@ package com.myxlab.bustracker.Controller;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myxlab.bustracker.DBHandler;
+import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.POI;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
@@ -54,6 +56,8 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.ViewHolder> {
             public void onClick(View view) {
                 DBHandler dbHandler = new DBHandler(context, null);
                 POI poi = dbHandler.getPOIs(poiData.get(holder.getAdapterPosition()).getCode());
+                //BusStop bs = dbHandler.getBusStops(poiData.get(holder.getAdapterPosition()).getCode());
+               // Log.e("bs.getName()",bs.getName());
                 mainActivity.infoBottomSheetCall(Double.parseDouble(poi.getLat()), Double.parseDouble(poi.getLon()),poi.getName(),poi.getType(),true);
                 searchFragment.fragmentManager.popBackStack();
             }
