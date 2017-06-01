@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -47,6 +48,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Controller.PagerAdapter;
 import com.myxlab.bustracker.DBHandler;
+import com.myxlab.bustracker.FontChangeCrawler;
 import com.myxlab.bustracker.Model.Auth;
 import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.POI;
@@ -199,20 +201,26 @@ public class MainActivity extends BaseActivity {
         }
 
     }
-
+    private FontChangeCrawler fontChanger;
     private void initBottomSheet() {
+        fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/timelessbold.ttf");
+
         infoBottomSheet = BottomSheetBehavior.from(findViewById(R.id.bottomSheetLayout));
+        fontChanger.replaceFonts((ViewGroup) findViewById(R.id.bottomSheetLayout) );
         infoBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
         tvInfoTitle = (TextView) findViewById(R.id.infoSwipeTitle);
         tvInfoTitleExpand = (TextView) findViewById(R.id.infoTitleExpand);
         tvpoiBusStops = (TextView) findViewById(R.id.tv_poi_nearby_busStops);
         bottomSheetLLaddButtons = (LinearLayout) findViewById(R.id.llBusStopButtons);
 
+
         bottomSheetBus = BottomSheetBehavior.from(findViewById(R.id.bottomSheetBus));
+        fontChanger.replaceFonts((ViewGroup) findViewById(R.id.bottomSheetBus) );
         bottomSheetBus.setState(BottomSheetBehavior.STATE_HIDDEN);
         busTitle = (TextView) findViewById(R.id.busTitle);
 
         bottomSheetETA = BottomSheetBehavior.from(findViewById(R.id.bottomSheetETA));
+        fontChanger.replaceFonts((ViewGroup) findViewById(R.id.bottomSheetETA) );
         bottomSheetETA.setState(BottomSheetBehavior.STATE_HIDDEN);
         busETATV = (TextView) findViewById(R.id.busETATV);
         busETAFrom = (TextView) findViewById(R.id.busETAFrom);
@@ -221,6 +229,7 @@ public class MainActivity extends BaseActivity {
         etaProgress = (ProgressBar) findViewById(R.id.etaProgress);
 
         bottomSheetBusStop = BottomSheetBehavior.from(findViewById(R.id.bottomSheetBusStop));
+        fontChanger.replaceFonts((ViewGroup) findViewById(R.id.bottomSheetBusStop) );
         bottomSheetBusStop.setState(BottomSheetBehavior.STATE_HIDDEN);
         busStopTitle = (TextView) findViewById(R.id.busStopTitle);
         rv_bsBusStopIco = (RelativeLayout) findViewById(R.id.bsBusStopIco);
@@ -638,20 +647,21 @@ public class MainActivity extends BaseActivity {
     public void setPOIBusStops(List<String> busStops) {
 
         String s = "";
-        String z = "";
+        String code = "";
         List<BusStop> gLobalBusStops = new LinkedList<>();
         gLobalBusStops = UserInstance.getInstance().getBusStopList();
 
         for (int i = 0; i < busStops.size(); i++) {
-            z = busStops.get(i);
+            code = busStops.get(i);
             for (int j = 0; j < gLobalBusStops.size(); j++) {
-                if (gLobalBusStops.get(j).getCode().equals(z)){
+                if (gLobalBusStops.get(j).getCode().equals(code)){
                     Log.e("BusStopsInIn", gLobalBusStops.get(j).getName());
                     String name = gLobalBusStops.get(j).getName();
                     name = name.replace("Bus Stop ", "");
                     if(name.length() > 4)
                         name = name.substring(0,3) + "..";
-                    doAddButton(name);
+                    //fontChanger.replaceFonts((ViewGroup) findViewById(R.id.llBusStopButtons));
+                    doAddButton(name,code);
                     s += gLobalBusStops.get(j).getName()+"\n";
                 }
             }
@@ -661,11 +671,19 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void doAddButton(String name) {
+    private void doAddButton(String name, String code) {
         Button button = new Button(this);
         button.setText(name);
+        button.setTag(code);
         button.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         bottomSheetLLaddButtons.addView(button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //doSomethingHere
+                Toast.makeText(context, v.getTag().toString() , Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
