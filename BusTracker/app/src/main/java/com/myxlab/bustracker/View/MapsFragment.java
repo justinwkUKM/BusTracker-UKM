@@ -45,6 +45,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.SphericalUtil;
+import com.myxlab.bustracker.FontChangeCrawler;
 import com.myxlab.bustracker.Model.Bus;
 import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.UserInstance;
@@ -95,6 +96,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
 
+        FontChangeCrawler fontChanger = new FontChangeCrawler(getActivity().getAssets(), "fonts/sensation.ttf");
+        fontChanger.replaceFonts((ViewGroup) this.getView());
+
         context = getActivity();
         mapsFragment = this;
         hashMapBusStopMarker = new HashMap<>();
@@ -135,13 +139,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             return;
         }
 
-
         map.setMyLocationEnabled(true);
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setTrafficEnabled(false);
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.mapstyle));
 
         UserInstance.getInstance().getVolleyApp().getBusStop(getString(R.string.url_bus_stop_list), getActivity(), this);
+
     }
 
     private void initCamera(Location location) {

@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.myxlab.bustracker.FontChangeCrawler;
 import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
@@ -21,8 +22,9 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     private List<String> bus;
     private BusStop busStop;
     private View view;
-    private Context context;
     private NavigationActivity navigationActivity;
+    private FontChangeCrawler fontChanger;
+    Context context;
 
     public BusStopAdapter(List<String> buses, BusStop busStop, Context context, NavigationActivity navigationActivity) {
         this.bus = buses;
@@ -34,11 +36,16 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bus_stop_item,null);
+        fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/timelessbold.ttf");
+
         return new BusStopAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
+        fontChanger.replaceFonts((ViewGroup) this.view);
+
         holder.busName.setText(bus.get(position));
         holder.locate.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -287,7 +287,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:orientation="vertical">
+                    android:id="@+id/llBusStopButtons"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -296,6 +297,7 @@
                         android:paddingBottom="8dp"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
+                        android:visibility="gone"
                         android:id="@+id/tv_poi_nearby_busStops"
                         android:text="Nearest Bus Stop Array Results"
                         android:textAppearance="?android:attr/textAppearanceMedium" />

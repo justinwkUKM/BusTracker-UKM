@@ -22,6 +22,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -29,6 +30,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,7 +67,7 @@ public class MainActivity extends BaseActivity {
     private ViewPager viewPager = null;
     private FloatingActionMenu fab_menu;
     private BottomSheetBehavior infoBottomSheet, bottomSheetBusStop, bottomSheetBus, bottomSheetETA;
-    private LinearLayout infoHeader;
+    private LinearLayout infoHeader, bottomSheetLLaddButtons;
     private TextView tvInfoTitle, tvInfoTitleExpand, busTitle, busStopTitle, tv_chip_text, busETAName, busETAFrom, busETATV, etaText, tvpoiBusStops;
     private NetworkImageView ivInfoIMG;
     public Context context;
@@ -204,6 +206,7 @@ public class MainActivity extends BaseActivity {
         tvInfoTitle = (TextView) findViewById(R.id.infoSwipeTitle);
         tvInfoTitleExpand = (TextView) findViewById(R.id.infoTitleExpand);
         tvpoiBusStops = (TextView) findViewById(R.id.tv_poi_nearby_busStops);
+        bottomSheetLLaddButtons = (LinearLayout) findViewById(R.id.llBusStopButtons);
 
         bottomSheetBus = BottomSheetBehavior.from(findViewById(R.id.bottomSheetBus));
         bottomSheetBus.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -644,12 +647,26 @@ public class MainActivity extends BaseActivity {
             for (int j = 0; j < gLobalBusStops.size(); j++) {
                 if (gLobalBusStops.get(j).getCode().equals(z)){
                     Log.e("BusStopsInIn", gLobalBusStops.get(j).getName());
+                    String name = gLobalBusStops.get(j).getName();
+                    name = name.replace("Bus Stop ", "");
+                    if(name.length() > 4)
+                        name = name.substring(0,3) + "..";
+                    doAddButton(name);
                     s += gLobalBusStops.get(j).getName()+"\n";
                 }
             }
         }
         s = s.replace("Bus Stop ", "");
-        tvpoiBusStops.setText(s);
+        //tvpoiBusStops.setText(s);
+
+    }
+
+    private void doAddButton(String name) {
+        Button button = new Button(this);
+        button.setText(name);
+        button.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        bottomSheetLLaddButtons.addView(button);
+
     }
 
     public static void expand(final View v) {

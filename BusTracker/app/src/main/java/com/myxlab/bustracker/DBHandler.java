@@ -41,8 +41,8 @@ public class DBHandler extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IS EXISTS" + TABLE_NAME_POI);
-        sqLiteDatabase.execSQL("DROP TABLE IS EXISTS" + TABLE_NAME_BUS_STOPS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS '" + TABLE_NAME_POI + "'");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS '" + TABLE_NAME_BUS_STOPS + "'");
         onCreate(sqLiteDatabase);
     }
 
@@ -264,9 +264,11 @@ public class DBHandler extends SQLiteOpenHelper{
     }
 
     public void delAllBusStopsData(){
-        String query = "DELETE FROM " + TABLE_NAME_BUS_STOPS;
+
+        String query = "DROP TABLE IF EXISTS '" + TABLE_NAME_BUS_STOPS + "'";
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(query);
+        db.execSQL(CREATE_TABLE_BS);
         db.close();
     }
 

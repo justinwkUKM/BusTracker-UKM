@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +43,8 @@ public class NavigationActivity extends BaseActivity {
 
         BusStopAdapter busStopAdapter = new BusStopAdapter(UserInstance.getInstance().getBusStopList().get(busStopIndex).getBus(), UserInstance.getInstance().getBusStopList().get(busStopIndex), getApplicationContext(), this);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.navigationRv);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplication());
         recyclerView.setLayoutManager(mLayoutManager);
