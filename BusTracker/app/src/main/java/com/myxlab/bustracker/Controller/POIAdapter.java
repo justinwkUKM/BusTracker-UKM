@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myxlab.bustracker.DBHandler;
+import com.myxlab.bustracker.FontChangeCrawler;
 import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.POI;
 import com.myxlab.bustracker.Model.UserInstance;
@@ -27,6 +28,8 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.ViewHolder> {
     private Context context;
     private MainActivity mainActivity;
     private SearchFragment searchFragment;
+    private FontChangeCrawler fontChanger;
+
 
     public POIAdapter(List<POI> poiData, Context context, MainActivity mainActivity, SearchFragment searchFragment) {
         this.poiData = poiData;
@@ -39,6 +42,7 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.ViewHolder> {
     public POIAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item, parent, false);
+        fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/timelessbold.ttf");
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
         return new POIAdapter.ViewHolder(view);
@@ -46,6 +50,9 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final POIAdapter.ViewHolder holder, int position) {
+
+        fontChanger.replaceFonts((ViewGroup) this.view);
+
         POI poi = poiData.get(position);
         holder.name.setText(poi.getName());
 

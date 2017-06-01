@@ -3,6 +3,8 @@ package com.myxlab.bustracker;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Created by MyXLab on 30/5/2017.
@@ -34,6 +36,15 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected void overridePendingTransitionExit() {
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    @Override
+    public void setContentView(View view)
+    {
+        super.setContentView(view);
+
+        FontChangeCrawler fontChanger = new FontChangeCrawler(getAssets(), "fonts/sensation.ttf");
+        fontChanger.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
     }
 
 }

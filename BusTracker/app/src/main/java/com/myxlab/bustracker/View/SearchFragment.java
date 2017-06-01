@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -126,6 +127,8 @@ public class SearchFragment extends Fragment{
 
         poiAdapter = new POIAdapter(poiArrayList, getActivity(),((MainActivity)getActivity()), this);
         recyclerViewPOI.setHasFixedSize(true);
+        recyclerViewPOI.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerViewPOI.setLayoutManager(mLayoutManager);
         recyclerViewPOI.setItemAnimator(new DefaultItemAnimator());
