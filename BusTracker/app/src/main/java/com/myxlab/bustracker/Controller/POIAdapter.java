@@ -65,7 +65,7 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.ViewHolder> {
                 POI poi = dbHandler.getPOIs(poiData.get(holder.getAdapterPosition()).getCode());
                 //BusStop bs = dbHandler.getBusStops(poiData.get(holder.getAdapterPosition()).getCode());
                // Log.e("bs.getName()",bs.getName());
-                mainActivity.infoBottomSheetCall(Double.parseDouble(poi.getLat()), Double.parseDouble(poi.getLon()),poi.getName(),poi.getType(),true);
+                mainActivity.infoBottomSheetCall(Double.parseDouble(poi.getLat()), Double.parseDouble(poi.getLon()),poi.getCode(),poi.getType(),true);
                 searchFragment.fragmentManager.popBackStack();
             }
         });

@@ -22,6 +22,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -172,15 +173,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     public void mapCamera() {
-        position = CameraPosition.builder()
-                .target(new LatLng(mCurrentLocation.getLatitude(),
-                        mCurrentLocation.getLongitude()))
-                .zoom(16f)
-                .bearing(0.0f)
-                .tilt(0.0f)
-                .build();
+        if (mCurrentLocation != null) {
+            position = CameraPosition.builder()
+                    .target(new LatLng(mCurrentLocation.getLatitude(),
+                            mCurrentLocation.getLongitude()))
+                    .zoom(16f)
+                    .bearing(0.0f)
+                    .tilt(0.0f)
+                    .build();
+            map.animateCamera(CameraUpdateFactory.newCameraPosition(position), null);
+        }else
+        {
+            Log.e("Location", "Null");
+        }
 
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(position), null);
+
     }
 
     public void focusCamera(LatLng latLng) {
@@ -438,8 +445,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                UserInstance.getInstance().getVolleyApp().getBuses(getString(R.string.url_bus), getActivity(), mapsFragment);
-                loopBus();
+                if (isAdded() && getActivity() != null) {
+                    UserInstance.getInstance().getVolleyApp().getBuses(getString(R.string.url_bus), getActivity(), mapsFragment);
+                    loopBus();
+                }
             }
         }, duration);
     }
@@ -453,7 +462,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(UserInstance.getInstance().getBusStopList().get(i).getLat(), UserInstance.getInstance().getBusStopList().get(i).getLon()));
             markerOptions.title(UserInstance.getInstance().getBusStopList().get(i).getName());
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop)));
-//            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_busstop",10,10)));
+//          markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_busstop",10,10)));
 
             Marker marker = map.addMarker(markerOptions);
 
@@ -489,35 +498,41 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         int busStopGreenIndex = 0;
         double distance = 0;
-        LatLng myDistance = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        if (mCurrentLocation != null){ LatLng myDistance = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
 
-        for (int i = 0; i < UserInstance.getInstance().getBusStopList().size(); i++) {
+            for (int i = 0; i < UserInstance.getInstance().getBusStopList().size(); i++) {
 
-            LatLng latLng = new LatLng(UserInstance.getInstance().getBusStopList().get(i).getLat(), UserInstance.getInstance().getBusStopList().get(i).getLon());
+                LatLng latLng = new LatLng(UserInstance.getInstance().getBusStopList().get(i).getLat(), UserInstance.getInstance().getBusStopList().get(i).getLon());
 
-            if (busStopGreenIndex != 0) {
+                if (busStopGreenIndex != 0) {
 
-                double distanceTmp = SphericalUtil.computeDistanceBetween(latLng, myDistance);
+                    double distanceTmp = SphericalUtil.computeDistanceBetween(latLng, myDistance);
 
-                if (distanceTmp < distance) {
-                    distance = distanceTmp;
+                    if (distanceTmp < distance) {
+                        distance = distanceTmp;
+                        busStopGreenIndex = i;
+                    }
+
+                } else {
+                    distance = SphericalUtil.computeDistanceBetween(latLng, myDistance);
                     busStopGreenIndex = i;
                 }
-
-            } else {
-                distance = SphericalUtil.computeDistanceBetween(latLng, myDistance);
-                busStopGreenIndex = i;
             }
+
+            if (greenMarker != null) {
+                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop)));
+                greenMarker = hashMapBusStopMarker.get(UserInstance.getInstance().getBusStopList().get(busStopGreenIndex));
+                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop_green)));
+            } else {
+                greenMarker = hashMapBusStopMarker.get(UserInstance.getInstance().getBusStopList().get(busStopGreenIndex));
+                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop_green)));
+            }
+        }else {
+            Toast.makeText(context, "Location Not Available", Toast.LENGTH_SHORT).show();
         }
 
-        if (greenMarker != null) {
-            greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop)));
-            greenMarker = hashMapBusStopMarker.get(UserInstance.getInstance().getBusStopList().get(busStopGreenIndex));
-            greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop_green)));
-        } else {
-            greenMarker = hashMapBusStopMarker.get(UserInstance.getInstance().getBusStopList().get(busStopGreenIndex));
-            greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop_green)));
-        }
+
+
 
     }
 

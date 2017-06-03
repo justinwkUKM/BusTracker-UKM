@@ -26,6 +26,13 @@ public class BusStop {
         this.bus = bus;
     }
 
+    public BusStop(String name, String code, Double lat, Double lon) {
+        this.name = name;
+        this.code = code;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
     public String getCode() {
         return code;
     }

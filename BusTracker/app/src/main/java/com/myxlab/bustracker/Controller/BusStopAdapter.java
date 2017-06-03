@@ -51,6 +51,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),bus.get(holder.getAdapterPosition()));
+
                 navigationActivity.finish();
             }
         });
@@ -58,7 +59,9 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         holder.schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Toast.makeText(context, R.string.under_development, Toast.LENGTH_SHORT).show();
+
             }
         });
     }
