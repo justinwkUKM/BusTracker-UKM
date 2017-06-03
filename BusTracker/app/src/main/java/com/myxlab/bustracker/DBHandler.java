@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "BUS_TRACKER.db";
     private static final String TABLE_NAME_POI = "POI";
     private static final String TABLE_NAME_BUS_STOPS = "BUS_STOPS";
@@ -24,8 +24,13 @@ public class DBHandler extends SQLiteOpenHelper{
     private static final String COLUMN_LON = "lon";
     private static final String COLUMN_CODE = "code";
     private static final String COLUMN_TYPE = "type";
+    private static final String COLUMN_PHONE = "phone";
+    private static final String COLUMN_EMAIL = "email";
+    private static final String COLUMN_WEBSITE = "website";
 
-    private static final String CREATE_TABLE_LOCATION = "CREATE TABLE "+ TABLE_NAME_POI +" (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, "+ COLUMN_LAT + " TEXT, "+ COLUMN_LON + " TEXT, "+ COLUMN_CODE + " TEXT, "+ COLUMN_TYPE + " TEXT" + ")";
+
+
+    private static final String CREATE_TABLE_LOCATION = "CREATE TABLE "+ TABLE_NAME_POI +" (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, "+ COLUMN_LAT + " TEXT, "+ COLUMN_LON + " TEXT, "+ COLUMN_CODE + " TEXT, "+ COLUMN_TYPE + " TEXT, "+ COLUMN_PHONE + " TEXT, "+ COLUMN_EMAIL + " TEXT, "+ COLUMN_WEBSITE + " TEXT " + ")";
     private static final String CREATE_TABLE_BS = "CREATE TABLE "+ TABLE_NAME_BUS_STOPS +" (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, "+ COLUMN_LAT + " TEXT, "+ COLUMN_LON + " TEXT, "+ COLUMN_CODE + " TEXT "+  ")";
 
 
@@ -62,6 +67,9 @@ public class DBHandler extends SQLiteOpenHelper{
                 poi.setLon(cursor.getString(3));
                 poi.setCode(cursor.getString(4));
                 poi.setType(cursor.getString(5));
+                poi.setPhone(cursor.getString(6));
+                poi.setEmail(cursor.getString(7));
+                poi.setWebsite(cursor.getString(8));
                 POIList.add(poi);
             }while (cursor.moveToNext());
         }
@@ -76,6 +84,10 @@ public class DBHandler extends SQLiteOpenHelper{
         contentValues.put(COLUMN_LON,poiData.getLon());
         contentValues.put(COLUMN_CODE,poiData.getCode());
         contentValues.put(COLUMN_TYPE,poiData.getType());
+        contentValues.put(COLUMN_PHONE,poiData.getPhone());
+        contentValues.put(COLUMN_EMAIL,poiData.getEmail());
+        contentValues.put(COLUMN_WEBSITE,poiData.getWebsite());
+
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_NAME_POI, null, contentValues);
         db.close();
@@ -93,6 +105,9 @@ public class DBHandler extends SQLiteOpenHelper{
             poi.setLon(cursor.getString(3));
             poi.setCode(cursor.getString(4));
             poi.setType(cursor.getString(5));
+            poi.setPhone(cursor.getString(6));
+            poi.setEmail(cursor.getString(7));
+            poi.setWebsite(cursor.getString(8));
         }
         db.close();
         cursor.close();
@@ -153,9 +168,10 @@ public class DBHandler extends SQLiteOpenHelper{
     }
 
     public void delAllData(){
-        String query = "DELETE FROM " + TABLE_NAME_POI;
+        String query = "DROP TABLE IF EXISTS " + TABLE_NAME_POI ;
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(query);
+        db.execSQL(CREATE_TABLE_LOCATION);
         db.close();
     }
 
@@ -265,7 +281,7 @@ public class DBHandler extends SQLiteOpenHelper{
 
     public void delAllBusStopsData(){
 
-        String query = "DROP TABLE IF EXISTS '" + TABLE_NAME_BUS_STOPS + "'";
+        String query = "DROP TABLE IF EXISTS " + TABLE_NAME_BUS_STOPS ;;
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(query);
         db.execSQL(CREATE_TABLE_BS);

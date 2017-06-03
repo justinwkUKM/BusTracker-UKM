@@ -144,7 +144,6 @@
     <string name="url_poi_bus_stop_list">http://api.faizhasan.info/api/v1/nearestpoi</string>
     <string name="url_bus">http://api.faizhasan.info/api/v1/bus</string>
     <string name="url_eta">http://vbus.faizhasan.info/getETAv2.php</string>
-    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE1LCJpc3MiOiJodHRwOlwvXC9hcGkuZmFpemhhc2FuLmluZm9cL2FwaVwvdjFcL2NhbWVfaW4iLCJpYXQiOjE0OTYyMTI0NTAsImV4cCI6MTQ5NjIxNjA1MCwibmJmIjoxNDk2MjEyNDUwLCJqdGkiOiIyODIyM2JlZDRmNDM1ZmVjYjY5OWI4YTcxOGM1OGFhYiJ9.3QvUy3SmgMQ8-muuStuJsneTzT17L44577YKMAOi37A
 
      <string name="wallapop">M874.323897,513.518484 C860.358769,445.332884 816.382769,412.921263
     805.267282,406.191832 C800.657846,403.400084 797.676103,399.358653 797.88841,392.435874

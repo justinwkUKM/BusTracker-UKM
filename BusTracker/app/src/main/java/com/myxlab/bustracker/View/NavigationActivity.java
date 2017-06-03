@@ -51,7 +51,7 @@ public class NavigationActivity extends BaseActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(busStopAdapter);
         busStopAdapter.notifyDataSetChanged();
-//        progressbar = (ProgressBar) findViewById(R.id.progressBarNavigation);
+//      progressbar = (ProgressBar) findViewById(R.id.progressBarNavigation);
 
     }
 

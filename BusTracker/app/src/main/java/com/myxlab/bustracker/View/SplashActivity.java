@@ -41,6 +41,8 @@ public class SplashActivity extends BaseActivity {
         UserInstance.getInstance().setQueue(Volley.newRequestQueue(getApplicationContext()));
         UserInstance.getInstance().setVolleyApp(new VolleyApp());
         UserInstance.getInstance().setUtility(new Utility());
+
+
         simpleAnimation();
         Boolean check = UserInstance.getInstance().getAuth().checkAuth(getApplication().getApplicationContext());
 

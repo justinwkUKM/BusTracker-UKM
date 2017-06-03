@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
     private FloatingActionMenu fab_menu;
     private BottomSheetBehavior infoBottomSheet, bottomSheetBusStop, bottomSheetBus, bottomSheetETA;
     private LinearLayout infoHeader, bottomSheetLLaddButtons;
-    private TextView tvInfoTitle, tvInfoTitleExpand, busTitle, busStopTitle, tv_chip_text, busETAName, busETAFrom, busETATV, etaText, tvpoiBusStops;
+    private TextView tvInfoTitle, tvInfoTitleExpand, busTitle, busStopTitle, tv_chip_text, busETAName, busETAFrom, busETATV, etaText, tvpoiBusStops, tvPoiAddress, tvPoiPhone, tvPoiEmail;
     private NetworkImageView ivInfoIMG;
     public Context context;
     public EditText search;
@@ -85,11 +85,12 @@ public class MainActivity extends BaseActivity {
     public SearchFragment searchFragment;
     public CardView searchCardView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//changing statusbar color
+        //changing statusbar color
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             Window window = this.getWindow();
@@ -143,11 +144,13 @@ public class MainActivity extends BaseActivity {
                     Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_layout);
 
                     if (fragment == null) {
+
                         FragmentManager fragmentManager = getFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.fragment_layout, new SearchFragment()).addToBackStack(null).commit();
                     }
 
                 } else {
+
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.scaleout);
                     searchCardView.startAnimation(anim);
                     anim.setFillAfter(true);
@@ -210,8 +213,13 @@ public class MainActivity extends BaseActivity {
         infoBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
         tvInfoTitle = (TextView) findViewById(R.id.infoSwipeTitle);
         tvInfoTitleExpand = (TextView) findViewById(R.id.infoTitleExpand);
+        tvPoiAddress = (TextView) findViewById(R.id.tvpoiAddress);
+        tvPoiPhone = (TextView) findViewById(R.id.tvpoiPhone);
+        tvPoiEmail = (TextView) findViewById(R.id.tvpoiEmail);
+
         tvpoiBusStops = (TextView) findViewById(R.id.tv_poi_nearby_busStops);
         bottomSheetLLaddButtons = (LinearLayout) findViewById(R.id.llBusStopButtons);
+        //bottomSheetLLaddButtons.setWeightSum(1);
 
 
         bottomSheetBus = BottomSheetBehavior.from(findViewById(R.id.bottomSheetBus));
@@ -268,7 +276,7 @@ public class MainActivity extends BaseActivity {
         fab_schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //UserInstance.getInstance().getVolleyApp().updatePOIDB(getString(R.string.url_poi_list), getApplicationContext());
+                UserInstance.getInstance().getVolleyApp().updatePOIDB(getString(R.string.url_poi_list), getApplicationContext());
                 UserInstance.getInstance().getVolleyApp().updateBSDB(getString(R.string.url_bus_stop_list), getApplicationContext());
 
             }
@@ -286,6 +294,15 @@ public class MainActivity extends BaseActivity {
                 for(int i = 0; i < bs.size(); i++) {
                     //System.out.println(bs.get(i).getName());
                     Log.e("bs.getName()",bs.get(i).getName());
+                }
+
+
+                List<POI> pois = dbHandler.getPOIs();
+                for(int i = 0; i < pois.size(); i++) {
+                    //System.out.println(bs.get(i).getName());
+                    Log.e("pois.getName()",pois.get(i).getName());
+                    Log.e("pois.getEmail()",pois.get(i).getEmail());
+                    Log.e("pois.getWebsite()",pois.get(i).getWebsite());
                 }
 
             }
@@ -355,17 +372,29 @@ public class MainActivity extends BaseActivity {
         fab_menu.setIconToggleAnimatorSet(set);
     }
 
-    public void infoBottomSheetCall(Double lat, Double lon, String name, String type, Boolean focus) {
+    public void infoBottomSheetCall(Double lat, Double lon, String code, String type, Boolean focus) {
         closeBottomSheet();
 
-        UserInstance.getInstance().getVolleyApp().getPoiBusStops(getString(R.string.url_poi_bus_stop_list), name, this);
+        UserInstance.getInstance().getVolleyApp().getPoiBusStops(getString(R.string.url_poi_bus_stop_list), code, this);
+
+        DBHandler dbHandler = new DBHandler(MainActivity.this, null);
+        POI poiInfo = dbHandler.getPOIs(code);
+        String website = poiInfo.getWebsite();
+        String phone = poiInfo.getPhone();
+        String email = poiInfo.getEmail();
+        String name = poiInfo.getName();
+
+
 
         fab_menu.setVisibility(View.GONE);
         infoBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
         //tvInfoTitle.setText(name);
         tvInfoTitleExpand.setText(name);
+        tvPoiPhone.setText(phone);
+        tvPoiAddress.setText(website);
+        tvPoiEmail.setText(email);
 
-        mapsFragment.addMarker(lat, lon, name, type, focus);
+        mapsFragment.addMarker(lat, lon, code, type, focus);
 //        imageLoaders(pic);
     }
 
@@ -650,7 +679,7 @@ public class MainActivity extends BaseActivity {
         String code = "";
         List<BusStop> gLobalBusStops = new LinkedList<>();
         gLobalBusStops = UserInstance.getInstance().getBusStopList();
-
+        bottomSheetLLaddButtons.removeAllViews();
         for (int i = 0; i < busStops.size(); i++) {
             code = busStops.get(i);
             for (int j = 0; j < gLobalBusStops.size(); j++) {
@@ -660,22 +689,29 @@ public class MainActivity extends BaseActivity {
                     name = name.replace("Bus Stop ", "");
                     if(name.length() > 4)
                         name = name.substring(0,3) + "..";
-                    //fontChanger.replaceFonts((ViewGroup) findViewById(R.id.llBusStopButtons));
                     doAddButton(name,code);
                     s += gLobalBusStops.get(j).getName()+"\n";
                 }
             }
         }
-        s = s.replace("Bus Stop ", "");
+        //s = s.replace("Bus Stop ", "");
         //tvpoiBusStops.setText(s);
 
     }
 
     private void doAddButton(String name, String code) {
+
+        LinearLayout.LayoutParams params = new  LinearLayout.LayoutParams(
+               150, 150
+        );
+        params.setMargins(10,20,10,20);
+
+
         Button button = new Button(this);
-        button.setText(name);
+        //button.setText(name);
         button.setTag(code);
-        button.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        button.setLayoutParams(params);
+        button.setBackground(getResources().getDrawable(R.drawable.bus_stop));
         bottomSheetLLaddButtons.addView(button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -685,58 +721,6 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-    }
-
-    public static void expand(final View v) {
-        v.measure(CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT);
-        final int targetWidth = v.getMeasuredWidth();
-
-        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
-        v.getLayoutParams().width = 1;
-        v.setVisibility(View.VISIBLE);
-        Animation a = new Animation() {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                v.getLayoutParams().width = interpolatedTime == 1
-                        ? CardView.LayoutParams.WRAP_CONTENT
-                        : (int) (targetWidth * interpolatedTime);
-                v.requestLayout();
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-
-        // 1dp/ms
-        a.setDuration((int) (targetWidth / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
-    }
-
-    public static void collapse(final View v) {
-        final int initialHeight = v.getMeasuredWidth();
-
-        Animation a = new Animation() {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if (interpolatedTime == 1) {
-                    v.setVisibility(View.GONE);
-                } else {
-                    v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
-                    v.requestLayout();
-                }
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-
-        // 1dp/ms
-        a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
     }
 
     protected void simpleAnimationfadein(View view) {

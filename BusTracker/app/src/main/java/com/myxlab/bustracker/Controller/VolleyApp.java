@@ -238,12 +238,25 @@ public class VolleyApp {
                                     String code = String.valueOf(json.getString("code"));
                                     Double lat = Double.valueOf(json.getString("lat"));
                                     Double lon = Double.valueOf(json.getString("lon"));
-                                    JSONArray bus = json.getJSONArray("buses");
                                     List<String> busItem = new LinkedList<>();
+                                    /*if (json.getString("buses") != null) {
+                                        String buses = String.valueOf(json.getString("buses"));
+                                        busItem.add(buses);
+                                    }else{
+                                        String buses = "N/A";
+                                        busItem.add(buses);
 
-                                    for (int j = 0; j < bus.length(); j++) {
-                                        busItem.add(bus.getString(j));
+                                    }*/
+
+                                    if (json.getJSONArray("buses") != null){
+                                        JSONArray bus = json.getJSONArray("buses");
+                                        for (int j = 0; j < bus.length(); j++) {
+                                            busItem.add(bus.getString(j));
+                                        }
+                                    } else {
+                                        busItem.add("N/A");
                                     }
+
 
                                     BusStop busStop = new BusStop(name, code, lat, lon, busItem);
                                     busStops.add(busStop);
@@ -574,6 +587,28 @@ public class VolleyApp {
                                         poi.setLon(String.valueOf(json.getString("longitud")));
                                         poi.setType(String.valueOf(json.getString("category")));
                                         poi.setCode(String.valueOf(json.getString("code")));
+                                        String phone = String.valueOf(json.getString("phone"));
+                                        String email =String.valueOf(json.getString("email"));
+                                        String website = String.valueOf(json.getString("website"));
+
+                                        if (phone!= null){
+                                            poi.setPhone(phone);
+                                        }else{
+                                            poi.setPhone("999");
+                                        }
+                                        if (email!= null){
+                                            poi.setEmail(email);
+                                        }else{
+                                            poi.setEmail("abc");
+                                        }
+                                        if (website!= null){
+                                            poi.setWebsite(website);
+                                        }else{
+                                            poi.setWebsite("zxc");
+                                        }
+
+
+
                                         dbHandler.addPOI(poi);
 
                                     } catch (JSONException e) {

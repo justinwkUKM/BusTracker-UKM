@@ -22,7 +22,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:background="@drawable/border"
+            android:background="@drawable/blueborder"
             android:layout_height="match_parent">
 
             <com.android.volley.toolbox.NetworkImageView
@@ -102,6 +102,7 @@
                         android:paddingBottom="8dp"
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
+                        android:id="@+id/tvpoiAddress"
                         android:text="UKM, Bangi 43600"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -168,6 +169,7 @@
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
                         android:text="603-XXXXXXXX"
+                        android:id="@+id/tvpoiPhone"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 </LinearLayout>
@@ -233,6 +235,7 @@
                         android:paddingLeft="16dp"
                         android:paddingTop="16dp"
                         android:text="enquiry@ukm.com.my"
+                        android:id="@+id/tvpoiEmail"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 </LinearLayout>
