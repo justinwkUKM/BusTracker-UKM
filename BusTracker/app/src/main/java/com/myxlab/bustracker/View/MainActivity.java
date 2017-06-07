@@ -338,6 +338,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tab.getIcon().setColorFilter(Color.parseColor("#F44336"), PorterDuff.Mode.SRC_IN);
+                Log.e("Tab", tab.getPosition()+"");
 
             }
 
@@ -348,6 +349,10 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 1){
+                    AlertsFragment alertsFragment = new AlertsFragment();
+                    alertsFragment.callUrl();
+                }
             }
         });
     }

@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.List;
 
 public class AlertsFragment extends Fragment {
 
+    private static final String TAG = AlertsFragment.class.getSimpleName();
     private RecyclerView recyclerViewAlerts;
     private List<AlertsData> alertsDatasList = new ArrayList<>();
     private AlertsAdapter alertsAdapter;
@@ -34,26 +36,64 @@ public class AlertsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alerts, container, false);
         recyclerViewAlerts = (RecyclerView) view.findViewById(R.id.recyclerViewAlerts);
-        initVar();
-        UserInstance.getInstance().getVolleyApp().getAlertsData(getString(R.string.url_get_alerts),getActivity(),this);
-        //populateData();
         return view;
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean visible)
+    {
+        super.setUserVisibleHint(visible);
+        if (visible && isResumed())
+        {
+            Log.e(TAG, "visible && isResumed()");
+
+            //Only manually call onResume if fragment is already visible
+            //Otherwise allow natural fragment lifecycle to call onResume
+            //onResume();
+            callUrl();
+        }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (!getUserVisibleHint())
+        {
+            Log.e(TAG, "!getUserVisibleHint");
+
+            return;
+        }else
+            Log.e(TAG, "getUserVisibleHint");
+
+        callUrl();
+        //INSERT CUSTOM CODE HERE
+
+    }
+
+    public void callUrl() {
+        Log.e(TAG, "callURL");
+        UserInstance.getInstance().getVolleyApp().getAlertsData(getString(R.string.url_get_alerts),getActivity(),this);
     }
 
     private void initVar() {
         alertsAdapter = new AlertsAdapter(alertsDatasList, getActivity());
         recyclerViewAlerts.setHasFixedSize(true);
         recyclerViewAlerts.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
         recyclerViewAlerts.setLayoutManager(mLayoutManager);
         recyclerViewAlerts.setItemAnimator(new DefaultItemAnimator());
         recyclerViewAlerts.setAdapter(alertsAdapter);
     }
 
 
-    public void populateData(){
+    public void populateData( List<AlertsData> alertsDatasLists){
 
-
+        alertsDatasList = alertsDatasLists;
+        initVar();
         /*AlertsData alertsData = new AlertsData("Bus Zone 2 Delay (26/10/2017 5:30PM)", "Delay due to traffic");
         alertsDatasList.add(alertsData);
 
@@ -94,6 +134,17 @@ public class AlertsFragment extends Fragment {
         alertsDatasList.add(alertsData);
 
         alertsAdapter.notifyDataSetChanged();*/
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            Log.e(TAG, ((Object) this).getClass().getSimpleName() + " is NOT on screen");
+        }
+        else
+        {
+            Log.e(TAG, ((Object) this).getClass().getSimpleName() + " is on screen");
+        }
     }
 
 }

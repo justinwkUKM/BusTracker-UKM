@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/issueAlertItem"
         android:text="@string/lorem_ipsum_short"
-        android:layout_below="@id/subject"
+        android:layout_below="@id/titleAlertItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
