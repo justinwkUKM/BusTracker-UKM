@@ -43,7 +43,7 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.ViewHolder
 
         holder.title.setText(alertsData.getSubject());
         holder.title.setTextColor(context.getResources().getColor(R.color.colorAccent));
-        holder.issue.setText(alertsData.getType());
+        holder.issue.setText(alertsData.getMessage() +" - CreatedAt "+ alertsData.getCreatedAt()+" - ID "+alertsData.getReport_id() +" - RID "+alertsData.getReporter_id());
     }
 
     @Override

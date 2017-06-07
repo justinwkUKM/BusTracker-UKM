@@ -803,8 +803,8 @@ public class VolleyApp {
                                 }
                             }
 
-                            UserInstance.getInstance().setAlertsDataList(alertsDatas);
-                            alertsFragment.populateData();
+                            //UserInstance.getInstance().setAlertsDataList(alertsDatas);
+                            alertsFragment.populateData(alertsDatas);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
