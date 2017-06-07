@@ -15,8 +15,11 @@ public class UserInstance {
     private long lastRequestTime;
     private RequestQueue queue;
     private List<BusStop> busStopList;
+    private List<AlertsData> alertsDataList;
     private List<Bus> buses;
     private MainActivity mainActivity;
+
+
 
     private static final UserInstance holder = new UserInstance();
 
@@ -68,6 +71,14 @@ public class UserInstance {
 
     public void setBusStopList(List<BusStop> busStopList) {
         this.busStopList = busStopList;
+    }
+
+    public List<AlertsData> getAlertsDataList() {
+        return alertsDataList;
+    }
+
+    public void setAlertsDataList(List<AlertsData> alertsDataList) {
+        this.alertsDataList = alertsDataList;
     }
 
     public MainActivity getMainActivity() {

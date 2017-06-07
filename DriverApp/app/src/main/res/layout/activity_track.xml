@@ -8,17 +8,81 @@
     android:orientation="vertical"
     tools:context="com.driverapp.View.TrackActivity">
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:id="@+id/topCardView"
+        android:layout_height="100dp"
+
+        >
+        <RelativeLayout
+            android:id="@+id/journey_title_tracker"
+            android:layout_width="match_parent"
+            android:background="@color/colorAccent"
+            android:layout_height="match_parent">
+
+           <!-- <ImageView
+                android:layout_width="1000dp"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/driver_bus" />-->
+
+            <com.github.glomadrian.grav.GravView
+                android:id="@+id/grav"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                app:alpha_from="100"
+                app:alpha_max_duration="3000"
+                app:alpha_min_duration="1600"
+                app:alpha_to="200"
+                app:animationGenerators="@array/GravAnimations"
+                app:ball_from_size="2dp"
+                app:ball_to_size="5dp"
+                app:colorGenerator="com.github.glomadrian.grav.generator.paint.OneColorGenerator"
+                app:gravGenerator="com.github.glomadrian.grav.generator.grav.BallGenerator"
+                app:percent_points_array="@array/walla_points_percent_points"
+                app:pointGenerator="com.github.glomadrian.grav.generator.point.PercentPointGenerator"
+                app:shake_direction="vertical"
+                app:shake_max_duration="3500"
+                app:shake_min_duration="1100"
+                app:shake_variance="3dp"
+                app:single_color="#FFF" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:padding="@dimen/medium_dp"
+                android:text="Start your journey"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:id="@+id/alertIcon"
+                android:onClick="alertIcon"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_alert_red_24dp" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
     <ScrollView
         android:layout_width="match_parent"
+        android:layout_below="@id/topCardView"
         android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/activity_horizontal_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="5dp">
+            >
 
             <!--<LinearLayout
                 android:id="@+id/journey_title_tracker"
@@ -46,135 +110,102 @@
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
             </LinearLayout>-->
-            <RelativeLayout
-                android:id="@+id/journey_title_tracker"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:id="@+id/user_icon_tracker"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="10dp"
+    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="1000dp"
-                    android:layout_height="150dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/driver_bus" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
 
-                <com.github.glomadrian.grav.GravView
-                    android:id="@+id/grav"
-                    android:layout_width="200dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
-                    app:alpha_from="100"
-                    app:alpha_max_duration="3000"
-                    app:alpha_min_duration="1600"
-                    app:alpha_to="200"
-                    app:animationGenerators="@array/GravAnimations"
-                    app:ball_from_size="2dp"
-                    app:ball_to_size="5dp"
-                    app:colorGenerator="com.github.glomadrian.grav.generator.paint.OneColorGenerator"
-                    app:gravGenerator="com.github.glomadrian.grav.generator.grav.BallGenerator"
-                    app:percent_points_array="@array/walla_points_percent_points"
-                    app:pointGenerator="com.github.glomadrian.grav.generator.point.PercentPointGenerator"
-                    app:shake_direction="vertical"
-                    app:shake_max_duration="3500"
-                    app:shake_min_duration="1100"
-                    app:shake_variance="3dp"
-                    app:single_color="#FFF" />
+        >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center"
-                    android:padding="@dimen/medium_dp"
-                    android:text="Start your journey"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
-            </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_directions" />
+
+            <TextView
+                android:id="@+id/track_next_bus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/medium_dp"
+                android:paddingRight="@dimen/large_dp"
+                android:text="@string/next_bus_stop_null"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+
+            android:layout_margin="@dimen/dp"
+            android:layout_weight="1"
+            android:onClick="showDetailsJourney"
+
+            app:cardBackgroundColor="@color/colorAccent">
 
             <LinearLayout
-                android:id="@+id/user_icon_tracker"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/journey_title_tracker"
-                android:orientation="horizontal"
-                android:padding="5dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/activity_horizontal_margin">
 
-                >
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_gravity="center"
-                    android:layout_weight="1">
+                    android:src="@drawable/ic_assignment" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_directions" />
-
-                    <TextView
-                        android:id="@+id/track_next_bus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingLeft="@dimen/medium_dp"
-                        android:paddingRight="@dimen/large_dp"
-                        android:text="@string/next_bus_stop_null"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="center"
-
-                    android:layout_margin="@dimen/dp"
-                    android:layout_weight="1"
-                    android:onClick="showDetailsJourney"
-
-                    app:cardBackgroundColor="@color/colorAccent">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/activity_horizontal_margin">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_assignment" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:maxLines="1"
-                            android:paddingLeft="@dimen/medium_dp"
-                            android:paddingRight="@dimen/large_dp"
-                            android:text="@string/details"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </android.support.v7.widget.CardView>
+                    android:layout_gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/medium_dp"
+                    android:paddingRight="@dimen/large_dp"
+                    android:text="@string/details"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
             </LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/user_icon_tracker"
                 android:background="@drawable/border"
-
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -212,10 +243,8 @@
                     style="?android:textAppearanceMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:background="@drawable/cardlayout_colorgreen"
+                    android:layout_margin="10dp"
+                    android:background="@color/green"
                     android:onClick="startJourney"
                     android:text="@string/start_journey"
                     android:textColor="@color/white"
@@ -228,6 +257,7 @@
 
     <FrameLayout
         android:id="@+id/setup_fragment_layout"
+        android:layout_below="@id/topCardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

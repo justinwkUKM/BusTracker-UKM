@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/medium_dp"
                 android:gravity="center_vertical"
-                android:text="@string/title"
+                android:text="@string/subject"
                 android:textColor="@android:color/white" />
 
             <RelativeLayout
