@@ -31,12 +31,14 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.myxlab.bustracker.DBHandler;
+import com.myxlab.bustracker.Model.AlertsData;
 import com.myxlab.bustracker.Model.Auth;
 import com.myxlab.bustracker.Model.Bus;
 import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.POI;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
+import com.myxlab.bustracker.View.AlertsFragment;
 import com.myxlab.bustracker.View.LoginActivity;
 import com.myxlab.bustracker.View.MainActivity;
 import com.myxlab.bustracker.View.MapsFragment;
@@ -308,29 +310,31 @@ public class VolleyApp {
         params.put(BUS_STOP, busStop);
         params.put(BUS, bus);
         JSONObject parameters = new JSONObject(params);
-
+        Log.e("getETAParams",bus +"/"+ busStop);
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
-                        String eta = null;
+                        Toast.makeText(mainActivity, response.toString() , Toast.LENGTH_SHORT).show();
+                       String eta = null;
                         String etaTo = null;
                         Double lat = null;
                         Double lon = null;
 
                         try {
-                            JSONArray resultArray = response.getJSONArray("results");
+                            JSONObject obj = response.getJSONObject("results");
 
-                            JSONObject obj = resultArray.getJSONObject(0);
+                            //JSONObject obj = resultArray.getJSONObject(0);
 
                             eta = obj.getString("eta");
                             etaTo = "to " + busStop;
                             lat = Double.valueOf(obj.getString("lat"));
                             lon = Double.valueOf(obj.getString("lon"));
+                            Log.e("getETA",eta + " "+ etaTo +" "+ lat + " "+lon+ " ");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Log.e("getETA",e.toString());
                         }
 
                         assert eta != null;
@@ -346,7 +350,8 @@ public class VolleyApp {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        error.printStackTrace();
+                        Log.e("getETA onErrorResponse",error.toString());
                     }
                 });
 
@@ -761,6 +766,82 @@ public class VolleyApp {
             return Response.error(new ParseError(je));
         }
     }
+
+
+    public void getAlertsData(String url, final Context context, final AlertsFragment alertsFragment) {
+        String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+
+                        try {
+                            JSONArray resultArray = response.getJSONArray("report");
+
+                            List<AlertsData> alertsDatas = new LinkedList<>();
+
+                            for (int i = 0; i < resultArray.length(); i++) {
+
+                                try {
+                                    JSONObject json = resultArray.getJSONObject(i);
+
+                                    String id = String.valueOf(json.getInt("id"));
+                                    String reporter_id = String.valueOf(json.getInt("reporter_id"));
+                                    String subject = String.valueOf(json.getString("subject"));
+                                    String message = String.valueOf(json.getString("message"));
+                                    String type = String.valueOf(json.getString("type"));
+                                    String created = String.valueOf(json.getString("created"));
+
+
+                                    AlertsData alertsData = new AlertsData(subject,type,message,reporter_id,id,created);
+                                    alertsDatas.add(alertsData);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            UserInstance.getInstance().setAlertsDataList(alertsDatas);
+                            alertsFragment.populateData();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        volleyErrorResponse(error, context);
+                    }
+                }) {
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+
+                return volleyParseNetworkResponse(response);
+            }
+
+        };
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    addQueue(jsonRequest);
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+
+    }
+
+
+
 
     private boolean checkQueueServeTime() {
 

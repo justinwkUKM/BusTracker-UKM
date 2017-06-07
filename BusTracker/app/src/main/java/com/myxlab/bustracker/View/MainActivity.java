@@ -63,14 +63,14 @@ public class MainActivity extends BaseActivity {
 
     public static final String BUS_STOP_KEY = "BUS STOP KEY";
     public static final String BUS_STOP = "busStop";
-    public static final String BUS = " ";
+    public static final String BUS = "bus";
     public TabLayout tabLayout;
     private ArrayList<String> tabs;
     private ViewPager viewPager = null;
     private FloatingActionMenu fab_menu;
     private BottomSheetBehavior infoBottomSheet, bottomSheetBusStop, bottomSheetBus, bottomSheetETA;
     private LinearLayout infoHeader, bottomSheetLLaddButtons;
-    private TextView tvInfoTitle, tvInfoTitleExpand, busTitle, busStopTitle, tv_chip_text, busETAName, busETAFrom, busETATV, etaText, tvpoiBusStops, tvPoiAddress, tvPoiPhone, tvPoiEmail;
+    private TextView tvInfoTitle, infoSwipeTitle, tvInfoTitleExpand, busTitle, busStopTitle, tv_chip_text, busETAName, busETAFrom, busETATV, etaText, tvpoiBusStops, tvPoiAddress, tvPoiPhone, tvPoiEmail;
     private NetworkImageView ivInfoIMG;
     public Context context;
     public EditText search;
@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         initBottomSheet();
-        infoHeader = (LinearLayout) findViewById(R.id.infoHeader);
+        //infoHeader = (LinearLayout) findViewById(R.id.infoHeader);
         ivInfoIMG = (NetworkImageView) findViewById(R.id.infoIMG);
         searchCardView = (CardView) findViewById(R.id.search_card_view);
         icon_search = (ImageView) findViewById(R.id.icon_search);
@@ -213,10 +213,10 @@ public class MainActivity extends BaseActivity {
         infoBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
         tvInfoTitle = (TextView) findViewById(R.id.infoSwipeTitle);
         tvInfoTitleExpand = (TextView) findViewById(R.id.infoTitleExpand);
+        infoSwipeTitle = (TextView) findViewById(R.id.infoSwipeTitle);
         tvPoiAddress = (TextView) findViewById(R.id.tvpoiAddress);
         tvPoiPhone = (TextView) findViewById(R.id.tvpoiPhone);
         tvPoiEmail = (TextView) findViewById(R.id.tvpoiEmail);
-
         tvpoiBusStops = (TextView) findViewById(R.id.tv_poi_nearby_busStops);
         bottomSheetLLaddButtons = (LinearLayout) findViewById(R.id.llBusStopButtons);
         //bottomSheetLLaddButtons.setWeightSum(1);
@@ -269,6 +269,14 @@ public class MainActivity extends BaseActivity {
                 } else {
                     fab_menu.open(true);
                 }
+            }
+        });
+
+        FloatingActionButton fab_alert = (FloatingActionButton) findViewById(R.id.fab_alert);
+        fab_alert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "fabAlert", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -395,7 +403,7 @@ public class MainActivity extends BaseActivity {
         tvPoiEmail.setText(email);
 
         mapsFragment.addMarker(lat, lon, code, type, focus);
-//        imageLoaders(pic);
+        imageLoaders(code);
     }
 
     public void BusBottomSheetCall(String title) {
@@ -432,12 +440,14 @@ public class MainActivity extends BaseActivity {
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     tabLayout.setVisibility(View.GONE);
-                    infoHeader.setVisibility(View.GONE);
+                    infoSwipeTitle.setVisibility(View.GONE);
+                    //infoHeader.setVisibility(View.GONE);
                 }
 
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                     tabLayout.setVisibility(View.VISIBLE);
-                    infoHeader.setVisibility(View.VISIBLE);
+                    infoSwipeTitle.setVisibility(View.VISIBLE);
+                    //infoHeader.setVisibility(View.VISIBLE);
                     fab_menu.setVisibility(View.GONE);
                 }
 
@@ -519,7 +529,7 @@ public class MainActivity extends BaseActivity {
 
     private void imageLoaders(String string) {
         ImageLoader imageLoader = UserInstance.getInstance().getVolleyApp().getInstance(context).getImageLoader();
-        ivInfoIMG.setImageUrl("http://faizhasan.info/pic/" + string, imageLoader);
+        ivInfoIMG.setImageUrl("http://bt.faizhasan.info/pages/img/poi/" + string+".jpg", imageLoader);
     }
 
     private void textWatcher() {

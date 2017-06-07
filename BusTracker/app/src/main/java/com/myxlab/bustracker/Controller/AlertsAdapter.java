@@ -1,7 +1,6 @@
 package com.myxlab.bustracker.Controller;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,9 +41,9 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.ViewHolder
         AlertsData alertsData = this.alertsData.get(position);
         fontChanger.replaceFonts((ViewGroup) this.view);
 
-        holder.title.setText(alertsData.getTitle());
+        holder.title.setText(alertsData.getSubject());
         holder.title.setTextColor(context.getResources().getColor(R.color.colorAccent));
-        holder.issue.setText(alertsData.getIssue());
+        holder.issue.setText(alertsData.getType());
     }
 
     @Override

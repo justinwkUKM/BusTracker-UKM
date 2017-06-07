@@ -27,15 +27,22 @@
         <activity
             android:name=".View.LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".View.JourneyActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".View.TrackActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
-        <service android:name=".Service.LocationListenerService" android:stopWithTask="true"/>
+        <activity
+            android:name=".View.TrackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".Service.LocationListenerService"
+            android:stopWithTask="true" />
+
+        <activity android:name=".View.AlertActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

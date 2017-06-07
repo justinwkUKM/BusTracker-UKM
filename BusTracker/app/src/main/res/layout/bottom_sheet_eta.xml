@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/medium_dp"
             android:padding="@dimen/large_dp"
-            android:text="@string/title"
+            android:text="@string/subject"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/white" />
 
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/etaText"
                     android:padding="@dimen/medium_dp"
-                    android:text="@string/title"
+                    android:text="@string/subject"
                     android:textColor="@android:color/white" />
 
             </LinearLayout>

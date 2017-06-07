@@ -4,6 +4,7 @@
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
+    <string name="action_submit">Submit</string>
     <string name="action_next">Next</string>
     <string name="action_sign_up">Sign Up</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -57,13 +58,15 @@
     <string name="url_driver">http://api.faizhasan.info/api/v1/sopirlog</string>
     <string name="url_bus_location">http://api.faizhasan.info/api/v1/translocate</string>
     <string name="url_bus_status">http://api.faizhasan.info/api/v1/transtatus</string>
+    <string name="url_alert">http://api.faizhasan.info/api/v1/adu</string>
     <string name="url_bus_stop">http://api.faizhasan.info/api/v1/terminal</string>
     <string name="url_bus_log">http://api.faizhasan.info/api/v1/translocatelog</string>
     <string name="url_dummy">http://vbus.faizhasan.info/dummybus.php</string>
     <string name="new_user">Not a Member yet? Sign Up here.</string>
     <string name="show_pwd">Show Password</string>
     <string name="hide_pwd">Hide Password</string>
-
+    <string name="prompt_subject">Subject</string>
+    <string name="prompt_message">Message</string>
      <string name="wallapop">M874.323897,513.518484 C860.358769,445.332884 816.382769,412.921263
     805.267282,406.191832 C800.657846,403.400084 797.676103,399.358653 797.88841,392.435874
     C801.757128,267.085474 710.243077,158.867537 582.509333,159.174063 C500.917128,159.372126

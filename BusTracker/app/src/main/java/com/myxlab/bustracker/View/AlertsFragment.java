@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.myxlab.bustracker.Controller.AlertsAdapter;
 import com.myxlab.bustracker.Model.AlertsData;
+import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 
 import java.util.ArrayList;
@@ -34,7 +35,8 @@ public class AlertsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_alerts, container, false);
         recyclerViewAlerts = (RecyclerView) view.findViewById(R.id.recyclerViewAlerts);
         initVar();
-        populateData();
+        UserInstance.getInstance().getVolleyApp().getAlertsData(getString(R.string.url_get_alerts),getActivity(),this);
+        //populateData();
         return view;
     }
 
@@ -48,9 +50,11 @@ public class AlertsFragment extends Fragment {
         recyclerViewAlerts.setAdapter(alertsAdapter);
     }
 
-    private void populateData(){
 
-        AlertsData alertsData = new AlertsData("Bus Zone 2 Delay (26/10/2017 5:30PM)", "Delay due to traffic");
+    public void populateData(){
+
+
+        /*AlertsData alertsData = new AlertsData("Bus Zone 2 Delay (26/10/2017 5:30PM)", "Delay due to traffic");
         alertsDatasList.add(alertsData);
 
         alertsData = new AlertsData("Bus Zone 3U Delay (26/10/2017 4:30PM)", "Delay due to traffic");
@@ -89,7 +93,7 @@ public class AlertsFragment extends Fragment {
         alertsData = new AlertsData("Bus Zone 2 Delay (26/9/2017 1:57PM)", "Delay due to tyre punctured");
         alertsDatasList.add(alertsData);
 
-        alertsAdapter.notifyDataSetChanged();
+        alertsAdapter.notifyDataSetChanged();*/
     }
 
 }

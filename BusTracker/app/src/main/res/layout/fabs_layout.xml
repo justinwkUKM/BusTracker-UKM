@@ -36,6 +36,17 @@
             app:fab_label="Refresh Database"
             style="@style/MenuButtonsSmall"/>
 
-    </com.github.clans.fab.FloatingActionMenu>
+
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_query_builder"
+        app:fab_label="New Menu"
+        style="@style/MenuButtonsSmall"/>
+
+</com.github.clans.fab.FloatingActionMenu>
+
 
 </RelativeLayout>

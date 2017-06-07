@@ -572,6 +572,63 @@ public class VolleyApp {
         }
     }
 
+    public void submitAlert(final String url, final String subject,final String message, final String report_type, final int reporter_id, final Context context) {
+
+        //String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
+        String api = url ;
+
+        Map<String, String> params = new HashMap<>();
+        params.put("subject",subject);
+        params.put("message", message);
+        params.put("report_type",report_type );
+        params.put("reporter_id", String.valueOf(reporter_id));
+       
+        JSONObject parameters = new JSONObject(params);
+
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, api, parameters,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Toast.makeText(context, "Success " + response.getString("status"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        volleyErrorResponse(error, context);
+                    }
+                }){
+
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response){
+
+                return volleyParseNetworkResponse(response);
+            }
+
+        };
+
+        if (!checkQueueServeTime()){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (context != null){
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+
+
     public void trackBus(final String url, final Context context, double lat, double lon) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();

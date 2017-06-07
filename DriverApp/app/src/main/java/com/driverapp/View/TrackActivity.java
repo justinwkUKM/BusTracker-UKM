@@ -263,6 +263,13 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
             }
         }).show();
 
+
+
+    }
+
+    public void alertIcon(View view){
+        Intent intent = new Intent(TrackActivity.this, AlertActivity.class);
+        startActivity(intent);
     }
 
     public void trackBus() {

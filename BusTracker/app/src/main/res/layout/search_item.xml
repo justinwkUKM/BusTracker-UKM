@@ -19,7 +19,7 @@
         android:padding="@dimen/medium_dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/title"
+        android:text="@string/subject"
         android:layout_gravity="center_vertical"
         android:maxLines="1"/>
 

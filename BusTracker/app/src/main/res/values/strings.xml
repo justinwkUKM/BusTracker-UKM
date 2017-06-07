@@ -16,7 +16,7 @@
     <string name="eta">ETA</string>
     <string name="lorem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
     <string name="lorem_ipsum_short">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
-    <string name="title">Lorem ipsum</string>
+    <string name="subject">Lorem ipsum</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -141,9 +141,11 @@
     <string name="url_login">http://api.faizhasan.info/api/v1/came_in</string>
     <string name="url_poi_list">http://api.faizhasan.info/api/v1/attractpoint</string>
     <string name="url_bus_stop_list">http://api.faizhasan.info/api/v1/terminal</string>
+    <string name="url_get_alerts">http://api.faizhasan.info/api/v1/adu</string>
     <string name="url_poi_bus_stop_list">http://api.faizhasan.info/api/v1/nearestpoi</string>
     <string name="url_bus">http://api.faizhasan.info/api/v1/bus</string>
-    <string name="url_eta">http://vbus.faizhasan.info/getETAv2.php</string>
+    <string name="url_eta_old">http://vbus.faizhasan.info/getETAv2.php</string>
+    <string name="url_eta">http://api.faizhasan.info/api/v1/eta</string>
 
      <string name="wallapop">M874.323897,513.518484 C860.358769,445.332884 816.382769,412.921263
     805.267282,406.191832 C800.657846,403.400084 797.676103,399.358653 797.88841,392.435874

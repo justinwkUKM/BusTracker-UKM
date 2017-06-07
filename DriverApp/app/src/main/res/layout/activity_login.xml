@@ -24,12 +24,70 @@
 
         android:visibility="gone" />
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:id="@+id/topCardView"
+        android:layout_height="100dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="10dp">
 
+        <RelativeLayout
+            android:id="@+id/relativeImageLayout"
+            android:layout_width="match_parent"
+            android:background="@color/colorAccent"
+            android:layout_height="match_parent">
+
+          <!--  <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/driver_bus" />-->
+
+            <com.github.glomadrian.grav.GravView
+                android:id="@+id/grav"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                app:alpha_from="100"
+                app:alpha_max_duration="3000"
+                app:alpha_min_duration="1600"
+                app:alpha_to="200"
+                app:animationGenerators="@array/GravAnimations"
+                app:ball_from_size="2dp"
+                app:ball_to_size="5dp"
+                app:colorGenerator="com.github.glomadrian.grav.generator.paint.OneColorGenerator"
+                app:gravGenerator="com.github.glomadrian.grav.generator.grav.BallGenerator"
+                app:percent_points_array="@array/walla_points_percent_points"
+                app:pointGenerator="com.github.glomadrian.grav.generator.point.PercentPointGenerator"
+                app:shake_direction="vertical"
+                app:shake_max_duration="3500"
+                app:shake_min_duration="1100"
+                app:shake_variance="3dp"
+                app:single_color="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:padding="@dimen/medium_dp"
+                android:text="Welcome"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
 
     <ScrollView
         android:id="@+id/login_form"
+        android:layout_below="@id/topCardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_centerInParent="true"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/email_login_form"
@@ -37,41 +95,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/relativeImageLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/driver_bus" />
-
-                <com.github.glomadrian.grav.GravView
-                    android:id="@+id/grav"
-                    android:layout_width="200dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
-                    app:alpha_from="100"
-                    app:alpha_max_duration="3000"
-                    app:alpha_min_duration="1600"
-                    app:alpha_to="200"
-                    app:animationGenerators="@array/GravAnimations"
-                    app:ball_from_size="2dp"
-                    app:ball_to_size="5dp"
-                    app:colorGenerator="com.github.glomadrian.grav.generator.paint.OneColorGenerator"
-                    app:gravGenerator="com.github.glomadrian.grav.generator.grav.BallGenerator"
-                    app:percent_points_array="@array/walla_points_percent_points"
-                    app:pointGenerator="com.github.glomadrian.grav.generator.point.PercentPointGenerator"
-                    app:shake_direction="vertical"
-                    app:shake_max_duration="3500"
-                    app:shake_min_duration="1100"
-                    app:shake_variance="3dp"
-                    app:single_color="#FFF" />
-
-            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

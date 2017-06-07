@@ -22,6 +22,7 @@ public class NavigationActivity extends BaseActivity {
 
     public AppBarLayout appBarLayout;
     int busStopIndex;
+
 //    private List<Bus> bus = new ArrayList<>();
 //    private List<BusETA> busETAs = new ArrayList<>();
 //    int pendingRequest = 0;
