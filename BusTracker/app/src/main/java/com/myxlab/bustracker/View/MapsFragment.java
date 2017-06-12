@@ -317,13 +317,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         switch (name) {
             case "Bus Zone 3U":
-                markerIcon = R.drawable.bus_zone_3u;
+                markerIcon = R.drawable.ic_bus_3u;
                 break;
             case "Bus Zone 2":
-                markerIcon = R.drawable.bus_zone_2;
+                markerIcon = R.drawable.ic_bus_2;
                 break;
             case "Bus Zone 6":
-                markerIcon = R.drawable.bus_zone_6;
+                markerIcon = R.drawable.ic_bus_6;
                 break;
             default:
                 markerIcon = R.drawable.ic_directions;
