@@ -10,11 +10,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
@@ -331,8 +335,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initTabsIcons() {
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_map);
+        Drawable mapIcon = ContextCompat.getDrawable(context, R.drawable.ic_map);
+        tabLayout.getTabAt(0).setIcon(mapIcon);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_priority_high);
+        tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#F44336"), PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#F44336"), PorterDuff.Mode.SRC_IN);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -344,7 +351,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                tab.getIcon().setColorFilter(Color.parseColor("#FFD43A2F"), PorterDuff.Mode.SRC_IN);
+                tab.getIcon().setColorFilter(Color.parseColor("#666666"), PorterDuff.Mode.SRC_IN);
             }
 
             @Override

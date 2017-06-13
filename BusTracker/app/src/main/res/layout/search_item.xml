@@ -6,6 +6,7 @@
 
     <ImageView
         android:id="@+id/place_icon"
+        android:tint="@color/colorAccent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_place"
