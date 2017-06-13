@@ -34,8 +34,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:tint="@color/white"
                     android:paddingBottom="@dimen/small_dp"
-                    android:src="@drawable/ic_faculty" />
+                    android:src="@drawable/ic_faculty"/>
 
                 <TextView
                     android:id="@+id/faculty_expand_text"
@@ -76,6 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingBottom="@dimen/small_dp"
+                    android:tint="#fff"
                     android:src="@drawable/ic_hotel" />
 
                 <TextView
@@ -117,7 +119,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingBottom="@dimen/small_dp"
-                    android:src="@drawable/ic_account_balance" />
+                    android:tint="@color/white"
+                    android:src="@drawable/ic_account_balance"
+                    />
 
                 <TextView
                     android:id="@+id/hall_expand_text"
@@ -157,6 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:paddingBottom="@dimen/small_dp"
+                    android:tint="@color/white"
                     android:src="@drawable/ic_expand_more" />
 
                 <TextView
@@ -176,6 +181,7 @@
 
 
     </LinearLayout>
+
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/expand_layout_category"
