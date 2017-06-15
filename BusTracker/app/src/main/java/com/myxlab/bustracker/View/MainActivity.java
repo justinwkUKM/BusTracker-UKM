@@ -116,6 +116,7 @@ public class MainActivity extends BaseActivity {
         //infoHeader = (LinearLayout) findViewById(R.id.infoHeader);
         ivInfoIMG = (NetworkImageView) findViewById(R.id.infoIMG);
         searchCardView = (CardView) findViewById(R.id.search_card_view);
+        searchCardView.setCardElevation(5);
         icon_search = (ImageView) findViewById(R.id.icon_search);
 
         initTabsIcons();
@@ -141,6 +142,7 @@ public class MainActivity extends BaseActivity {
                 if (search.hasFocus()) {
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.scalein);
                     searchCardView.startAnimation(anim);
+                    searchCardView.setCardElevation(0);
                     anim.setFillAfter(true);
                     simpleAnimationfadein(icon_search);
                     icon_search.setImageDrawable(getResources().getDrawable(R.drawable.ic_search_black));
@@ -158,6 +160,7 @@ public class MainActivity extends BaseActivity {
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.scaleout);
                     searchCardView.startAnimation(anim);
                     anim.setFillAfter(true);
+                    searchCardView.setCardElevation(5);
                     simpleAnimationfadein(icon_search);
                     icon_search.setImageDrawable(getResources().getDrawable(R.drawable.ic_search));
 
@@ -173,7 +176,6 @@ public class MainActivity extends BaseActivity {
                 search_cancel.setVisibility(View.GONE);
             }
         });
-
         iv_chip_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
