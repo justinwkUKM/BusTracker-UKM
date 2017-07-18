@@ -494,6 +494,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         checkBusStopDistance();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     private void checkBusStopDistance() {
 
         int busStopGreenIndex = 0;
@@ -584,7 +590,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_local_florist)));
                 break;
         }
-        map.clear();
+        //map.clear();
         final Marker marker = map.addMarker(markerOptions);
 
         ValueAnimator ani = ValueAnimator.ofFloat(0, 1); //change for (0,1) if you want a fade in

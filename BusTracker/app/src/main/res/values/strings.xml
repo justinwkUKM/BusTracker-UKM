@@ -383,5 +383,5 @@ C68.5809,277.075,273.832,71.8233,527.023,71.8233 Z
 	C582.927,177.05,583.765,161.341,584.651,145.636 Z
   </string>
     <integer name="slide_animation_duration">300</integer>
-    <integer name="slickiest">300</integer>
+
 </resources>
