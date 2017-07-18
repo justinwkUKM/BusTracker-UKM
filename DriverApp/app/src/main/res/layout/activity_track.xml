@@ -9,22 +9,23 @@
     tools:context="com.driverapp.View.TrackActivity">
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
         android:id="@+id/topCardView"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
 
         >
+
         <RelativeLayout
             android:id="@+id/journey_title_tracker"
             android:layout_width="match_parent"
-            android:background="@color/colorAccent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent">
 
-           <!-- <ImageView
-                android:layout_width="1000dp"
-                android:layout_height="150dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/driver_bus" />-->
+            <!-- <ImageView
+                 android:layout_width="1000dp"
+                 android:layout_height="150dp"
+                 android:layout_centerInParent="true"
+                 android:src="@drawable/driver_bus" />-->
 
             <com.github.glomadrian.grav.GravView
                 android:id="@+id/grav"
@@ -60,15 +61,6 @@
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
-            <Button
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="10dp"
-                android:id="@+id/alertIcon"
-                android:onClick="alertIcon"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/ic_alert_red_24dp" />
 
         </RelativeLayout>
 
@@ -76,13 +68,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_below="@id/topCardView"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/topCardView">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <!--<LinearLayout
                 android:id="@+id/journey_title_tracker"
@@ -110,102 +101,101 @@
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
             </LinearLayout>-->
-<android.support.v7.widget.CardView
-    android:layout_width="match_parent"
-    android:id="@+id/user_icon_tracker"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="10dp"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp"
-
-        >
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center"
-            android:layout_weight="1">
-
-            <ImageView
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:id="@+id/user_icon_tracker"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_directions" />
+                app:cardCornerRadius="2dp"
+                app:cardElevation="10dp">
 
-            <TextView
-                android:id="@+id/track_next_bus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/medium_dp"
-                android:paddingRight="@dimen/large_dp"
-                android:text="@string/next_bus_stop_null"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="center"
-
-            android:layout_margin="@dimen/dp"
-            android:layout_weight="1"
-            android:onClick="showDetailsJourney"
-
-            app:cardBackgroundColor="@color/colorAccent">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/activity_horizontal_margin">
-
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_assignment" />
+                    android:orientation="horizontal"
+                    android:padding="5dp"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="@dimen/medium_dp"
-                    android:paddingRight="@dimen/large_dp"
-                    android:text="@string/details"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    >
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_gravity="center"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_directions" />
+
+                        <TextView
+                            android:id="@+id/track_next_bus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="@dimen/medium_dp"
+                            android:paddingRight="@dimen/large_dp"
+                            android:text="@string/next_bus_stop_null"
+                            android:textColor="@color/colorAccent"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center"
+
+                        android:layout_margin="@dimen/dp"
+                        android:layout_weight="1"
+                        android:onClick="showDetailsJourney"
+
+                        app:cardBackgroundColor="@color/colorAccent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/activity_horizontal_margin">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_assignment" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:maxLines="1"
+                                android:paddingLeft="@dimen/medium_dp"
+                                android:paddingRight="@dimen/large_dp"
+                                android:text="@string/details"
+                                android:textColor="@color/white"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
 
 
-        </android.support.v7.widget.CardView>
+                    </android.support.v7.widget.CardView>
 
 
+                </LinearLayout>
 
-    </LinearLayout>
 
-
-</android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/user_icon_tracker"
-                android:background="@drawable/border"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="5dp"
+                android:background="@drawable/border"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -249,16 +239,25 @@
                     android:text="@string/start_journey"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
-            </LinearLayout>
 
+                <Button
+                    android:id="@+id/alertIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:text="Report Issues"
+                    android:textColor="@color/red"
+                    android:onClick="alertIcon" />
+            </LinearLayout>
 
         </RelativeLayout>
     </ScrollView>
 
     <FrameLayout
         android:id="@+id/setup_fragment_layout"
-        android:layout_below="@id/topCardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/topCardView" />
 
 </RelativeLayout>
