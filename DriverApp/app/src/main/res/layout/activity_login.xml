@@ -1,0 +1,220 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:lib="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+
+
+
+    tools:context="com.driverapp.View.LoginActivity">
+
+    <!-- Login progress -->
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+
+
+        android:visibility="gone" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:id="@+id/topCardView"
+        android:layout_height="100dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="10dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeImageLayout"
+            android:layout_width="match_parent"
+            android:background="@color/colorAccent"
+            android:layout_height="match_parent">
+
+          <!--  <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/driver_bus" />-->
+
+            <com.github.glomadrian.grav.GravView
+                android:id="@+id/grav"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                app:alpha_from="100"
+                app:alpha_max_duration="3000"
+                app:alpha_min_duration="1600"
+                app:alpha_to="200"
+                app:animationGenerators="@array/GravAnimations"
+                app:ball_from_size="2dp"
+                app:ball_to_size="5dp"
+                app:colorGenerator="com.github.glomadrian.grav.generator.paint.OneColorGenerator"
+                app:gravGenerator="com.github.glomadrian.grav.generator.grav.BallGenerator"
+                app:percent_points_array="@array/walla_points_percent_points"
+                app:pointGenerator="com.github.glomadrian.grav.generator.point.PercentPointGenerator"
+                app:shake_direction="vertical"
+                app:shake_max_duration="3500"
+                app:shake_min_duration="1100"
+                app:shake_variance="3dp"
+                app:single_color="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:padding="@dimen/medium_dp"
+                android:text="Welcome"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_below="@id/topCardView"
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@drawable/border"
+
+                android:orientation="vertical">
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+
+                    android:paddingTop="@dimen/activity_horizontal_margin">
+
+                    <EditText
+                        android:id="@+id/username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_email_black_24dp"
+                        android:drawablePadding="@dimen/activity_horizontal_margin"
+                        android:gravity="left"
+                        android:hint="@string/prompt_username"
+                        android:imeActionId="@+id/login"
+                        android:imeActionLabel="@string/action_sign_up"
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="faiz" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--android:hint="@string/prompt_username"-->
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_password"
+                        android:drawablePadding="@dimen/activity_horizontal_margin"
+                        android:gravity="left"
+                        android:hint="@string/prompt_password"
+                        android:imeActionId="@+id/login"
+                        android:imeActionLabel="@string/prompt_password"
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="123456" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--android:hint="@string/prompt_password"-->
+                <CheckBox
+                    android:id="@+id/show_hide_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/show_pwd"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/sign_in"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/cardlayout_coloraccent"
+                android:text="@string/action_sign_in"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tvSignUp_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+
+                android:text="@string/new_user"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.github.glomadrian.roadrunner.IndeterminateRoadRunner
+
+        android:id="@+id/material"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        lib:movement_direction="counter_clockwise"
+        lib:path_color="@color/black"
+        lib:stroke_width="2sp"
+        android:layout_centerHorizontal="true"
+        lib:path_data="@string/ukmbustracker"
+        lib:path_original_width="610"
+        lib:path_original_height="610"
+        lib:path_animation_type="material"
+        android:layout_alignParentBottom="true"
+
+       />
+
+</RelativeLayout>

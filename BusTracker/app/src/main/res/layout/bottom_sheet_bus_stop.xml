@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheetBusStop"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    app:behavior_hideable="true"
+    android:visibility="visible"
+    app:behavior_peekHeight="?attr/actionBarSize"
+    android:background="@android:color/white"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/blue">
+
+            <TextView
+                android:id="@+id/busStopTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/medium_dp"
+                android:gravity="center_vertical"
+                android:text="@string/subject"
+                android:textColor="@android:color/white" />
+
+            <RelativeLayout
+                android:padding="@dimen/small_dp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/bsBusStopIco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/oval"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/medium_dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_event_note" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

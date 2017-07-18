@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_journey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.driverapp.View.AlertActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:id="@+id/topCardView"
+        android:layout_height="100dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="10dp"
+        >
+
+        <RelativeLayout
+            android:id="@+id/journey_title_tracker"
+            android:layout_width="match_parent"
+            android:background="@color/colorAccent"
+            android:layout_height="match_parent">
+
+            <!--  <ImageView
+                  android:layout_width="1000dp"
+                  android:layout_height="150dp"
+                  android:layout_centerInParent="true"
+                  android:src="@drawable/driver_bus" />-->
+
+            <com.github.glomadrian.grav.GravView
+                android:id="@+id/grav"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                app:alpha_from="100"
+                app:alpha_max_duration="3000"
+                app:alpha_min_duration="1600"
+                app:alpha_to="200"
+                app:animationGenerators="@array/GravAnimations"
+                app:ball_from_size="2dp"
+                app:ball_to_size="5dp"
+                app:colorGenerator="com.github.glomadrian.grav.generator.paint.OneColorGenerator"
+                app:gravGenerator="com.github.glomadrian.grav.generator.grav.BallGenerator"
+                app:percent_points_array="@array/walla_points_percent_points"
+                app:pointGenerator="com.github.glomadrian.grav.generator.point.PercentPointGenerator"
+                app:shake_direction="vertical"
+                app:shake_max_duration="3500"
+                app:shake_min_duration="1100"
+                app:shake_variance="3dp"
+                app:single_color="#FFF" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:padding="@dimen/medium_dp"
+                android:text="Report Problems"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <ScrollView
+        android:id="@+id/activity_journey_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_below="@id/topCardView"
+        android:layout_height="match_parent">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                   android:layout_margin="@dimen/activity_horizontal_margin" android:background="@drawable/border"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:orientation="vertical">
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+
+                        android:paddingTop="@dimen/activity_horizontal_margin">
+
+                        <EditText
+                            android:id="@+id/etAlertSubject"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_email_black_24dp"
+                            android:drawablePadding="@dimen/activity_horizontal_margin"
+                            android:gravity="left"
+                            android:scrollbars="vertical"
+                            android:hint="@string/prompt_subject"
+                            android:inputType="textMultiLine"
+
+
+                            />
+
+                    </android.support.design.widget.TextInputLayout>
+                    <!--android:hint="@string/prompt_username"-->
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin">
+
+                        <EditText
+                            android:id="@+id/etAlertMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:drawableLeft="@drawable/ic_email_black_24dp"
+                            android:drawablePadding="@dimen/activity_horizontal_margin"
+                            android:gravity="left"
+                            android:lines="4"
+                            android:hint="@string/prompt_message"
+                            android:inputType="text"
+
+                          />
+
+                    </android.support.design.widget.TextInputLayout>
+                    <!--android:hint="@string/prompt_password"-->
+
+                    <Button
+                        android:id="@+id/buttonSubmitAlert"
+                        style="?android:textAppearanceSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/colorAccent"
+                        android:text="@string/action_submit"
+                        android:onClick="submitAlertButton"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+
+
+                </LinearLayout>
+
+
+
+
+    </ScrollView>
+
+</RelativeLayout>
