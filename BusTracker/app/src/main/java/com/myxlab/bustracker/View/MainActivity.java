@@ -674,6 +674,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void closeBottomSheet() {
+
+        mapsFragment.onResume();
+
         infoBottomSheet.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBusStop.setState(BottomSheetBehavior.STATE_HIDDEN);
         bottomSheetBus.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -681,6 +684,8 @@ public class MainActivity extends BaseActivity {
         if (fab_menu.getVisibility() == View.GONE) {
             fab_menu.setVisibility(View.VISIBLE);
         }
+
+
 
     }
 
