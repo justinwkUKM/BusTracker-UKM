@@ -1,8 +1,13 @@
 package com.myxlab.bustracker.View;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +24,7 @@ public class LoginActivity extends BaseActivity{
 
     private EditText mUsernameView, mPasswordView;
     private View mProgressView;
+    private static final int REQUEST_CODE_PERMISSION = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,40 @@ public class LoginActivity extends BaseActivity{
         });
 
         mProgressView = findViewById(R.id.login_progress);
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 2);
+                    return;
+                }
+                // If any permission above not allowed by user, this condition will execute every time, else your else part will work
+            } else {
+                //
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.e("Req Code", "" + requestCode);
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.length >0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
+                // Success Stuff here
+                Log.e("Success Stuff here", "" + requestCode);
+            }
+            else{
+                // Failure Stuff
+                Log.e("Failure Stuff here", "" + requestCode);
+            }
+        }
+
+    }
+
 
     private void attemptLogin() {
 
