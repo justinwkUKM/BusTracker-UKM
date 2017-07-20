@@ -236,7 +236,7 @@ public class VolleyApp {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
         final String dummy = "505";
-        //change rest api
+        //change rest api//
         String driverID = UserInstance.getInstance().getDriver().getDriver_id();
         String deviceID = getUniquePhoneIdentity();
         Map<String, String> params = new HashMap<>();
