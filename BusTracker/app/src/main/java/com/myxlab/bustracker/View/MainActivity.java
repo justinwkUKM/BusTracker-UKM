@@ -1,5 +1,6 @@
 package com.myxlab.bustracker.View;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -8,15 +9,18 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
@@ -88,7 +92,7 @@ public class MainActivity extends BaseActivity {
     public MapsFragment mapsFragment;
     public SearchFragment searchFragment;
     public CardView searchCardView;
-
+    private static final int REQUEST_CODE_PERMISSION = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +130,43 @@ public class MainActivity extends BaseActivity {
         initSearch();
         textWatcher();
     }
+        /*try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 4);
+                    return;
+                }else {
+
+                    Log.e("Success Stuff here", "" + "Success");
+                    recreate();
+                }
+
+            } else {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.e("Req Code", "" + requestCode);
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.length >0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
+                // Success Stuff here
+
+            }
+            else{
+                // Failure Stuff
+                Log.e("Failure Stuff here", "" + requestCode);
+            }
+        }
+
+    }*/
+
 
     private void initSearch() {
         search = (EditText) findViewById(R.id.search);
@@ -591,8 +632,14 @@ public class MainActivity extends BaseActivity {
 
                     search_cancel.setVisibility(View.GONE);
 
-                    if (rv_search_chip.getVisibility() != View.VISIBLE) {
-                        searchFragment.populateData();
+                    if (rv_search_chip.getVisibility() != View.VISIBLE || rv_search_chip != null) {
+
+                        if(searchFragment != null){
+                            searchFragment.populateData();
+                        }else {
+                            Log.e("searchFragment","NULL");
+                        }
+
                     }
 
                 }
@@ -765,5 +812,7 @@ public class MainActivity extends BaseActivity {
                 .duration(600)
                 .start();
     }
+
+
 
 }

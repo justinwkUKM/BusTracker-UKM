@@ -3,6 +3,7 @@ package com.driverapp.Controller;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -44,6 +45,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class VolleyApp {
 
@@ -234,7 +236,9 @@ public class VolleyApp {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
         final String dummy = "505";
-
+        //change rest api
+        String driverID = UserInstance.getInstance().getDriver().getDriver_id();
+        String deviceID = getUniquePhoneIdentity();
         Map<String, String> params = new HashMap<>();
         params.put(DRIVER_ID, dummy);
         params.put(DEVICE_ID, dummy);
@@ -770,5 +774,21 @@ public class VolleyApp {
 
     private int statusValue(boolean status){
         return (status) ? 1 : 0;
+    }
+
+    public String getUniquePhoneIdentity() {
+        String m_szDevIDShort = "35" + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10) + (Build.PRODUCT.length() % 10);
+
+        String serial = null;
+        try {
+            serial = android.os.Build.class.getField("SERIAL").get(null).toString();
+
+            // Go ahead and return the serial for api => 9
+            return "android-" + new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
+        } catch (Exception exception) {
+            // String needs to be initialized
+            serial = "serial"; // some value
+        }
+        return "android-" + new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
     }
 }
