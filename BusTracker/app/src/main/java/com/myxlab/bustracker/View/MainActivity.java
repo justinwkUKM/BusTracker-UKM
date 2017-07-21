@@ -53,6 +53,8 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
 import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Controller.PagerAdapter;
 import com.myxlab.bustracker.DBHandler;
@@ -736,11 +738,37 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public void setETA(String busETA, String busETAto, Double lat, Double lon, Boolean status) {
+    public void setETA(String busETA, String busETAto, Double lat, Double lon, final String polyline, Boolean status) {
         etaText.setVisibility(View.VISIBLE);
         etaProgress.setVisibility(View.GONE);
         busETATV.setText(busETA);
         busETATV.setVisibility(View.VISIBLE);
+        busETATV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Instantiating the class PolylineOptions to plot polyline in the map
+                PolylineOptions polylineOptions = new PolylineOptions();
+
+                // Setting the color of the polyline
+                polylineOptions.color(Color.RED);
+
+                // Setting the width of the polyline
+                polylineOptions.width(10);
+
+                // Adding the taped point to the ArrayList
+                //points.add(point);
+
+                List<LatLng> latLngs = PolyUtil.decode(polyline);
+                // Setting points of polyline
+                polylineOptions.addAll(latLngs);
+
+                // Adding the polyline to the map
+                mapsFragment.map.addPolyline(polylineOptions);
+
+
+            }
+        });
+
         busETAFrom.setText(busETAto);
 
         if (status) {
@@ -748,6 +776,16 @@ public class MainActivity extends BaseActivity {
         }
 
     }
+/*
+    //Add line to map
+    Polyline line = mMap.addPolyline(new PolylineOptions()
+                    .add(new LatLng(location.getLatitude(), location.getLongitude()),
+                            new LatLng(this.destinationLatitude, this.destinationLongitude))
+                    .width(1)
+                    .color(Color.DKGRAY)
+
+//Remove the same line from map
+            line.remove();*/
 
     public void setPOIBusStops(List<String> busStops) {
 

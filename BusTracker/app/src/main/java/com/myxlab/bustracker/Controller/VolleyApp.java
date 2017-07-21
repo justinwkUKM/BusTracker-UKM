@@ -315,21 +315,34 @@ public class VolleyApp {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.e("ResponseETA", response.toString());
                         Toast.makeText(mainActivity, response.toString() , Toast.LENGTH_SHORT).show();
                        String eta = null;
                         String etaTo = null;
                         Double lat = null;
                         Double lon = null;
+                        String polyline = null;
 
                         try {
                             JSONObject obj = response.getJSONObject("results");
 
                             //JSONObject obj = resultArray.getJSONObject(0);
+                            polyline = obj.optString("polyline");
 
                             eta = obj.getString("eta");
                             etaTo = "to " + busStop;
-                            lat = Double.valueOf(obj.getString("lat"));
-                            lon = Double.valueOf(obj.getString("lon"));
+                            String latitude = obj.getString("lat");
+                            String longitude = obj.getString("lon");
+                            if (latitude.equals("null") && longitude.equals("null")){
+                                lat = 2.998489;
+                                lon = 101.712087;
+                            }else{
+                                lat = Double.valueOf(latitude);
+                                lon = Double.valueOf(longitude);
+                            }
+
+
+
                             Log.e("getETA",eta + " "+ etaTo +" "+ lat + " "+lon+ " ");
 
                         } catch (JSONException e) {
@@ -338,11 +351,15 @@ public class VolleyApp {
                         }
 
                         assert eta != null;
+                        assert etaTo != null;
+                        assert lat != null;
+                        assert lon != null;
+
                         if (!eta.equals("Please wait for next Trip")) {
-                            mainActivity.setETA(eta, etaTo, lat, lon, true);
+                            mainActivity.setETA(eta, etaTo, lat, lon, polyline, true);
 
                         } else {
-                            mainActivity.setETA("Next", eta, lat, lon, false);
+                            mainActivity.setETA("Next", eta, lat, lon, polyline, false);
                         }
 
                     }
