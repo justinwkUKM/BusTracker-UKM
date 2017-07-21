@@ -138,14 +138,14 @@
     <string name="error_server">Please try again later server currently down</string>
     <string name="error_opss">Opss something wrong</string>
 
-    <string name="url_login">http://api.faizhasan.info/api/v1/came_in</string>
-    <string name="url_poi_list">http://api.faizhasan.info/api/v1/attractpoint</string>
-    <string name="url_bus_stop_list">http://api.faizhasan.info/api/v1/terminal</string>
-    <string name="url_get_alerts">http://api.faizhasan.info/api/v1/adu</string>
-    <string name="url_poi_bus_stop_list">http://api.faizhasan.info/api/v1/nearestpoi</string>
-    <string name="url_bus">http://api.faizhasan.info/api/v1/bus</string>
-    <string name="url_eta_old">http://vbus.faizhasan.info/getETAv2.php</string>
-    <string name="url_eta">http://api.faizhasan.info/api/v1/eta</string>
+    <string name="url_login">http://api.myxlab.solutions/api/v1/came_in</string>
+    <string name="url_poi_list">http://api.myxlab.solutions/api/v1/attractpoint</string>
+    <string name="url_bus_stop_list">http://api.myxlab.solutions/api/v1/terminal</string>
+    <string name="url_get_alerts">http://api.myxlab.solutions/api/v1/adu</string>
+    <string name="url_poi_bus_stop_list">http://api.myxlab.solutions/api/v1/nearestpoi</string>
+    <string name="url_bus">http://api.myxlab.solutions/api/v1/bus</string>
+    <string name="url_eta_old">http://vbus.myxlab.solutions/getETAv2.php</string>
+    <string name="url_eta">http://api.myxlab.solutions/api/v1/eta</string>
 
      <string name="wallapop">M874.323897,513.518484 C860.358769,445.332884 816.382769,412.921263
     805.267282,406.191832 C800.657846,403.400084 797.676103,399.358653 797.88841,392.435874

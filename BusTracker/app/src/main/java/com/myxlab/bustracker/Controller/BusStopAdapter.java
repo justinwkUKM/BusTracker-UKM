@@ -37,7 +37,6 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bus_stop_item,null);
         fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/timelessbold.ttf");
-
         return new BusStopAdapter.ViewHolder(view);
     }
 
@@ -45,13 +44,11 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         fontChanger.replaceFonts((ViewGroup) this.view);
-
         holder.busName.setText(bus.get(position));
         holder.locate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),bus.get(holder.getAdapterPosition()));
-
                 navigationActivity.finish();
             }
         });
@@ -59,9 +56,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         holder.schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Toast.makeText(context, R.string.under_development, Toast.LENGTH_SHORT).show();
-
             }
         });
     }
