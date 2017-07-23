@@ -12,6 +12,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -614,9 +615,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             case "recreation":
                 markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_local_florist)));
                 break;
+            case "start":
+                Bitmap smallStartMarker = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_start_polyline),48, 48, false);
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallStartMarker));
+                break;
+            case "end":
+                Bitmap smallEndMarker = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_end_polyline),48, 48, false);
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallEndMarker));
+                break;
         }
         //map.clear();
-        final Marker marker = map.addMarker(markerOptions);
+        final Marker marker = map.addMarker(markerOptions.anchor(0.5f,0.5f));
 
         ValueAnimator ani = ValueAnimator.ofFloat(0, 1); //change for (0,1) if you want a fade in
         ani.setDuration(3000);

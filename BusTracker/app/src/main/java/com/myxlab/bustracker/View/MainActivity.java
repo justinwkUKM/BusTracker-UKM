@@ -53,6 +53,8 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 import com.myxlab.bustracker.BaseActivity;
@@ -68,6 +70,8 @@ import com.myxlab.bustracker.R;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import static android.R.id.input;
 
 public class MainActivity extends BaseActivity {
 
@@ -737,20 +741,25 @@ public class MainActivity extends BaseActivity {
 
 
     }
-
+    Polyline line = null ;
     public void setETA(String busETA, String busETAto, Double lat, Double lon, final String polyline, Boolean status) {
         etaText.setVisibility(View.VISIBLE);
         etaProgress.setVisibility(View.GONE);
-        busETATV.setText(busETA);
+        String readableETA = convertSecsToReadableFormat(busETA);
+        busETATV.setText(readableETA);
         busETATV.setVisibility(View.VISIBLE);
+        busETATV.setTextColor(getResources().getColor(R.color.green));
         busETATV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (line != null){
+                    line.remove();
+                }
                 // Instantiating the class PolylineOptions to plot polyline in the map
                 PolylineOptions polylineOptions = new PolylineOptions();
 
                 // Setting the color of the polyline
-                polylineOptions.color(Color.RED);
+                polylineOptions.color(getResources().getColor(R.color.blueDarker));
 
                 // Setting the width of the polyline
                 polylineOptions.width(10);
@@ -759,11 +768,20 @@ public class MainActivity extends BaseActivity {
                 //points.add(point);
 
                 List<LatLng> latLngs = PolyUtil.decode(polyline);
+
+                LatLng startingPoint = latLngs.get(0);
+                LatLng endingPoint = latLngs.get(latLngs.size() -1);
                 // Setting points of polyline
                 polylineOptions.addAll(latLngs);
 
+
+// create marker
+                mapsFragment.addMarker(startingPoint.latitude,startingPoint.longitude, "Start","start",true);
+                mapsFragment.addMarker(endingPoint.latitude,endingPoint.longitude, "End","end",true);
+
                 // Adding the polyline to the map
-                mapsFragment.map.addPolyline(polylineOptions);
+                line = mapsFragment.map.addPolyline(polylineOptions);
+
 
 
             }
@@ -775,6 +793,20 @@ public class MainActivity extends BaseActivity {
             mapsFragment.focusCamera(new LatLng(lat, lon));
         }
 
+    }
+
+    private String convertSecsToReadableFormat(String inputEta) {
+        int eta = Integer.parseInt(inputEta);
+        int numberOfDays;
+        int numberOfHours;
+        int numberOfMinutes;
+        int numberOfSeconds;
+
+        numberOfDays = eta / 86400;
+        numberOfHours = (eta % 86400 ) / 3600 ;
+        numberOfMinutes = ((eta % 86400 ) % 3600 ) / 60 ;
+        numberOfSeconds = ((eta % 86400 ) % 3600 ) % 60  ;
+        return  numberOfHours+"h:"+numberOfMinutes+"m:"+numberOfSeconds+"s";
     }
 /*
     //Add line to map
