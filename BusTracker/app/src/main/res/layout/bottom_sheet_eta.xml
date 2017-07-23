@@ -9,85 +9,183 @@
     app:behavior_hideable="true"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <TextView
-            android:singleLine="true"
-            android:layout_alignParentLeft="true"
-            android:id="@+id/busETAName"
-            android:layout_toLeftOf="@+id/etaContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/medium_dp"
-            android:padding="@dimen/large_dp"
-            android:text="@string/subject"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@android:color/white" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:singleLine="true"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/etaContainer"
-            android:id="@+id/busETAFrom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/busETAName"
-            android:layout_marginLeft="@dimen/medium_dp"
-            android:paddingBottom="@dimen/large_dp"
-            android:paddingLeft="@dimen/large_dp"
-            android:text="@string/loading"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@android:color/white" />
-
-        <RelativeLayout
-            android:id="@+id/etaContainer"
-            android:paddingRight="@dimen/medium_dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true">
-
-            <ProgressBar
-                android:id="@+id/etaProgress"
+            <TextView
+                android:id="@+id/busETAName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/medium_dp"
+                android:layout_toLeftOf="@+id/etaContainer"
+                android:padding="@dimen/large_dp"
+                android:singleLine="true"
+                android:text="@string/subject"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/busETAFrom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/busETAName"
+                android:layout_marginLeft="@dimen/medium_dp"
+                android:layout_toLeftOf="@+id/etaContainer"
+                android:paddingBottom="@dimen/large_dp"
+                android:paddingLeft="@dimen/large_dp"
+                android:singleLine="true"
+                android:text="@string/loading"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
 
-                <TextView
-                    android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:id="@+id/etaText"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@color/blueDarker"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/etaContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="@dimen/medium_dp">
+
+                <ProgressBar
+                    android:id="@+id/etaProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/eta"
-                    android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@android:color/white" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true" />
 
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/busETATV"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/etaText"
-                    android:padding="@dimen/medium_dp"
-                    android:text="@string/subject"
-                    android:textColor="@android:color/white" />
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/etaText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/eta"
+                        android:paddingTop="@dimen/large_dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
-        </RelativeLayout>
+                    <TextView
+                        android:id="@+id/busETATV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/etaText"
+                        android:padding="@dimen/medium_dp"
+                        android:text="@string/subject"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@android:color/white"
+                        android:visibility="gone" />
 
-    </RelativeLayout>
+                </LinearLayout>
 
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!-- <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+         <TextView
+             android:singleLine="true"
+             android:layout_alignParentLeft="true"
+             android:id="@+id/busETAName"
+             android:layout_toLeftOf="@+id/etaContainer"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="@dimen/medium_dp"
+             android:padding="@dimen/large_dp"
+             android:text="@string/subject"
+             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+             android:textColor="@android:color/white" />
+
+         <TextView
+             android:singleLine="true"
+             android:layout_alignParentLeft="true"
+             android:layout_toLeftOf="@+id/etaContainer"
+             android:id="@+id/busETAFrom"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/busETAName"
+             android:layout_marginLeft="@dimen/medium_dp"
+             android:paddingBottom="@dimen/large_dp"
+             android:paddingLeft="@dimen/large_dp"
+             android:text="@string/loading"
+             android:textAppearance="@style/TextAppearance.AppCompat.Small"
+             android:textColor="@android:color/white" />
+
+         <RelativeLayout
+             android:id="@+id/etaContainer"
+             android:paddingRight="@dimen/medium_dp"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentEnd="true"
+             android:layout_alignParentRight="true"
+             android:layout_centerVertical="true">
+
+             <ProgressBar
+                 android:id="@+id/etaProgress"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerVertical="true"
+                 android:layout_centerHorizontal="true"/>
+
+             <LinearLayout
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical">
+
+                 <TextView
+                     android:visibility="gone"
+                     android:layout_gravity="center"
+                     android:id="@+id/etaText"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="@string/eta"
+                     android:textStyle="bold"
+                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                     android:textColor="@android:color/white" />
+
+                 <TextView
+                     android:visibility="gone"
+                     android:id="@+id/busETATV"
+                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@+id/etaText"
+                     android:padding="@dimen/medium_dp"
+                     android:text="@string/subject"
+                     android:textColor="@android:color/white" />
+
+             </LinearLayout>
+
+         </RelativeLayout>
+
+     </RelativeLayout>
+ -->
 </android.support.v4.widget.NestedScrollView>
