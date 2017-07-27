@@ -2,9 +2,11 @@ package com.myxlab.bustracker.Controller;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +46,9 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         fontChanger.replaceFonts((ViewGroup) this.view);
-        holder.busName.setText(bus.get(position));
+        String busName  = bus.get(position);
+        holder.busName.setText("\""+busName+"\"");
+        Log.e("Bus Name", "\""+busName+"\"");
         holder.locate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +63,16 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
                 Toast.makeText(context, R.string.under_development, Toast.LENGTH_SHORT).show();
             }
         });
+        switch (busName){
+            case "Bus Zone 2" : holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
+                break;
+            case "Bus Zone 3U" : holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
+                break;
+            case "Bus Zone 6" : holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
+                break;
+            default:  holder.imageViewBusIcon.setImageResource(R.drawable.ic_directions);
+        }
+
     }
 
     @Override
@@ -69,12 +83,16 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView busName;
         RelativeLayout locate, schedule;
+        ImageView imageViewBusIcon;
 
         ViewHolder(View itemView) {
+
             super(itemView);
             busName = (TextView) view.findViewById(R.id.titleBusItem);
             locate = (RelativeLayout) view.findViewById(R.id.locatebtn);
             schedule = (RelativeLayout) view.findViewById(R.id.schedulebtn);
+            imageViewBusIcon = (ImageView) view.findViewById(R.id.busIcon);
+
         }
     }
 }

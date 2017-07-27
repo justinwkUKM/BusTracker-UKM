@@ -317,7 +317,7 @@ public class VolleyApp {
                     public void onResponse(JSONObject response) {
                         Log.e("ResponseETA", response.toString());
                         Toast.makeText(mainActivity, response.toString() , Toast.LENGTH_SHORT).show();
-                       String eta = null;
+                        String eta = null;
                         String etaTo = null;
                         Double lat = null;
                         Double lon = null;
@@ -356,10 +356,10 @@ public class VolleyApp {
                         assert lon != null;
 
                         if (!eta.equals("Please wait for next Trip")) {
-                            mainActivity.setETA(eta, etaTo, lat, lon, polyline, true);
+                            mainActivity.setETA(bus, eta, etaTo, lat, lon, polyline, true);
 
                         } else {
-                            mainActivity.setETA("Next", eta, lat, lon, polyline, false);
+                            mainActivity.setETA("Next", eta, etaTo, lat, lon, polyline, false);
                         }
 
                     }

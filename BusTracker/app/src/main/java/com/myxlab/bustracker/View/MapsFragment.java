@@ -150,6 +150,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         UserInstance.getInstance().getVolleyApp().getBusStop(getString(R.string.url_bus_stop_list), getActivity(), this);
 
+
+/*        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+
+                Log.i("centerLat",cameraPosition.target.latitude+"");
+
+                Log.i("centerLong",cameraPosition.target.longitude+"");
+            }
+        });*/
     }
 
     private void initCamera(Location location) {
@@ -487,9 +497,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
             MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(UserInstance.getInstance().getBusStopList().get(i).getLat(), UserInstance.getInstance().getBusStopList().get(i).getLon()));
             markerOptions.title(UserInstance.getInstance().getBusStopList().get(i).getName());
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop)));
+            //markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red)));
 //          markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_busstop",10,10)));
-
+            Bitmap smallStartMarker = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red),200, 200, false);
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallStartMarker));
             Marker marker = map.addMarker(markerOptions);
 
             hashMapMarker.put(marker, "Bus Stop");
@@ -552,12 +563,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             }
 
             if (greenMarker != null) {
-                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop)));
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red),200, 200, false);
+                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(scaledBitmap));
                 greenMarker = hashMapBusStopMarker.get(UserInstance.getInstance().getBusStopList().get(busStopGreenIndex));
-                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop_green)));
+                Bitmap scaledGreenBitmap = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stop_green),256, 256, false);
+                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(scaledGreenBitmap));
+                //greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stop_green)));
             } else {
                 greenMarker = hashMapBusStopMarker.get(UserInstance.getInstance().getBusStopList().get(busStopGreenIndex));
-                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_busstop_green)));
+                Bitmap scaledGreenBitmap = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stop_green),256, 256, false);
+                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(scaledGreenBitmap));
+
             }
         }else {
             Toast.makeText(context, "Location Not Available", Toast.LENGTH_SHORT).show();
@@ -644,6 +660,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
+    public void focusCam(Double lat, Double lon, Boolean focus){
+        if (focus) {
+            focusCamera(new LatLng(lat, lon));
+        }
+    }
+
     private Bitmap getMarkerBitmapFromView(@DrawableRes int resId) {
 
         View customMarkerView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.view_custom_marker, null);
@@ -663,5 +685,19 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             drawable.draw(canvas);
         customMarkerView.draw(canvas);
         return returnedBitmap;
+    }
+
+    public void selectedMarker(Double lat, Double lon, String name) {
+
+        MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(lat,lon));
+        markerOptions.title(name);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red),220, 220, false);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap));
+
+        Marker marker = map.addMarker(markerOptions);
+        marker.showInfoWindow();
+        int zoom = (int)map.getCameraPosition().zoom;
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), zoom), 4000, null);
+
     }
 }
