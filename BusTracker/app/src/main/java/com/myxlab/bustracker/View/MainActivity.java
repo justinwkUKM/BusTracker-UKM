@@ -329,7 +329,8 @@ public class MainActivity extends BaseActivity {
         fab_alert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "fabAlert", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "recreate", Toast.LENGTH_SHORT).show();
+                recreate();
             }
         });
 
@@ -443,15 +444,15 @@ public class MainActivity extends BaseActivity {
 
     public void infoBottomSheetCall(Double lat, Double lon, String code, String type, Boolean focus) {
         closeBottomSheet();
-
         UserInstance.getInstance().getVolleyApp().getPoiBusStops(getString(R.string.url_poi_bus_stop_list), code, this);
-
         DBHandler dbHandler = new DBHandler(MainActivity.this, null);
         POI poiInfo = dbHandler.getPOIs(code);
         String website = poiInfo.getWebsite();
         String phone = poiInfo.getPhone();
         String email = poiInfo.getEmail();
         String name = poiInfo.getName();
+        Double nLat = Double.valueOf(poiInfo.getLat());
+        Double nLon = Double.valueOf(poiInfo.getLon());
 
 
 
@@ -465,6 +466,10 @@ public class MainActivity extends BaseActivity {
 
         mapsFragment.addMarker(lat, lon, code, type, focus);
         imageLoaders(code);
+
+
+
+
     }
 
     public void BusBottomSheetCall(String title) {
@@ -742,7 +747,7 @@ public class MainActivity extends BaseActivity {
 
     }
     Polyline line = null ;
-    public void setETA(String busETA, String busETAto, Double lat, Double lon, final String polyline, Boolean status) {
+    public void setETA(final String bus, String busETA, String busETAto, Double lat, Double lon, final String polyline, Boolean status) {
         etaText.setVisibility(View.VISIBLE);
         etaProgress.setVisibility(View.GONE);
         String readableETA = convertSecsToReadableFormat(busETA);
@@ -755,19 +760,30 @@ public class MainActivity extends BaseActivity {
                 if (line != null){
                     line.remove();
                 }
+
+
                 // Instantiating the class PolylineOptions to plot polyline in the map
                 PolylineOptions polylineOptions = new PolylineOptions();
 
                 // Setting the color of the polyline
-                polylineOptions.color(getResources().getColor(R.color.blueDarker));
+                polylineOptions.color(getResources().getColor(R.color.black));
 
                 // Setting the width of the polyline
-                polylineOptions.width(10);
+                polylineOptions.width(8);
 
                 // Adding the taped point to the ArrayList
                 //points.add(point);
+                List<LatLng> latLngs ;
+                switch (bus){
+                    case "Bus Zone 6" : latLngs = PolyUtil.decode("ic}P}_glRdA^hAj@nBpAfFpDzDjCp@w@|GyHzAyAtAaBZi@b@mANi@Tg@DMVQp@Wn@MvA_@vC}@lBYrCSb@iAJK^QfASvF_@dA[x@_@`A{@\\YLHNFgB|A_@ZkBb@I]yAH}CTk@J[FYLIHYl@Q`@b@Ff@NTRPVLX?R?TG\\k@hBs@~Ai@bAoEvEqEvE|@z@~@jBh@rAPnAFbAAr@Xd@\\Zj@RlATb@?xBL^L^TNLLBP@VEXI`BE|AD\\B`@CTOZg@`@eALQTQz@[^K`@W\\_@HWDO?[Vm@PY`@[l@Ib@A\\DPFPLpA`@x@FnACtBOj@@\\JRRV\\d@t@Nf@Dh@C^GZWj@mAbCs@jA@@BB?B?HEDIBGCCAAAa@ZaBlAgEnCkAf@e@FaAJOFSPs@dAi@v@k@pAs@zBI`@xAvAl@v@`@\\`D|@b@b@L`@P`CFTRVZR~@`@T\\\\fAPp@JG`@GfAM~@c@j@Sp@Gd@J\\TPRLX`@dAz@vArAtBRRj@`@b@RxA\\dAXHDFS`AaDPu@?g@{B_JMe@Cc@HqBTuCGDYAGIAI?IBILGT@HN?NEHWfDGhBD`@j@xBvArFD`@Gj@aA~CSt@SIiBc@s@Sc@Sm@g@Y]eBqCa@w@a@cA[c@c@Ue@Gs@Lo@Vc@T[FcAJ[HEBEQYgA[s@_@Wy@]USMWIe@Es@Es@GUU]SQsA]w@Uk@[a@c@qBwBu@p@YFM@i@I}@Og@SUQWc@WqAQiAMs@QUWOIGg@Ew@FE@{ArBi@x@W\\WUgAeAgAgAuBqBsAkAk@o@uBoC}DaFiCcDmEgEWm@MM{AmA{DkCgFqDoBqAiAk@eA_@");
+                        break;
+                    case "Bus Zone 3U" : latLngs = PolyUtil.decode("iuzP_vglRu@p@iB\\GO_@EoBHaAN{AJu@XOT]z@@Ht@J`@^^l@Bd@YlAg@`B[j@Wt@k@l@{@~@yA|A}FdGrA`Bl@jAZv@b@hC@jATn@n@`@jAVdADvAJ|@Rf@Xh@Jr@I~AMdBLx@CZY^aAp@_Af@WbA_@n@a@V{@V_A\\o@x@Wx@@vAn@v@P`BFxAQ|AGz@^bA`BL~@Cv@uCtFIRHT]De@JuGtEgBz@cBPk@^cA|AsAbDc@tA?NxC`D^TpCx@f@l@RvBP~@~@f@~@r@r@~B~A]`AWnAi@lANfAzAnAdC`A`BhAdAhBf@bBd@pDhFfAnBj@nCGpBi@x@yDv@y@Me@e@eAqE_AuAeB_@mB@mBtAwAlA[\\a@J_Ay@k@u@@yBGlB\\n@~@~@f@JxEgEnAQxBVlAvAz@dCf@rBr@XdCQnB{@\\kAYmDaAyB_BeCgBcCoDw@mBmAcAcBkA_C_AiB_A[gBh@aDl@Ua@_@kAwBqAc@wAOaBg@cAgDw@wC_DOSv@mC|@iBdAaBd@c@x@QbAMnAm@~A{@tA_Ap@i@b@Yn@i@AUgAiAc@m@Ws@c@i@u@Sw@E}@LaA\\}CdB_BhAuDbCyA|@cBhAo@~@CTDv@i@^y@?k@BcAeA[CwArBgHuGDgHAgAXs@d@_@n@UCiASyBaAgCsAiBiIqHgAkA~AkBn@uAt@oB|@g@nDeApDy@lBQbAK^C\\iA`@_@xE]|BUhBq@bB{AZVeAz@");
+                        break;
+                    case "Bus Zone 2" : latLngs = PolyUtil.decode("{hyPyaelRY`FJfAt@bCv@zCPlAy@~Da@lAgDy@kBsAuBcDuA{C_A]}@H}Av@mBPQEcAqC_Bk@]eAGaBe@eAoBm@_AU_DgDGM~AgFrBiCh@W`BKvA}@tBmAnA{@hByAAUsBqBY_As@q@_AGaAFmBr@iBfAcDtBcEfCkCdBo@hAF`Ag@\\aA@i@FiAmAYLqA`BqEeEkA_AGkB@iFBy@~@{@h@_@K}Co@sBu@_Bg@q@c@e@~E_FdCqCjByB|@eCKRm@xA{@dBkCrC_EbEqAlAdB`CdArBZdDAl@~@dAjB`@xAAxARf@Zt@Vp@M~AKjCJl@Qn@_Bz@aA~Ae@x@}@PwAt@y@xAUhBt@tBTzBOjBAlA`A^bAFfBeB~Du@nAHN[Na@?iI~FkA\\}APeBbC{BnFJ^xCpCh@^|B`@h@z@LjBVbA|@l@|@j@f@dBV\\tB_@bAk@z@Sz@LnAbBt@bBxA~Bt@z@xAh@jCl@bA_DX_B_CgJQeBRiDJaAc@SP]XF@NERQ~@");
+                        break;
+                    default:  latLngs = PolyUtil.decode(polyline);
+                }
 
-                List<LatLng> latLngs = PolyUtil.decode(polyline);
 
                 LatLng startingPoint = latLngs.get(0);
                 LatLng endingPoint = latLngs.get(latLngs.size() -1);
@@ -796,7 +812,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private String convertSecsToReadableFormat(String inputEta) {
-        int eta = Integer.parseInt(inputEta);
+        int eta = 0;
+        boolean isInt = isStringInt(inputEta);
+        if (isInt) {
+            eta = Integer.parseInt(inputEta);
+        }
+
         int numberOfDays;
         int numberOfHours;
         int numberOfMinutes;
@@ -808,6 +829,19 @@ public class MainActivity extends BaseActivity {
         numberOfSeconds = ((eta % 86400 ) % 3600 ) % 60  ;
         return  numberOfHours+"h:"+numberOfMinutes+"m:"+numberOfSeconds+"s";
     }
+
+    public boolean isStringInt(String s)
+    {
+        try
+        {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException ex)
+        {
+            return false;
+        }
+    }
+
 /*
     //Add line to map
     Polyline line = mMap.addPolyline(new PolylineOptions()
@@ -832,10 +866,12 @@ public class MainActivity extends BaseActivity {
                 if (gLobalBusStops.get(j).getCode().equals(code)){
                     Log.e("BusStopsInIn", gLobalBusStops.get(j).getName());
                     String name = gLobalBusStops.get(j).getName();
+                    Double lat = Double.valueOf(gLobalBusStops.get(j).getLat());
+                    Double lon = Double.valueOf(gLobalBusStops.get(j).getLon());
                     name = name.replace("Bus Stop ", "");
-                    if(name.length() > 4)
-                        name = name.substring(0,3) + "..";
-                    doAddButton(name,code);
+                   /* if(name.length() > 4)
+                        name = name.substring(0,3) + "..";*/
+                    doAddButton(name,code,lat,lon);
                     s += gLobalBusStops.get(j).getName()+"\n";
                 }
             }
@@ -845,7 +881,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void doAddButton(String name, String code) {
+    private void doAddButton(final String name, String code, final Double lat, final Double lon) {
 
         LinearLayout.LayoutParams params = new  LinearLayout.LayoutParams(
                150, 150
@@ -853,7 +889,7 @@ public class MainActivity extends BaseActivity {
         params.setMargins(10,20,10,20);
 
 
-        Button button = new Button(this);
+        final Button button = new Button(this);
         //button.setText(name);
         button.setTag(code);
         button.setLayoutParams(params);
@@ -862,8 +898,9 @@ public class MainActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //doSomethingHere
-                Toast.makeText(context, v.getTag().toString() , Toast.LENGTH_SHORT).show();
+                closeBottomSheet();
+                mapsFragment.focusCam(lat,lon,true);
+                mapsFragment.selectedMarker(lat,lon,name);
             }
         });
 

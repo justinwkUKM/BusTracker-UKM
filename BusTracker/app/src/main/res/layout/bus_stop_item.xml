@@ -21,32 +21,37 @@
             <LinearLayout
                 android:padding="@dimen/medium_dp"
                 android:id="@+id/BusStopInfoIco"
-                android:orientation="vertical"
+                android:orientation="horizontal"
+                android:background="@color/blueDarker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+               <!-- <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Bus"
                     android:layout_margin="@dimen/medium_dp"
                     android:textColor="@android:color/white"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"/>-->
+
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:weightSum="10"
+                    android:weightSum="1"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_weight="4"
+                        android:layout_weight="1"
+                        android:id="@+id/busIcon"
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:src="@drawable/ic_directions_bus_white"/>
 
-                    <TextView
+                   <!-- <TextView
                         android:layout_weight="6"
                         android:id="@+id/titleBusItem"
                         android:textColor="@android:color/white"
@@ -54,9 +59,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="@string/loading"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />-->
 
                 </LinearLayout>
+                <TextView
+                android:layout_weight="1"
+                android:id="@+id/titleBusItem"
+                android:textColor="@android:color/white"
+                android:padding="@dimen/medium_dp"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:text="@string/loading"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             </LinearLayout>
 
@@ -64,13 +80,14 @@
                 android:layout_below="@+id/BusStopInfoIco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="2"
+                android:weightSum="5"
+                android:orientation="horizontal"
                 android:paddingBottom="@dimen/medium_dp">
 
                 <RelativeLayout
                     android:id="@+id/locatebtn"
                     android:padding="@dimen/medium_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -81,25 +98,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:text="@string/locate"/>
+                        android:text="@string/bus_id"/>
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/schedulebtn"
                     android:padding="@dimen/medium_dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:id="@+id/busSchedule"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:text="@string/schedule"/>
+                        android:text="@string/last_bus_stop"/>
 
                 </RelativeLayout>
 
