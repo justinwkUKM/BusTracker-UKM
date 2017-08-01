@@ -1,6 +1,7 @@
 package com.myxlab.bustracker.Controller;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapter.ViewHolder> {
 
-
+    public static final String TAG = CurrentBusesAdapter.class.getSimpleName();
     private BusStop busStop;
     private View view;
     private NavigationActivity navigationActivity;
@@ -36,38 +37,47 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
 
 
 
-    public CurrentBusesAdapter(List<Bus> buses, Context context, String busName) {
+    public CurrentBusesAdapter(List<Bus> buses, Context context) {
         this.busList = buses;
         this.context = context;
         this.busName = busName;
-        busListToAdd = new ArrayList<>();
+        Log.d(TAG, "CurrentBusesAdapter()");
+        Log.e(TAG, "size:"+busList.size());
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        Log.d(TAG, "onCreateViewHolder()");
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bus_stop_item_current,null);
         fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/timelessbold.ttf");
         return new CurrentBusesAdapter.ViewHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        setData(holder, position);
+
+
+    }
+
+    private void setData(final ViewHolder holder, final int position) {
+
 
         fontChanger.replaceFonts((ViewGroup) this.view);
-        //String busName  = busList.get(position).getName();
-        for (int j = 0; j < busList.size(); j++) {
-            if (busList.get(j).getName().equals(busName)) {
-                String busPlate  = busList.get(position).getPlate();
-                String busStopJustPssed  = busList.get(position).getName();
-                holder.tvPlate.setText(busPlate);
-                holder.tvJustPassed.setText(busStopJustPssed);
-            }
-        }
+
+
+        String busPlate = busList.get(position).getPlate();
+        String busStopJustPssed = busList.get(position).getName();
+        holder.tvPlate.setText(busPlate);
+        holder.tvJustPassed.setText(busStopJustPssed);
+
 
         holder.locate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),busList.get(holder.getAdapterPosition()).getName());
+                UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(), busList.get(holder.getAdapterPosition()).getName());
                 navigationActivity.finish();
             }
         });
@@ -78,7 +88,44 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
                 Toast.makeText(context, R.string.under_development, Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
+    /*private void setData(final ViewHolder holder, final int position) {
+
+        if (busName.equals(busList.get(position).getName())){
+            Log.d(TAG, "onBindViewHolder()");
+            fontChanger.replaceFonts((ViewGroup) this.view);
+
+            if (busList.get(position).getName().equals(busName)){
+                String busPlate  = busList.get(position).getPlate();
+                String busStopJustPssed  = busList.get(position).getName();
+                holder.tvPlate.setText(busPlate);
+                holder.tvJustPassed.setText(busStopJustPssed);
+            }
+
+
+
+            holder.locate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),busList.get(holder.getAdapterPosition()).getName());
+                    navigationActivity.finish();
+                }
+            });
+
+            holder.schedule.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, R.string.under_development, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else {
+                notifyItemRemoved(holder.getAdapterPosition());
+        }
+
+    }*/
+
 
     @Override
     public int getItemCount() {
@@ -92,6 +139,7 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
 
         ViewHolder(View itemView) {
             super(itemView);
+            Log.d(TAG, "ViewHolder()");
             locate = (RelativeLayout) view.findViewById(R.id.locatebtn);
             schedule = (RelativeLayout) view.findViewById(R.id.schedulebtn);
             tvPlate = (TextView) view.findViewById(R.id.tvbusLocate);
