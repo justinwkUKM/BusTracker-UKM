@@ -27,6 +27,7 @@ import java.util.List;
 
 public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHolder> {
 
+    public static final String TAG = BusStopAdapter.class.getSimpleName();
     private List<String> bus;
     private BusStop busStop;
     private View view;
@@ -40,6 +41,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     private CurrentBusesAdapter currentBusesAdapter;
     private RecyclerView recyclerView;
 
+
     public BusStopAdapter(List<String> buses, BusStop busStop, Context context, NavigationActivity navigationActivity) {
         this.bus = buses;
         this.busStop = busStop;
@@ -50,22 +52,40 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         busListSelected = new ArrayList<>();
         busListAll = UserInstance.getInstance().getBuses();
 
-        if (!busListAll.isEmpty()) {
-            for (int i = 0; i < busListAll.size(); i++) {
-                for (int j = 0; j < buses.size(); j++)
-                    if (busListAll.get(i).getName().equals(buses.get(j))) {
-                    busListCurrentAll.add(busListAll.get(j));
-                    Log.e("BsAdp", busListAll.get(j).getPlate());
-                }
-
+        if (!bus.isEmpty()) {
+            for (int i = 0; i < bus.size(); i++) {
+                createList(bus.get(i), busListAll, busListCurrentAll,"fromConstructor");
             }
 
         }
 
+
+        Log.d(TAG, "BusStopAdapter()");
+
     }
+
+    private void createList(String busName, List<Bus> busListFrom, List<Bus> busListTo, String Tag) {
+        for (int i = 0; i < busListFrom.size(); i++) {
+            if (busName.equals(busListFrom.get(i).getName())){
+                busListTo.add(busListFrom.get(i));
+            }
+        }
+        if (!busListTo.isEmpty()) {
+            String temp = "";
+            for (int i = 0; i < busListTo.size(); i++) {
+
+                temp+= busListTo.get(i).getName()+":"+busListTo.get(i).getPlate()+"\n";
+            }
+            Log.e(Tag , temp);
+        }
+
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder()");
+
         context = navigationActivity.getApplicationContext();
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bus_stop_item,null);
         fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/timelessbold.ttf");
@@ -75,19 +95,18 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        settingAdapter(busListSelected);
         return new BusStopAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        busListSelected.clear();
 
+        Log.d(TAG, "onBindViewHolder()");
         fontChanger.replaceFonts((ViewGroup) this.view);
         String busName  = bus.get(position);
         holder.busName.setText("\""+busName+"\"");
-        Log.e("Bus Name", "\""+busName+"\"");
         holder.locate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,48 +124,30 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
 
         switch (busName){
             case "Bus Zone 2" : holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
-                if (!busListCurrentAll.isEmpty()) {
-                    for (int j = 0; j < busListCurrentAll.size(); j++) {
-                        if (busListCurrentAll.get(j).getName().equals(busName)) {
-                            busListSelected.add(busListCurrentAll.get(j));
-                        }
-                    }
-                }
-                currentBusesAdapter = new CurrentBusesAdapter(busListSelected, context, busName);
-                recyclerView.setAdapter(currentBusesAdapter);
+                busListSelected.clear();
+                createList(busName, busListCurrentAll, busListSelected, "Case Z2");
                 currentBusesAdapter.notifyDataSetChanged();
-
                 break;
-            case "Bus Zone 3U" : holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
-                if (!busListCurrentAll.isEmpty()) {
-                    for (int j = 0; j < busListCurrentAll.size(); j++) {
-                        if (busListCurrentAll.get(j).getName().equals(busName)) {
-                            busListSelected.add(busListCurrentAll.get(j));
-                        }
-                    }
-                }
-                currentBusesAdapter = new CurrentBusesAdapter(busListSelected, context,busName);
-                recyclerView.setAdapter(currentBusesAdapter);
+            case "Bus Zone 3U":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
+                busListSelected.clear();
+                //settingAdapter(busListSelected, busName);
+                createList(busName, busListCurrentAll, busListSelected, "Case Z3u");
                 currentBusesAdapter.notifyDataSetChanged();
-
-
                 break;
-            case "Bus Zone 6" : holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
-
-                if (!busListCurrentAll.isEmpty()) {
-                    for (int j = 0; j < busListCurrentAll.size(); j++) {
-                        if (busListCurrentAll.get(j).getName().equals(busName)) {
-                            busListSelected.add(busListCurrentAll.get(j));
-                        }
-                    }
-                }
-                currentBusesAdapter = new CurrentBusesAdapter(busListSelected, context,busName);
-                recyclerView.setAdapter(currentBusesAdapter);
+            case "Bus Zone 6":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
+                busListSelected.clear();
+                //settingAdapter(busListSelected, busName);
+                createList(busName, busListCurrentAll, busListSelected, "Case Z6");
                 currentBusesAdapter.notifyDataSetChanged();
-
                 break;
             default:  holder.imageViewBusIcon.setImageResource(R.drawable.ic_directions);
+
+
         }
+
+        Log.d(TAG, "All:"+busListAll.size()+" : cALL:"+busListCurrentAll.size()+" : cSelected:"+busListSelected.size());
 
         /*if (!busListCurrentAll.isEmpty()) {
             for (int j = 0; j < busListCurrentAll.size(); j++) {
@@ -164,6 +165,12 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
 */
     }
 
+    private void settingAdapter(List<Bus> list) {
+        currentBusesAdapter = new CurrentBusesAdapter(list, context);
+        recyclerView.setAdapter(currentBusesAdapter);
+        //currentBusesAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return bus.size();
@@ -177,6 +184,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         ViewHolder(View itemView) {
 
             super(itemView);
+            Log.d(TAG, "ViewHolder()");
             busName = (TextView) view.findViewById(R.id.titleBusItem);
             locate = (RelativeLayout) view.findViewById(R.id.locatebtn);
             schedule = (RelativeLayout) view.findViewById(R.id.schedulebtn);
