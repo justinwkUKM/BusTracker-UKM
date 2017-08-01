@@ -331,6 +331,8 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 Toast.makeText(context, "recreate", Toast.LENGTH_SHORT).show();
                 recreate();
+                startActivity(new Intent(MainActivity.this, TestMapsActivity.class));
+                //mapsFragment.onCheckAnimation();
             }
         });
 
@@ -754,6 +756,9 @@ public class MainActivity extends BaseActivity {
         busETATV.setText(readableETA);
         busETATV.setVisibility(View.VISIBLE);
         busETATV.setTextColor(getResources().getColor(R.color.green));
+
+
+
         busETATV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
