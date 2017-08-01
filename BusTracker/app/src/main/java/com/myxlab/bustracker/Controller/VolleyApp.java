@@ -238,8 +238,18 @@ public class VolleyApp {
 
                                     String name = String.valueOf(json.getString("name"));
                                     String code = String.valueOf(json.getString("code"));
-                                    Double lat = Double.valueOf(json.getString("lat"));
-                                    Double lon = Double.valueOf(json.getString("lon"));
+                                    String latitude = json.getString("lat");
+                                    String longitude = json.getString("lon");
+                                    Double lat;
+                                    Double lon;
+                                    if (latitude.equals("null") && longitude.equals("null")){
+                                        lat = 2.998489;
+                                        lon = 101.712087;
+                                    }else{
+                                        lat = Double.parseDouble(latitude);
+                                        lon = Double.parseDouble(longitude);
+                                    }
+
                                     List<String> busItem = new LinkedList<>();
                                     /*if (json.getString("buses") != null) {
                                         String buses = String.valueOf(json.getString("buses"));

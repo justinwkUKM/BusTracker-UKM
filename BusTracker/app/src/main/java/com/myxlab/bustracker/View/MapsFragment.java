@@ -57,8 +57,10 @@ import com.myxlab.bustracker.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import me.toptas.fancyshowcase.FancyShowCaseView;
 import me.toptas.fancyshowcase.FocusShape;
@@ -80,7 +82,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public HashMap<String, String> hashMapTitle;
     private HashMap<Marker, Integer> hashMapBusStopListPosition;
     private HashMap<BusStop, Marker> hashMapBusStopMarker;
-    private HashMap<Marker, Bus> hashMapBus;
+    public HashMap<Marker, Bus> hashMapBus;
     private LocationManager locationManager;
     private Marker greenMarker;
     MapsFragment mapsFragment;
@@ -215,7 +217,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         map.animateCamera(CameraUpdateFactory.newCameraPosition(position), null);
     }
 
-    public void setBus() {
+    /*public void setBus() {
 
         if (!UserInstance.getInstance().getBuses().isEmpty()) {
 
@@ -310,7 +312,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                         }
                     }
                 }
-
             }
         } else {
 
@@ -322,6 +323,193 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             }
         }
     }
+*/
+    /*This method for add/remove bus marker base on current bus list*/
+    public void setBus() {
+        /*Checking Bus List is NOT empty*/
+        if (!UserInstance.getInstance().getBuses().isEmpty()) {
+            /*Checking Bus Marker is empty*/
+            if (busesMarker.isEmpty()) {
+                /*Loop the bus list*/
+                for (int i = 0; UserInstance.getInstance().getBuses().size() > i; i++) {
+                    /*String for bus maker title*/
+                    String title = UserInstance.getInstance().getBuses().get(i).getName() + " (" + UserInstance.getInstance().getBuses().get(i).getPlate() + ")";
+                    /*Set bus marker*/
+                    Marker busMarker = map.addMarker(busMarkerOptions(UserInstance.getInstance().getBuses().get(i).getName(),title, new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon())));
+                    /*Add Bus Marker*/
+                    busesMarker.add(busMarker);
+                    /*Getting proper index for bus marker array to match bus list*/
+                    int index = busesMarker.size() - 1;
+
+                    /*Hash Map bus marker and bus list*/
+                    hashMapBus.put(busesMarker.get(index), UserInstance.getInstance().getBuses().get(i));
+
+                    /*Hash Map map marker to differentiate marker type*/
+                    hashMapMarker.put(busesMarker.get(index), "Bus");
+
+                }
+
+                // iterate map using entryset in for loop
+                for(Map.Entry<Marker, Bus> entry : hashMapBus.entrySet())
+                {   //print keys and values
+                    if (entry.getValue().getName().equals("Bus Zone 2")){
+                    Log.e("V", entry.getKey().getTitle()+":"+entry.getValue().getPlate());
+                    }
+                }
+
+
+            }
+            /*If Bus Marker Not empty*/
+            else {
+                /*Compare Bus List and Bus Marker size is same*/
+                if (UserInstance.getInstance().getBuses().size() == busesMarker.size()) {
+                    /*Loop Bus List animate current bus marker*/
+                    for (int i = 0; i < UserInstance.getInstance().getBuses().size(); i++) {
+                        /*Loop Bus Marker to get same Bus and Marker*/
+                        for (int j = 0; j < busesMarker.size(); j++) {
+                            /*Getting Bus Object using Hash Map*/
+                            Bus bus = hashMapBus.get(busesMarker.get(j));
+                            /*Compare Current Loop Bus List is same with Current Loop Bus Marker that converted to Bus Object*/
+                            if (UserInstance.getInstance().getBuses().get(i).getPlate().equals(bus.getPlate())) {
+                                /*Get distance before and after of same bus marker location*/
+                                double distance = checkDistance(new LatLng(bus.getLat(), bus.getLon()), new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon()));
+                                /*Check if distance more than 10*/
+                                if (distance >= 10) {
+                                    /*Animate Marker to new Location that has been set in Bus List*/
+                                    animateMarker(busesMarker.get(j), new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon()), false);
+                                }
+
+                                ////////////////////////////////////////////////////////
+
+
+                                ///////////////////////////////////////////////////////
+                               /* String hashMapMarkervalues = String.valueOf(hashMapMarker.values());
+                                Log.e("hashMapMarkervalues", hashMapMarkervalues);
+                                String hashMapMarkerSize = String.valueOf(hashMapMarker.size());
+                                Log.e("hashMapMarkerSize", hashMapMarkerSize);
+                                String hashMapBusValues = String.valueOf(hashMapBus.values().iterator());
+                                Log.e("hashMapBusValues", hashMapBusValues);
+                                String hashMapBusSize = String.valueOf(hashMapBus.size());
+                                Log.e("hashMapBusSize", hashMapBusSize);*/
+
+
+                            }
+                        }
+                    }
+
+                }
+                /*If the Bus List is bigger than Bus Maker size*/
+                else if ((UserInstance.getInstance().getBuses().size() > busesMarker.size())) {
+                    /*New Link list of Bus*/ /*TODO this should be change and make it much simpler by removing the deactivate bus when we found it (check the 3rd TODO)*/
+                    List<Integer> newBuses = new LinkedList<>();
+                    /*Loop Bus List animate current bus marker*/
+                    for (int i = 0; i < UserInstance.getInstance().getBuses().size(); i++) {
+                        /*This boolean that tell us we found the marker we want to animate*/
+                        boolean checker = false;
+                        /*Loop Bus Marker to get same Bus and Marker*/
+                        for (int j = 0; j < busesMarker.size(); j++) {
+                            /*Getting Bus Object using Hash Map*/
+                            Bus bus = hashMapBus.get(busesMarker.get(j));
+                            /*Compare Current Loop Bus List is same with Current Loop Bus Marker that converted to Bus Object*/
+                            if (UserInstance.getInstance().getBuses().get(i).getPlate().equals(bus.getPlate())) {
+                                /*Get distance before and after of same bus marker location*/
+                                double distance = checkDistance(new LatLng(bus.getLat(), bus.getLon()), new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon()));
+                                /*Check if distance more than 10*/
+                                if (distance >= 10) {
+                                    /*Animate Marker to new Location that has been set in Bus List*/
+                                    animateMarker(busesMarker.get(j), new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon()), false);
+                                }
+                                /*Set the boolean to true because we found the marker and bus*/
+                                checker = true;
+                            }
+                            /*Check is this and of the Loop and if the boolean is false*/
+                            if (!checker && j == busesMarker.size() - 1) {
+                                /*Add new object in List*/ /*@TODO here is the flaw we should add the new bus using new function, animate it and make sure hash map it*/
+                                newBuses.add(i);
+                            }
+
+                        }
+                        /*Check the bus loop is at the end*/ /*@TODO need to check if this redundant because we already animated it and still not set new bus marker we just get. If this redundant it means we animate two time (Check The Above TODO)*/
+                        if (i == UserInstance.getInstance().getBuses().size() - 1) {
+                            /*Loop the new Link list*/
+                            for (int j = 0; j < newBuses.size(); j++) {
+                                /*String for bus maker title*/
+                                String title = UserInstance.getInstance().getBuses().get(newBuses.get(j)).getName() + " (" + UserInstance.getInstance().getBuses().get(newBuses.get(j)).getPlate() + ")";
+                                /*Set bus marker*/
+                                Marker busMarker = map.addMarker(busMarkerOptions(UserInstance.getInstance().getBuses().get(j).getName(),title, new LatLng(UserInstance.getInstance().getBuses().get(newBuses.get(j)).getLat(), UserInstance.getInstance().getBuses().get(newBuses.get(j)).getLon())));
+                                /*Add Bus Marker*/
+                                busesMarker.add(busMarker);
+                                /*Getting proper index for bus marker array to match bus list*/
+                                int index = busesMarker.size() - 1;
+                                /*Hash Map bus marker and bus list*/
+                                hashMapBus.put(busesMarker.get(index), UserInstance.getInstance().getBuses().get(newBuses.get(j)));
+                                /*Hash Map map marker to differentiate marker type*/
+                                hashMapMarker.put(busesMarker.get(index), "Bus");
+
+                            }
+                        }
+                    }
+                }
+                /*If the Bus List is less than Bus Maker size*/
+                else {
+                    /*New Link list of Bus*/
+                    List<Integer> onBuses = new LinkedList<>();
+                    /*Loop Bus List animate current bus marker*/
+                    for (int i = 0; i < UserInstance.getInstance().getBuses().size(); i++) {
+                        /*Loop Bus Marker to get same Bus and Marker*/
+                        for (int j = 0; j < busesMarker.size(); j++) {
+                            /*Getting Bus Object using Hash Map*/
+                            Bus bus = hashMapBus.get(busesMarker.get(j));
+                            if (UserInstance.getInstance().getBuses().get(i).getPlate().equals(bus.getPlate())) {
+                                /*Get distance before and after of same bus marker location*/
+                                double distance = checkDistance(new LatLng(bus.getLat(), bus.getLon()), new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon()));
+                                /*Check if distance more than 10*/
+                                if (distance >= 10) {
+                                    /*Animate Marker to new Location that has been set in Bus List*/
+                                    animateMarker(busesMarker.get(j), new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon()), false);
+                                }
+                                /*Add new object in List*/
+                                onBuses.add(j);
+                            }
+                        }
+                    }
+                    /*New Link list for compare 'onBuses' for removing deactivate bus*/ /*TODO here we can create new method*/
+                    List<Integer> tmpIndex = new LinkedList<>();
+                    /*Loop bus list to populate 'tmpIndex'*/
+                    for (int j = 0; j < busesMarker.size(); j++) {
+                        /*Populating 'tmpIndex'*/
+                        tmpIndex.add(j);
+                    }
+                    /*Loop 'tmpIndex'*/
+                    for (Integer index : tmpIndex) {
+                        /*Compare 'onBuses' with 'tmpIndex' is not equal*/
+                        if (!onBuses.contains(index)) {
+                            /*Remove deactivate bus*/
+                            busesMarker.get(index).remove();
+                            /*Remove deactivate bus*/ /*@TODO Seem Like redundant too here*/
+                            busesMarker.remove(index);
+                        }
+                    }
+                }
+
+            }
+        }
+        /*Checking Bus List is empty*/
+        else {
+            /*Checking Bus Marker is not Empty*/
+            if (!busesMarker.isEmpty()) {
+                /*Loop Bus Marker */
+                for (int i = 0; i < busesMarker.size(); i++) {
+                    /*Remove current Marker*/
+                    busesMarker.get(i).remove();
+                }
+                /*Clear Bus Marker*/
+                busesMarker.clear();
+            }
+        }
+    }
+
+
 
     private MarkerOptions busMarkerOptions(String name, String title, LatLng latLng) {
         MarkerOptions marker = new MarkerOptions().position(latLng).title(title);
@@ -363,7 +551,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onConnected(Bundle bundle) {
-
+        Log.e("OnConnected","Active");
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -566,21 +754,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 Bitmap scaledBitmap = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red),200, 200, false);
                 greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(scaledBitmap));
                 greenMarker = hashMapBusStopMarker.get(UserInstance.getInstance().getBusStopList().get(busStopGreenIndex));
-                Bitmap scaledGreenBitmap = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stop_green),256, 256, false);
-                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(scaledGreenBitmap));
+                Bitmap scaledGreenBitmap = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stop_green), 256, 256, false);
+                if (greenMarker != null) {
+                    greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(scaledGreenBitmap));
+                }
                 //greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stop_green)));
             } else {
                 greenMarker = hashMapBusStopMarker.get(UserInstance.getInstance().getBusStopList().get(busStopGreenIndex));
                 Bitmap scaledGreenBitmap = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stop_green),256, 256, false);
-                greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(scaledGreenBitmap));
-
+                if (greenMarker!=null){
+                    greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(scaledGreenBitmap));
+                }
             }
         }else {
             Toast.makeText(context, "Location Not Available", Toast.LENGTH_SHORT).show();
         }
-
-
-
 
     }
 
@@ -700,4 +888,71 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), zoom), 4000, null);
 
     }
+
+/*
+
+
+    public static void setAnimation(GoogleMap myMap, final List<LatLng> directionPoint, final Bitmap bitmap) {
+        myMap.clear();
+        Marker marker = myMap.addMarker(new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                .position(directionPoint.get(0))
+                .flat(true));
+        myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(directionPoint.get(0), 16));
+        animateMarker(myMap, marker, directionPoint, false);
+    }
+
+
+    List<LatLng> markerPoints = new ArrayList<LatLng>();
+
+    public void onCheckAnimation() {
+
+        markerPoints.add(new LatLng(23.049543, 72.517195));
+        markerPoints.add(new LatLng(23.058457, 72.516787));
+        markerPoints.add(new LatLng(23.068989, 72.516973));
+        markerPoints.add(new LatLng(23.078263, 72.516667));
+        markerPoints.add(new LatLng(23.087409, 72.516281));
+        markerPoints.add(new LatLng(23.096219, 72.515696));
+
+        Bitmap Icon = BitmapFactory.decodeResource(getResources(), R.drawable.bus_zone_6);
+        setAnimation(map,markerPoints,Icon);
+    }
+
+    private static void animateMarker(GoogleMap myMap, final Marker marker, final List<LatLng> directionPoint,
+                                      final boolean hideMarker) {
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        Projection proj = myMap.getProjection();
+        final long duration = 30000;
+
+        final Interpolator interpolator = new LinearInterpolator();
+
+        handler.post(new Runnable() {
+            int i = 0;
+
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = interpolator.getInterpolation((float) elapsed
+                        / duration);
+                if (i < directionPoint.size())
+                    marker.setPosition(directionPoint.get(i));
+                i++;
+
+
+                if (t < 1.0) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 150);
+                } else {
+                    if (hideMarker) {
+                        marker.setVisible(false);
+                    } else {
+                        marker.setVisible(true);
+                    }
+                }
+            }
+        });
+    }
+*/
+
 }
