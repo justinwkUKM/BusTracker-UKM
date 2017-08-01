@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
@@ -44,6 +45,8 @@ dependencies {
     compile 'com.github.glomadrian:Grav:1.1'
     compile 'com.github.faruktoptas:FancyShowCaseView:0.0.6'
     compile 'com.github.florent37:viewanimator:1.0.5'
+
+    compile 'com.thoughtbot:expandablerecyclerview:1.0'
 
     compile 'com.google.android.gms:play-services:6.5.87'
     testCompile 'junit:junit:4.12'
