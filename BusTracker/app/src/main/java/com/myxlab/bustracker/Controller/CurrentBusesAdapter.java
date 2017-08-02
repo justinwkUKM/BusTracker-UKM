@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.myxlab.bustracker.FontChangeCrawler;
 import com.myxlab.bustracker.Model.Bus;
 import com.myxlab.bustracker.Model.BusStop;
@@ -37,10 +39,12 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
 
 
 
-    public CurrentBusesAdapter(List<Bus> buses, Context context) {
+    public CurrentBusesAdapter(List<Bus> buses, Context context, String busName, NavigationActivity navigationActivity, BusStop busStop) {
         this.busList = buses;
         this.context = context;
         this.busName = busName;
+        this.navigationActivity = navigationActivity;
+        this.busStop = busStop;
         Log.d(TAG, "CurrentBusesAdapter()");
         Log.e(TAG, "size:"+busList.size());
     }
@@ -57,23 +61,16 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        fontChanger.replaceFonts((ViewGroup) this.view);
         setData(holder, position);
-
-
     }
 
-    private void setData(final ViewHolder holder, final int position) {
-
-
+/*    private void setData(final ViewHolder holder, final int position) {
         fontChanger.replaceFonts((ViewGroup) this.view);
-
-
         String busPlate = busList.get(position).getPlate();
         String busStopJustPssed = busList.get(position).getName();
         holder.tvPlate.setText(busPlate);
         holder.tvJustPassed.setText(busStopJustPssed);
-
-
         holder.locate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,12 +87,12 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
         });
 
 
-    }
-    /*private void setData(final ViewHolder holder, final int position) {
+    }*/
+    private void setData(final ViewHolder holder, final int position) {
 
         if (busName.equals(busList.get(position).getName())){
             Log.d(TAG, "onBindViewHolder()");
-            fontChanger.replaceFonts((ViewGroup) this.view);
+
 
             if (busList.get(position).getName().equals(busName)){
                 String busPlate  = busList.get(position).getPlate();
@@ -121,12 +118,36 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
                 }
             });
         }else {
-                notifyItemRemoved(holder.getAdapterPosition());
+
+            simpleAnim(holder.itemView);
+            //holder.itemView.setVisibility(View.GONE);
+            /*new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    removeAt(position);
+                }
+            }, 100);*/
+
+
+
+
         }
 
-    }*/
+    }
+
+    private void simpleAnim(View itemView) {
+        ViewAnimator.animate(itemView)
+                .zoomIn().fadeIn().interpolator(new DecelerateInterpolator())
+                .duration(1500)
+                .start();
+    }
 
 
+    public void removeAt(int position) {
+        busList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, busList.size());
+    }
     @Override
     public int getItemCount() {
         return busList.size();

@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="5"
-                android:background="@color/blue"
+                android:background="#FFB300"
                 android:orientation="horizontal"
                 android:paddingBottom="@dimen/medium_dp">
 
@@ -39,7 +39,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:text="@string/bus_id"/>
+                       />
 
                 </RelativeLayout>
 
@@ -58,7 +58,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
-                        android:text="@string/last_bus_stop"/>
+                        android:text="Preparing..."/>
 
                 </RelativeLayout>
 

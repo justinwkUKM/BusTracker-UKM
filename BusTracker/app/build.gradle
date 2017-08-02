@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/driver-app-native-android
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
@@ -49,11 +45,10 @@ dependencies {
     compile 'com.github.faruktoptas:FancyShowCaseView:0.0.6'
     compile 'com.github.florent37:viewanimator:1.0.5'
 
-<<<<<<< HEAD
+
     compile 'com.thoughtbot:expandablerecyclerview:1.0'
 
-=======
->>>>>>> origin/driver-app-native-android
+
     compile 'com.google.android.gms:play-services:6.5.87'
     testCompile 'junit:junit:4.12'
 }

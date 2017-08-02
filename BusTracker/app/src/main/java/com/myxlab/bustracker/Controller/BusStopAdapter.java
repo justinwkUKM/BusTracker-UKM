@@ -60,6 +60,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         }
 
 
+
         Log.d(TAG, "BusStopAdapter()");
 
     }
@@ -89,84 +90,54 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         context = navigationActivity.getApplicationContext();
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bus_stop_item,null);
         fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/timelessbold.ttf");
-        recyclerView = (RecyclerView) view.findViewById(R.id.rv_currentBuses);
-        recyclerView.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        settingAdapter(busListSelected);
+
+
+
+
         return new BusStopAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-
         Log.d(TAG, "onBindViewHolder()");
         fontChanger.replaceFonts((ViewGroup) this.view);
         String busName  = bus.get(position);
         holder.busName.setText("\""+busName+"\"");
-        holder.locate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),bus.get(holder.getAdapterPosition()));
-                navigationActivity.finish();
-            }
-        });
-
-        holder.schedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, R.string.under_development, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         switch (busName){
+            case "Bus Zone 6":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
+                busListSelected.clear();
+                createList(busName, busListCurrentAll, busListSelected, "Case Z6");
+                settingAdapter(busListSelected, busName);
+                //currentBusesAdapter.notifyDataSetChanged();
+                break;
             case "Bus Zone 2" : holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
                 busListSelected.clear();
                 createList(busName, busListCurrentAll, busListSelected, "Case Z2");
-                currentBusesAdapter.notifyDataSetChanged();
+                settingAdapter(busListSelected, busName);
+                //currentBusesAdapter.notifyDataSetChanged();
                 break;
             case "Bus Zone 3U":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
                 busListSelected.clear();
-                //settingAdapter(busListSelected, busName);
                 createList(busName, busListCurrentAll, busListSelected, "Case Z3u");
-                currentBusesAdapter.notifyDataSetChanged();
-                break;
-            case "Bus Zone 6":
-                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
-                busListSelected.clear();
-                //settingAdapter(busListSelected, busName);
-                createList(busName, busListCurrentAll, busListSelected, "Case Z6");
-                currentBusesAdapter.notifyDataSetChanged();
+                settingAdapter(busListSelected, busName);
+                //currentBusesAdapter.notifyDataSetChanged();
                 break;
             default:  holder.imageViewBusIcon.setImageResource(R.drawable.ic_directions);
-
-
         }
-
-        Log.d(TAG, "All:"+busListAll.size()+" : cALL:"+busListCurrentAll.size()+" : cSelected:"+busListSelected.size());
-
-        /*if (!busListCurrentAll.isEmpty()) {
-            for (int j = 0; j < busListCurrentAll.size(); j++) {
-                if (busListCurrentAll.get(j).getName().equals(busName)) {
-                    busListSelected.add(busListCurrentAll.get(j));
-                }
-            }
-        }
-
-        if (!busListSelected.isEmpty()) {
-            currentBusesAdapter = new CurrentBusesAdapter(busListSelected, context);
-            recyclerView.setAdapter(currentBusesAdapter);
-            currentBusesAdapter.notifyDataSetChanged();
-        }
-*/
     }
 
-    private void settingAdapter(List<Bus> list) {
-        currentBusesAdapter = new CurrentBusesAdapter(list, context);
+    private void settingAdapter(List<Bus> list, String busName) {
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv_currentBuses);
+        recyclerView.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        currentBusesAdapter = new CurrentBusesAdapter(list, context, busName, navigationActivity, busStop);
         recyclerView.setAdapter(currentBusesAdapter);
         //currentBusesAdapter.notifyDataSetChanged();
     }
