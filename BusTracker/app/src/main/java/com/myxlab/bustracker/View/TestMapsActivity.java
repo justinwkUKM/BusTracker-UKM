@@ -56,6 +56,8 @@ public class TestMapsActivity extends FragmentActivity implements OnMapReadyCall
     private ArrayList<LatLng> points; //added
     Polyline line; //added
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

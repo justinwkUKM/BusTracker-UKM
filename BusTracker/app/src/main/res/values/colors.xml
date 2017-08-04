@@ -13,4 +13,9 @@
     <color name="red">#b71c1c</color>
     <color name="light_grey">#e9e5e5</color>
     <color name="transparent_grey">#d1504f4f</color>
+    <color name="bus_icon_orange_ori">#FFB300</color>
+    <color name="bus_icon_orange">#ffca4c</color>
+    <color name="background_pink">#f4366c</color>
+
+
 </resources>

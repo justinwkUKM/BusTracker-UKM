@@ -499,7 +499,17 @@ public class MainActivity extends BaseActivity {
         etaProgress.setVisibility(View.VISIBLE);
         busETATV.setVisibility(View.GONE);
         busETAFrom.setText(R.string.loading);
-        UserInstance.getInstance().getVolleyApp().getETA(getString(R.string.url_eta), bustop, bus, this);
+
+        int nearestBSIndex = UserInstance.getInstance().getNearestBusStopIndex();
+        String nearestBusStop = UserInstance.getInstance().getBusStopList().get(nearestBSIndex).getName();
+        if (nearestBSIndex!=0){
+            UserInstance.getInstance().getVolleyApp().getETA(getString(R.string.url_eta), nearestBusStop, bus, this);
+        }else{
+            UserInstance.getInstance().getVolleyApp().getETA(getString(R.string.url_eta), bustop, bus, this);
+        }
+
+
+
     }
 
     private void infoBottomSheetListener() {

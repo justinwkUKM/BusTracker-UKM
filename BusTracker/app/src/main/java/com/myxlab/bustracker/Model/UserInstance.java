@@ -19,6 +19,8 @@ public class UserInstance {
     private List<Bus> buses;
     private MainActivity mainActivity;
 
+    private int nearestBusStopIndex = 0;
+
 
 
     private static final UserInstance holder = new UserInstance();
@@ -95,5 +97,13 @@ public class UserInstance {
 
     public void setBuses(List<Bus> buses) {
         this.buses = buses;
+    }
+
+    public int getNearestBusStopIndex() {
+        return nearestBusStopIndex;
+    }
+
+    public void setNearestBusStopIndex(int nearestBusStopIndex) {
+        this.nearestBusStopIndex = nearestBusStopIndex;
     }
 }

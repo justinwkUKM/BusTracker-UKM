@@ -149,7 +149,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setTrafficEnabled(false);
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.mapstyle));
-
         UserInstance.getInstance().getVolleyApp().getBusStop(getString(R.string.url_bus_stop_list), getActivity(), this);
 
 
@@ -766,6 +765,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     greenMarker.setIcon(BitmapDescriptorFactory.fromBitmap(scaledGreenBitmap));
                 }
             }
+
+            if (busStopGreenIndex!=0){
+                UserInstance.getInstance().setNearestBusStopIndex(busStopGreenIndex);
+            }
+
+            Log.e("nearestBusStop", UserInstance.getInstance().getBusStopList().get(busStopGreenIndex).getName());
+
         }else {
             Toast.makeText(context, "Location Not Available", Toast.LENGTH_SHORT).show();
         }
