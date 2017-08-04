@@ -87,7 +87,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private Marker greenMarker;
     MapsFragment mapsFragment;
     List<Marker> busesMarker;
-
+    Boolean isNearest = false;
     public MapsFragment() {
     }
 
@@ -607,7 +607,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
             switch (hashMapMarker.get(marker)) {
                 case "Bus Stop":
-                    ((MainActivity) getActivity()).BusStopBottomSheetCall(hashMapBusStopListPosition.get(marker));
+                    Log.e("INDEX", "#Map" + (hashMapBusStopListPosition.get(marker))+ "    GrIndex"+busStopGreenIndex);
+
+                    if (hashMapBusStopListPosition.get(marker)==busStopGreenIndex){
+                       isNearest = true;
+                    }else{
+                        isNearest =false;
+                    }
+
+                    ((MainActivity) getActivity()).BusStopBottomSheetCall(hashMapBusStopListPosition.get(marker), isNearest );
+
                     break;
                 default:
                     break;
@@ -723,10 +732,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         super.onResume();
 
     }
+    int busStopGreenIndex = 0;
 
     private void checkBusStopDistance() {
 
-        int busStopGreenIndex = 0;
+
         double distance = 0;
         if (mCurrentLocation != null){ LatLng myDistance = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
 

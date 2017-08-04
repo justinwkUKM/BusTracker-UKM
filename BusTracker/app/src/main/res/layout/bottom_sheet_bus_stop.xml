@@ -53,7 +53,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/medium_dp"
                     android:gravity="center_vertical"
-                    android:text="@string/go"
+                    android:text="@string/lets_go"
+                    android:id="@+id/tvBusStopClick"
                     android:textStyle="bold"
                     android:textColor="@color/bus_icon_orange" />
             </RelativeLayout>

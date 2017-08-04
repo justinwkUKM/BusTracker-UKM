@@ -37,6 +37,7 @@ import com.myxlab.bustracker.Model.Bus;
 import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.POI;
 import com.myxlab.bustracker.Model.UserInstance;
+import com.myxlab.bustracker.Model.maps.Helper;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.View.AlertsFragment;
 import com.myxlab.bustracker.View.LoginActivity;
@@ -749,6 +750,8 @@ public class VolleyApp {
         }
     }
 
+
+
     private void volleyErrorResponse(VolleyError error, Context context) {
 
         try {
@@ -881,4 +884,79 @@ public class VolleyApp {
         UserInstance.getInstance().getQueue().add(jsonRequest);
         UserInstance.getInstance().setLastRequestTime(System.currentTimeMillis());
     }
+
+    public void getWalkingData(String directionPath, final MainActivity mainActivity){
+        String api = directionPath;
+        final String[] distance = {""};
+        final String[] duration = {""};
+        final String[] polyline = {""};
+        Log.e("DirectionPath",directionPath);
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+
+
+                        try {
+                            JSONArray resultArray = response.getJSONArray("routes");
+
+                            for (int i = 0; i < resultArray.length(); i++) {
+
+                                try {
+                                    JSONObject jsonRoute = resultArray.getJSONObject(i);
+
+
+                                    JSONArray legs = jsonRoute.getJSONArray("legs");
+                                    Log.e("ResponseDirectionAPI",legs.toString());
+                                    for (int j = 0; j < legs.length(); j++) {
+                                        JSONObject jsonLegs = legs.getJSONObject(i);
+                                        distance[0] = jsonLegs.getJSONObject("distance").getString("text");
+                                        duration[0] = jsonLegs.getJSONObject("duration").getString("text");
+                                    }
+
+                                   polyline[0] = jsonRoute.getJSONObject("overview_polyline").getString("points");
+
+                                    mainActivity.show_getWalk(distance[0], duration[0], polyline[0]);
+                                    Log.e("ASD",distance[0] +"//"+duration[0]+"//"+ polyline[0]);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        volleyErrorResponse(error, context);
+                    }
+                }) {
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+
+                return volleyParseNetworkResponse(response);
+            }
+
+        };
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    addQueue(jsonRequest);
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+
+    }
+
 }

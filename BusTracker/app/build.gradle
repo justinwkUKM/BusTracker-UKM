@@ -29,7 +29,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     compile 'com.google.maps.android:android-maps-utils:0.4.4'
+
+
+
 
     compile 'com.google.maps.android:android-maps-utils:0.4.4'
     compile 'com.github.clans:fab:1.6.4'
@@ -44,11 +48,9 @@ dependencies {
     compile 'com.github.glomadrian:Grav:1.1'
     compile 'com.github.faruktoptas:FancyShowCaseView:0.0.6'
     compile 'com.github.florent37:viewanimator:1.0.5'
-
-
     compile 'com.thoughtbot:expandablerecyclerview:1.0'
-
-
-    compile 'com.google.android.gms:play-services:6.5.87'
     testCompile 'junit:junit:4.12'
+
+    compile 'com.google.code.gson:gson:2.6.1'
+
 }

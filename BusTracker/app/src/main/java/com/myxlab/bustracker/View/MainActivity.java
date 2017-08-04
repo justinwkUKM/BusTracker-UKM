@@ -1,6 +1,5 @@
 package com.myxlab.bustracker.View;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -9,20 +8,16 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
@@ -36,7 +31,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
-import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,12 +47,12 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Controller.PagerAdapter;
+import com.myxlab.bustracker.Controller.VolleyApp;
 import com.myxlab.bustracker.DBHandler;
 import com.myxlab.bustracker.FontChangeCrawler;
 import com.myxlab.bustracker.Model.Auth;
@@ -71,8 +65,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static android.R.id.input;
-
 public class MainActivity extends BaseActivity {
 
     public static final String BUS_STOP_KEY = "BUS STOP KEY";
@@ -84,7 +76,7 @@ public class MainActivity extends BaseActivity {
     private FloatingActionMenu fab_menu;
     private BottomSheetBehavior infoBottomSheet, bottomSheetBusStop, bottomSheetBus, bottomSheetETA;
     private LinearLayout infoHeader, bottomSheetLLaddButtons;
-    private TextView tvInfoTitle, infoSwipeTitle, tvInfoTitleExpand, busTitle, busStopTitle, tv_chip_text, busETAName, busETAFrom, busETATV, etaText, tvpoiBusStops, tvPoiAddress, tvPoiPhone, tvPoiEmail;
+    private TextView tvInfoTitle, infoSwipeTitle, tvInfoTitleExpand, busTitle, busStopTitle, tv_chip_text, busETAName, busETAFrom, busETATV, etaText, tvpoiBusStops, tvPoiAddress, tvPoiPhone, tvPoiEmail, tvBusStopClick;
     private NetworkImageView ivInfoIMG;
     public Context context;
     public EditText search;
@@ -293,16 +285,10 @@ public class MainActivity extends BaseActivity {
         fontChanger.replaceFonts((ViewGroup) findViewById(R.id.bottomSheetBusStop) );
         bottomSheetBusStop.setState(BottomSheetBehavior.STATE_HIDDEN);
         busStopTitle = (TextView) findViewById(R.id.busStopTitle);
+
+        tvBusStopClick = (TextView) findViewById(R.id.tvBusStopClick);
         rv_bsBusStopIco = (RelativeLayout) findViewById(R.id.bsBusStopIco);
-        rv_bsBusStopIco.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
-                intent.putExtra(BUS_STOP_KEY, busStopIndex);
-                startActivity(intent);
-                bottomSheetBusStop.setState(BottomSheetBehavior.STATE_HIDDEN);
-            }
-        });
+
     }
 
     private void initFab() {
@@ -331,7 +317,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 Toast.makeText(context, "recreate", Toast.LENGTH_SHORT).show();
                 recreate();
-                startActivity(new Intent(MainActivity.this, TestMapsActivity.class));
+                startActivity(new Intent(MainActivity.this, RouteMapsActivity.class));
                 //mapsFragment.onCheckAnimation();
             }
         });
@@ -481,14 +467,91 @@ public class MainActivity extends BaseActivity {
         busTitle.setText(title);
     }
 
-    public void BusStopBottomSheetCall(int busStopIndex) {
+    public void BusStopBottomSheetCall(final int busStopIndex, Boolean isNearest) {
         closeBottomSheet();
         fab_menu.setVisibility(View.GONE);
         this.busStopIndex = busStopIndex;
         bottomSheetBusStop.setState(BottomSheetBehavior.STATE_COLLAPSED);
         busStopTitle.setText(UserInstance.getInstance().getBusStopList().get(busStopIndex).getName());
+
+        if (isNearest){
+
+            tvBusStopClick.setText(getResources().getString(R.string.lets_walk));
+            tvBusStopClick.setOnClickListener(null);
+            tvBusStopClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                calculateWalk(busStopIndex);
+                }
+            });
+        }else {
+
+            tvBusStopClick.setText(getResources().getString(R.string.lets_go));
+            tvBusStopClick.setOnClickListener(null);
+            tvBusStopClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+                    intent.putExtra(BUS_STOP_KEY, busStopIndex);
+                    startActivity(intent);
+                    bottomSheetBusStop.setState(BottomSheetBehavior.STATE_HIDDEN);
+                }
+            });
+        }
+
+
     }
 
+    private void calculateWalk(int busStopIndex) {
+        String latOrigin= String.valueOf(mapsFragment.mCurrentLocation.getLatitude());
+        String lonOrigin= String.valueOf(mapsFragment.mCurrentLocation.getLongitude());
+        String latDestin= String.valueOf(UserInstance.getInstance().getBusStopList().get(busStopIndex).getLat());
+        String lonDestin= String.valueOf(UserInstance.getInstance().getBusStopList().get(busStopIndex).getLon());
+        String directionPath = getUrl(latOrigin,lonOrigin,latDestin,lonDestin,"walking");
+        UserInstance.getInstance().getVolleyApp().getWalkingData(directionPath, this);
+    }
+
+    public void show_getWalk(String distance, String duration, String polyline){
+        tvBusStopClick.setText(distance+"//"+duration);
+        List<LatLng> decodedPoly = decodePoly(polyline);
+        drawPolyline(getResources().getColor(R.color.blue),10,decodedPoly);
+    }
+
+    private List<LatLng> decodePoly(String encoded) {
+        List<LatLng> poly = new ArrayList<>();
+        int index = 0, len = encoded.length();
+        int lat = 0, lng = 0;
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+            LatLng p = new LatLng((((double) lat / 1E5)),
+                    (((double) lng / 1E5)));
+            poly.add(p);
+        }
+        return poly;
+    }
+    public String getUrl(String originLat, String originLon, String destinationLat, String destinationLon, String mode){
+        final String DIRECTION_API = getResources().getString(R.string.get_walking_url);
+        final String API_KEY = getResources().getString(R.string.API_KEY_GET_WALK);
+        final int MY_SOCKET_TIMEOUT_MS = 5000;
+
+        return DIRECTION_API + originLat+","+originLon+"&destination="+destinationLat+","+destinationLon+"&mode="+mode+"&key="+API_KEY;
+    }
     public void ETABottomSheetCall(String bustop, String bus) {
         closeBottomSheet();
         fab_menu.setVisibility(View.GONE);
@@ -585,7 +648,42 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    boolean doubleBackToExitPressedOnce = false;
+
     @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+
+        this.doubleBackToExitPressedOnce = true;
+        //Toast.makeText(this, "BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        if (search.isFocused()) {
+            search.clearFocus();
+        }
+
+        if (infoBottomSheet.getState() == BottomSheetBehavior.STATE_COLLAPSED || infoBottomSheet.getState() == BottomSheetBehavior.STATE_EXPANDED ||
+                bottomSheetBusStop.getState() == BottomSheetBehavior.STATE_COLLAPSED
+                || bottomSheetBus.getState() == BottomSheetBehavior.STATE_COLLAPSED
+                || bottomSheetETA.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+
+            closeBottomSheet();
+            tabLayout.setVisibility(View.VISIBLE);
+
+        }
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+   /* @Override
     public void onBackPressed() {
 
         if (search.isFocused()) {
@@ -603,8 +701,8 @@ public class MainActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
+    }*/
+    //long lastTimePressed=0L;
     private void imageLoaders(String string) {
         ImageLoader imageLoader = UserInstance.getInstance().getVolleyApp().getInstance(context).getImageLoader();
         ivInfoIMG.setImageUrl("http://bt.faizhasan.info/pages/img/poi/" + string+".jpg", imageLoader);
@@ -776,18 +874,6 @@ public class MainActivity extends BaseActivity {
                     line.remove();
                 }
 
-
-                // Instantiating the class PolylineOptions to plot polyline in the map
-                PolylineOptions polylineOptions = new PolylineOptions();
-
-                // Setting the color of the polyline
-                polylineOptions.color(getResources().getColor(R.color.black));
-
-                // Setting the width of the polyline
-                polylineOptions.width(8);
-
-                // Adding the taped point to the ArrayList
-                //points.add(point);
                 List<LatLng> latLngs ;
                 switch (bus){
                     case "Bus Zone 6" : latLngs = PolyUtil.decode("ic}P}_glRdA^hAj@nBpAfFpDzDjCp@w@|GyHzAyAtAaBZi@b@mANi@Tg@DMVQp@Wn@MvA_@vC}@lBYrCSb@iAJK^QfASvF_@dA[x@_@`A{@\\YLHNFgB|A_@ZkBb@I]yAH}CTk@J[FYLIHYl@Q`@b@Ff@NTRPVLX?R?TG\\k@hBs@~Ai@bAoEvEqEvE|@z@~@jBh@rAPnAFbAAr@Xd@\\Zj@RlATb@?xBL^L^TNLLBP@VEXI`BE|AD\\B`@CTOZg@`@eALQTQz@[^K`@W\\_@HWDO?[Vm@PY`@[l@Ib@A\\DPFPLpA`@x@FnACtBOj@@\\JRRV\\d@t@Nf@Dh@C^GZWj@mAbCs@jA@@BB?B?HEDIBGCCAAAa@ZaBlAgEnCkAf@e@FaAJOFSPs@dAi@v@k@pAs@zBI`@xAvAl@v@`@\\`D|@b@b@L`@P`CFTRVZR~@`@T\\\\fAPp@JG`@GfAM~@c@j@Sp@Gd@J\\TPRLX`@dAz@vArAtBRRj@`@b@RxA\\dAXHDFS`AaDPu@?g@{B_JMe@Cc@HqBTuCGDYAGIAI?IBILGT@HN?NEHWfDGhBD`@j@xBvArFD`@Gj@aA~CSt@SIiBc@s@Sc@Sm@g@Y]eBqCa@w@a@cA[c@c@Ue@Gs@Lo@Vc@T[FcAJ[HEBEQYgA[s@_@Wy@]USMWIe@Es@Es@GUU]SQsA]w@Uk@[a@c@qBwBu@p@YFM@i@I}@Og@SUQWc@WqAQiAMs@QUWOIGg@Ew@FE@{ArBi@x@W\\WUgAeAgAgAuBqBsAkAk@o@uBoC}DaFiCcDmEgEWm@MM{AmA{DkCgFqDoBqAiAk@eA_@");
@@ -798,22 +884,7 @@ public class MainActivity extends BaseActivity {
                         break;
                     default:  latLngs = PolyUtil.decode(polyline);
                 }
-
-
-                LatLng startingPoint = latLngs.get(0);
-                LatLng endingPoint = latLngs.get(latLngs.size() -1);
-                // Setting points of polyline
-                polylineOptions.addAll(latLngs);
-
-
-// create marker
-                mapsFragment.addMarker(startingPoint.latitude,startingPoint.longitude, "Start","start",true);
-                mapsFragment.addMarker(endingPoint.latitude,endingPoint.longitude, "End","end",true);
-
-                // Adding the polyline to the map
-                line = mapsFragment.map.addPolyline(polylineOptions);
-
-
+                drawPolyline(getResources().getColor(R.color.black), 12, latLngs);
 
             }
         });
@@ -824,6 +895,38 @@ public class MainActivity extends BaseActivity {
             mapsFragment.focusCamera(new LatLng(lat, lon));
         }
 
+    }
+
+    private void drawPolyline(int color, int i, List<LatLng> latLngs) {
+        if (line!=null){
+            line.remove();
+        }
+        // Instantiating the class PolylineOptions to plot polyline in the map
+        PolylineOptions polylineOptions = new PolylineOptions();
+
+        // Setting the color of the polyline
+        polylineOptions.color(color);
+
+        // Setting the width of the polyline
+        polylineOptions.width(i);
+
+        // Adding the taped point to the ArrayList
+        //points.add(point);
+
+
+
+        LatLng startingPoint = latLngs.get(0);
+        LatLng endingPoint = latLngs.get(latLngs.size() -1);
+        // Setting points of polyline
+        polylineOptions.addAll(latLngs);
+
+        // create marker
+        mapsFragment.addMarker(startingPoint.latitude,startingPoint.longitude, "Start","start",true);
+        mapsFragment.addMarker(endingPoint.latitude,endingPoint.longitude, "End","end",true);
+
+
+        // Adding the polyline to the map
+        line = mapsFragment.map.addPolyline(polylineOptions);
     }
 
     private String convertSecsToReadableFormat(String inputEta) {
