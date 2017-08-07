@@ -1,9 +1,6 @@
 package com.myxlab.bustracker.Controller;
 
 import android.content.Context;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +22,7 @@ import com.myxlab.bustracker.View.NavigationActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHolder> {
 
@@ -100,7 +97,10 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         String busName  = busListCurrentAll.get(position).getName(); // bus.get(position);
         holder.busName.setText("\""+busName+"\"");
         holder.tvLocate.setText(busListCurrentAll.get(position).getPlate());
-        holder.tvSchedule.setText(busListCurrentAll.get(position).getName());
+        Random random = new Random();
+        int rand = random.nextInt(25);
+        String busStopJustPssed  = "Bus Stops Remaining "+ rand;
+        holder.tvSchedule.setText(busStopJustPssed);
 
         switch (busName){
             case "Bus Zone 6":
@@ -121,7 +121,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
             public void onClick(View view) {
 
                     /*TODO Change the holder.getAdapterPosition()).getName() to plate number in Here and in the API for ETA*/
-                UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),busListCurrentAll.get(holder.getAdapterPosition()).getName());
+                UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),busListCurrentAll.get(holder.getAdapterPosition()).getName(),busListCurrentAll.get(holder.getAdapterPosition()).getLat(),busListCurrentAll.get(holder.getAdapterPosition()).getLon());
                 navigationActivity.finish();
 
             }

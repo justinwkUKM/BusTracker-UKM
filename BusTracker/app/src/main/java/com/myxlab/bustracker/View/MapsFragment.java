@@ -86,7 +86,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private LocationManager locationManager;
     private Marker greenMarker;
     MapsFragment mapsFragment;
-    List<Marker> busesMarker;
+    List<Marker> busesMarker, startEndMarker;
     Boolean isNearest = false;
     public MapsFragment() {
     }
@@ -115,6 +115,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         greenMarker = null;
         busesMarker = new LinkedList<>();
+        startEndMarker = new LinkedList<>();
         ((MainActivity) getActivity()).mapsFragment = this;
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -332,17 +333,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 /*Loop the bus list*/
                 for (int i = 0; UserInstance.getInstance().getBuses().size() > i; i++) {
                     /*String for bus maker title*/
-                    String title = UserInstance.getInstance().getBuses().get(i).getName() + " (" + UserInstance.getInstance().getBuses().get(i).getPlate() + ")";
+                    String title =  UserInstance.getInstance().getBuses().get(i).getPlate();
                     /*Set bus marker*/
                     Marker busMarker = map.addMarker(busMarkerOptions(UserInstance.getInstance().getBuses().get(i).getName(),title, new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon())));
                     /*Add Bus Marker*/
                     busesMarker.add(busMarker);
                     /*Getting proper index for bus marker array to match bus list*/
                     int index = busesMarker.size() - 1;
-
                     /*Hash Map bus marker and bus list*/
                     hashMapBus.put(busesMarker.get(index), UserInstance.getInstance().getBuses().get(i));
-
                     /*Hash Map map marker to differentiate marker type*/
                     hashMapMarker.put(busesMarker.get(index), "Bus");
 
@@ -355,8 +354,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     Log.e("V", entry.getKey().getTitle()+":"+entry.getValue().getPlate());
                     }
                 }
-
-
             }
             /*If Bus Marker Not empty*/
             else {
@@ -624,8 +621,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         } else {
 
+            List<Bus> bus  = new LinkedList<>();
+            bus = UserInstance.getInstance().getBuses();
+            for (int i = 0; i < bus.size(); i++){
+                String buss = bus.get(i).getPlate();
+                String bussName = bus.get(i).getName();
+                Log.e(bussName,buss);
+            }
+
             String title = marker.getTitle();
-            ((MainActivity) getActivity()).BusBottomSheetCall(title);
+            ((MainActivity) getActivity()).BusBottomSheetCall(title, marker);
 
         }
 
@@ -694,7 +699,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(UserInstance.getInstance().getBusStopList().get(i).getLat(), UserInstance.getInstance().getBusStopList().get(i).getLon()));
             markerOptions.title(UserInstance.getInstance().getBusStopList().get(i).getName());
             //markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red)));
-//          markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_busstop",10,10)));
+            //markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_busstop",10,10)));
             Bitmap smallStartMarker = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red),200, 200, false);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallStartMarker));
             Marker marker = map.addMarker(markerOptions);
@@ -705,7 +710,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         }
 
         findBusStop();
-
     }
     public Bitmap resizeMapIcons(String iconName,int width, int height){
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
@@ -730,7 +734,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onResume() {
         super.onResume();
-
     }
     int busStopGreenIndex = 0;
 
@@ -791,6 +794,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onLocationChanged(Location location) {
         checkBusStopDistance();
+
     }
 
     @Override
@@ -858,6 +862,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         ani.start();
 
         hashMapMarker.put(marker, type);
+        for (Map.Entry<Marker, String> entry : hashMapMarker.entrySet()) {
+            String key = entry.getKey().getTitle();
+            String value = entry.getValue();
+            Log.e("key:"+ key, "value:"+ value);
+            if (value.equals("start")|| value.equals("end")){
+                startEndMarker.add(entry.getKey());
+            }
+        }
+
 
         if (focus) {
             focusCamera(new LatLng(lat, lon));
@@ -903,7 +916,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         int zoom = (int)map.getCameraPosition().zoom;
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), zoom), 4000, null);
 
+        Log.e("selectedMarker","Lat:"+lat.toString()+ "   Long:"+lon.toString()+"    Name:"+name);
+
     }
+
 
 /*
 

@@ -47,6 +47,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
@@ -317,7 +318,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 Toast.makeText(context, "recreate", Toast.LENGTH_SHORT).show();
                 recreate();
-                startActivity(new Intent(MainActivity.this, RouteMapsActivity.class));
+                startActivity(new Intent(MainActivity.this, TestMapsActivity.class));
                 //mapsFragment.onCheckAnimation();
             }
         });
@@ -460,11 +461,17 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public void BusBottomSheetCall(String title) {
+    public void BusBottomSheetCall(String title, Marker marker) {
         closeBottomSheet();
         fab_menu.setVisibility(View.GONE);
         bottomSheetBus.setState(BottomSheetBehavior.STATE_COLLAPSED);
         busTitle.setText(title);
+        busTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void BusStopBottomSheetCall(final int busStopIndex, Boolean isNearest) {
@@ -552,7 +559,7 @@ public class MainActivity extends BaseActivity {
 
         return DIRECTION_API + originLat+","+originLon+"&destination="+destinationLat+","+destinationLon+"&mode="+mode+"&key="+API_KEY;
     }
-    public void ETABottomSheetCall(String bustop, String bus) {
+    public void ETABottomSheetCall(String bustop, String bus, Double busLat, Double busLon) {
         closeBottomSheet();
         fab_menu.setVisibility(View.GONE);
         bottomSheetETA.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -566,9 +573,9 @@ public class MainActivity extends BaseActivity {
         int nearestBSIndex = UserInstance.getInstance().getNearestBusStopIndex();
         String nearestBusStop = UserInstance.getInstance().getBusStopList().get(nearestBSIndex).getName();
         if (nearestBSIndex!=0){
-            UserInstance.getInstance().getVolleyApp().getETA(getString(R.string.url_eta), nearestBusStop, bus, this);
+            UserInstance.getInstance().getVolleyApp().getETA(getString(R.string.url_eta), nearestBusStop, bus, this, busLat,busLon);
         }else{
-            UserInstance.getInstance().getVolleyApp().getETA(getString(R.string.url_eta), bustop, bus, this);
+            UserInstance.getInstance().getVolleyApp().getETA(getString(R.string.url_eta), bustop, bus, this, busLat, busLon);
         }
 
 
@@ -857,7 +864,7 @@ public class MainActivity extends BaseActivity {
 
     }
     Polyline line = null ;
-    public void setETA(final String bus, String busETA, String busETAto, Double lat, Double lon, final String polyline, Boolean status) {
+    public void setETA(final String bus, String busETA, String busETAto, Double lat, Double lon, final String polyline, Boolean status, Double busLat, Double busLon) {
         etaText.setVisibility(View.VISIBLE);
         etaProgress.setVisibility(View.GONE);
         String readableETA = convertSecsToReadableFormat(busETA);
@@ -870,9 +877,7 @@ public class MainActivity extends BaseActivity {
         busETATV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (line != null){
-                    line.remove();
-                }
+                removeLine();
 
                 List<LatLng> latLngs ;
                 switch (bus){
@@ -884,7 +889,7 @@ public class MainActivity extends BaseActivity {
                         break;
                     default:  latLngs = PolyUtil.decode(polyline);
                 }
-                drawPolyline(getResources().getColor(R.color.black), 12, latLngs);
+                drawPolyline(getResources().getColor(R.color.red), 12, latLngs);
 
             }
         });
@@ -892,15 +897,21 @@ public class MainActivity extends BaseActivity {
         busETAFrom.setText(busETAto);
 
         if (status) {
-            mapsFragment.focusCamera(new LatLng(lat, lon));
+            //TODO Fix the camera focus on click
+//            mapsFragment.focusCamera(new LatLng(busLat, busLon));
         }
 
     }
 
     private void drawPolyline(int color, int i, List<LatLng> latLngs) {
-        if (line!=null){
-            line.remove();
+        removeLine();
+        if (mapsFragment.startEndMarker!=null){
+            for (int j = 0; j < mapsFragment.startEndMarker.size(); j++){
+                removeMarker(mapsFragment.startEndMarker.get(j));
+            }
         }
+
+
         // Instantiating the class PolylineOptions to plot polyline in the map
         PolylineOptions polylineOptions = new PolylineOptions();
 
@@ -913,20 +924,28 @@ public class MainActivity extends BaseActivity {
         // Adding the taped point to the ArrayList
         //points.add(point);
 
-
-
         LatLng startingPoint = latLngs.get(0);
         LatLng endingPoint = latLngs.get(latLngs.size() -1);
         // Setting points of polyline
         polylineOptions.addAll(latLngs);
 
         // create marker
-        mapsFragment.addMarker(startingPoint.latitude,startingPoint.longitude, "Start","start",true);
-        mapsFragment.addMarker(endingPoint.latitude,endingPoint.longitude, "End","end",true);
+        mapsFragment.addMarker(startingPoint.latitude,startingPoint.longitude, "Start","start",false);
+        mapsFragment.addMarker(endingPoint.latitude,endingPoint.longitude, "End","end",false);
 
 
         // Adding the polyline to the map
         line = mapsFragment.map.addPolyline(polylineOptions);
+    }
+
+    private void removeLine() {
+        if (line!=null){
+            line.remove();
+        }
+    }
+
+    private void removeMarker(Marker marker) {
+        marker.remove();
     }
 
     private String convertSecsToReadableFormat(String inputEta) {
@@ -1038,6 +1057,20 @@ public class MainActivity extends BaseActivity {
                 .start();
     }
 
+    private void redrawLine(Marker selMarker){
 
+        mapsFragment.map.clear();  //clears all Markers and Polylines
+
+        PolylineOptions options = new PolylineOptions().width(5).color(Color.BLUE).geodesic(true);
+        for (int i = 0; i < followingPoints.size(); i++) {
+            LatLng point = followingPoints.get(i);
+            options.add(point);
+        }
+        //mapsFragment.addMarker(options,); //add Marker in current position
+        followingPolyline = mapsFragment.map.addPolyline(options); //add Polyline
+    }
+
+    private ArrayList<LatLng> followingPoints; //added
+    Polyline followingPolyline; //added
 
 }

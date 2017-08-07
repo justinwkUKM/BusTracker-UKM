@@ -315,7 +315,7 @@ public class VolleyApp {
         }
     }
 
-    public void getETA(String url, final String busStop, final String bus, final MainActivity mainActivity) {
+    public void getETA(String url, final String busStop, final String bus, final MainActivity mainActivity, final Double busLat, final Double busLon) {
 
         Map<String, String> params = new HashMap<>();
         params.put(BUS_STOP, busStop);
@@ -367,10 +367,10 @@ public class VolleyApp {
                         assert lon != null;
 
                         if (!eta.equals("Please wait for next Trip")) {
-                            mainActivity.setETA(bus, eta, etaTo, lat, lon, polyline, true);
+                            mainActivity.setETA(bus, eta, etaTo, lat, lon, polyline, true, busLat, busLon);
 
                         } else {
-                            mainActivity.setETA("Next", eta, etaTo, lat, lon, polyline, false);
+                            mainActivity.setETA("Next", eta, etaTo, lat, lon, polyline, false, busLat, busLon);
                         }
 
                     }

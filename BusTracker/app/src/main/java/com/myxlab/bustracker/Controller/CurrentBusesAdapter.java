@@ -1,8 +1,6 @@
 package com.myxlab.bustracker.Controller;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,8 +84,6 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
                 Toast.makeText(context, R.string.under_development, Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }*/
 
     private void setData(final ViewHolder holder, final int position) {
@@ -98,7 +94,7 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
 
             if (busList.get(position).getName().equals(busName)){
                 String busPlate  = busList.get(position).getPlate();
-                String busStopJustPssed  = busList.get(position).getName();
+                String busStopJustPssed  = "Bus Stops Remaining "+ busList.get(position).getId();
                 holder.tvPlate.setText(busPlate);
                 holder.tvJustPassed.setText(busStopJustPssed);
             }
@@ -108,7 +104,7 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
                 public void onClick(View view) {
 
                     /*TODO Change the holder.getAdapterPosition()).getName() to plate number in Here and in the API for ETA*/
-                    UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),busList.get(holder.getAdapterPosition()).getPlate());
+                    UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),busList.get(holder.getAdapterPosition()).getPlate(), busList.get(holder.getAdapterPosition()).getLat(), busList.get(holder.getAdapterPosition()).getLon());
                     navigationActivity.finish();
 
                 }
