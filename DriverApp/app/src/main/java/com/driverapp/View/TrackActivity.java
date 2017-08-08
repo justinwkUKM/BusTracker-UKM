@@ -33,6 +33,7 @@ import com.driverapp.ServiceCallbacks;
 import com.github.florent37.viewanimator.ViewAnimator;
 
 import java.util.Calendar;
+import java.util.List;
 
 import tyrantgit.explosionfield.ExplosionField;
 
@@ -40,6 +41,7 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
 
     public static final String SETUP_FRAGMENT = "Setup Fragment";
     private boolean status = true;
+    private boolean isJourneyCompleted = false;
     public LocationManager locationManager;
     private TickTockView tickTockView;
     boolean startup = false;
@@ -141,7 +143,8 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
     public void onBackPressed() {
 
         if (!settingUP) {
-            Toast.makeText(this, R.string.please_wait, Toast.LENGTH_SHORT).show();
+            finish();
+            //Toast.makeText(this, R.string.please_wait, Toast.LENGTH_SHORT).show();
         } else {
 
             if (status) {
@@ -156,6 +159,10 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
                 Toast.makeText(this, R.string.please_stop_journey, Toast.LENGTH_SHORT).show();
             }
         }
+        if (isJourneyCompleted){
+            finish();
+        }
+
     }
 
     public void startUpTimer() {
@@ -280,7 +287,7 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
             simpleAnimation();
             startJourneyButton.setText(R.string.stop_journey);
             trackerIcon.setVisibility(View.GONE);
-            startJourneyButton.setBackground(getResources().getDrawable(R.drawable.cardlayout_coloraccent));
+            startJourneyButton.setBackground(getResources().getDrawable(R.drawable.cardlayout_color_accent));
             Intent intent = new Intent(this, LocationListenerService.class);
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         } else {
@@ -295,28 +302,49 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
                 .start();
         tvNextBusStop.setText("Next Bus Stop " + string.toUpperCase());
 
-    }
+        tvNextBusStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextBusStop();
+            }
+        });
 
+    }
+int counter = 0;
     @Override
     public void nextBusStop() {
-        int nextBusStopIndex = UserInstance.getInstance().getBusLocation() + 1;
-        UserInstance.getInstance().setBusLocation(nextBusStopIndex);
-        nextBusStopLabel(UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName());
-    }
+        counter++;
+        int routeList = UserInstance.getInstance().getRoute().getBusStopList().size();
+        if (routeList - 1 != counter){
+            int nextBusStopIndex = UserInstance.getInstance().getBusLocation() + 1;
+            UserInstance.getInstance().setBusLocation(nextBusStopIndex);
+            nextBusStopLabel(UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName());
+
+        }else{
+            finishJourney(new Location(""));
+        }
+          }
 
     @Override
     public void finishJourney(Location location) {
+        isJourneyCompleted =true;
         status = true;
         startJourneyButton.setVisibility(View.GONE);
         trackBus();
         tvNextBusStop.setText(R.string.finish_journey);
-        if (bound) {
-            locationListenerService.setCallbacks(null);
-            unbindService(serviceConnection);
-            bound = false;
-        }
+
         tickTockView.stop();
-        UserInstance.getInstance().getVolleyApp().setStatusBus(getString(R.string.url_bus_status),getApplicationContext(),false,location.getLatitude(),location.getLongitude());
+
+        if (location.equals("")){
+
+        }else{
+            if (bound) {
+                locationListenerService.setCallbacks(null);
+                unbindService(serviceConnection);
+                bound = false;
+            }
+            UserInstance.getInstance().getVolleyApp().setStatusBus(getString(R.string.url_bus_status),getApplicationContext(),false,location.getLatitude(),location.getLongitude());
+        }
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {

@@ -71,7 +71,6 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         if (!busListTo.isEmpty()) {
             String temp = "";
             for (int i = 0; i < busListTo.size(); i++) {
-
                 temp+= busListTo.get(i).getName()+":"+busListTo.get(i).getPlate()+"\n";
             }
             Log.e(Tag , temp);
@@ -86,6 +85,10 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         context = navigationActivity.getApplicationContext();
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bus_stop_item,null);
         fontChanger = new FontChangeCrawler(context.getAssets(), "fonts/timelessbold.ttf");
+
+        if(busListCurrentAll.size()!=0){
+            navigationActivity.hideButton();
+        }
         return new BusStopAdapter.ViewHolder(view);
     }
 

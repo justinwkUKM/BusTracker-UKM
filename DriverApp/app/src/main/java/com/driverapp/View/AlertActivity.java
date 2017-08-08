@@ -44,5 +44,6 @@ public class AlertActivity extends BaseActivity {
 
         UserInstance.getInstance().getVolleyApp().submitAlert(getString(R.string.url_alert),subject,message,reportType,reporterID, this);
 
+        finish();
     }
 }

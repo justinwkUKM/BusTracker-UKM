@@ -300,7 +300,6 @@ public class MainActivity extends BaseActivity {
         fab_menu.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (fab_menu.isOpened()) {
                     if (tabLayout.getSelectedTabPosition() == 1) {
                         tabLayout.getTabAt(0).select();
@@ -347,7 +346,6 @@ public class MainActivity extends BaseActivity {
                     Log.e("bs.getName()",bs.get(i).getName());
                 }
 
-
                 List<POI> pois = dbHandler.getPOIs();
                 for(int i = 0; i < pois.size(); i++) {
                     //System.out.println(bs.get(i).getName());
@@ -355,7 +353,6 @@ public class MainActivity extends BaseActivity {
                     Log.e("pois.getEmail()",pois.get(i).getEmail());
                     Log.e("pois.getWebsite()",pois.get(i).getWebsite());
                 }
-
             }
         });
     }

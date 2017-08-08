@@ -786,7 +786,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             Log.e("nearestBusStop", UserInstance.getInstance().getBusStopList().get(busStopGreenIndex).getName());
 
         }else {
-            Toast.makeText(context, "Location Not Available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Location Not Available ", Toast.LENGTH_SHORT).show();
         }
 
     }

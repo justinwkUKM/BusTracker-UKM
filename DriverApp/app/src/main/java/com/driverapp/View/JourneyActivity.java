@@ -78,7 +78,7 @@ public class JourneyActivity extends BaseActivity{
 
     public void nextButton(View view) {
 
-        if (UserInstance.getInstance().getBus().getBusId() == null && UserInstance.getInstance().getRoute().getRouteId() == null){
+        if (UserInstance.getInstance().getBus().getBusId() == null || UserInstance.getInstance().getRoute().getRouteId() == null){
             Toast.makeText(this, R.string.select_bus_n_route, Toast.LENGTH_SHORT).show();
         } else if (UserInstance.getInstance().getBus() == null){
             Toast.makeText(this, R.string.select_bus, Toast.LENGTH_SHORT).show();
@@ -93,13 +93,13 @@ public class JourneyActivity extends BaseActivity{
     @Override
     public void onBackPressed() {
 
-        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fragment_layout);
+        /*Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fragment_layout);
 
         if (currentFragment instanceof SearchFragment) {
             super.onBackPressed();
         } else {
             moveTaskToBack(true);
-        }
+        }*/
     }
 
     public void setBus(Bus busInfo){

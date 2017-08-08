@@ -9,7 +9,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +24,7 @@ public class NavigationActivity extends BaseActivity {
 
     public AppBarLayout appBarLayout;
     int busStopIndex;
-
+    Button buttonNoAvailableBuses;
 //    private List<Bus> bus = new ArrayList<>();
 //    private List<BusETA> busETAs = new ArrayList<>();
 //    int pendingRequest = 0;
@@ -38,9 +40,14 @@ public class NavigationActivity extends BaseActivity {
         appBarLayout = (AppBarLayout) findViewById(R.id.navigationAppBar);
         Intent intent = getIntent();
         busStopIndex = intent.getIntExtra(MainActivity.BUS_STOP_KEY,0);
-
+        buttonNoAvailableBuses = (Button) findViewById(R.id.buttonNoBusesAvailable);
         TextView current = (TextView) findViewById(R.id.search_current);
         current.setText(UserInstance.getInstance().getBusStopList().get(busStopIndex).getName());
+
+        int getAvailableBusesListSize = UserInstance.getInstance().getBusStopList().get(busStopIndex).getBus().size();
+        if (getAvailableBusesListSize==0){
+            Log.e("AvailableBuses","0");
+        }
 
         BusStopAdapter busStopAdapter = new BusStopAdapter(UserInstance.getInstance().getBusStopList().get(busStopIndex).getBus(), UserInstance.getInstance().getBusStopList().get(busStopIndex), getApplicationContext(), this);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.navigationRv);
@@ -82,5 +89,8 @@ public class NavigationActivity extends BaseActivity {
         Toast.makeText(this, "Under Development", Toast.LENGTH_SHORT).show();
 
         return view;
+    }
+    public void hideButton(){
+        buttonNoAvailableBuses.setVisibility(View.GONE);
     }
 }

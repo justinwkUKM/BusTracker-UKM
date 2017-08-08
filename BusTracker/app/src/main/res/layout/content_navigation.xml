@@ -9,6 +9,15 @@
     tools:context="com.myxlab.bustracker.View.NavigationActivity"
     tools:showIn="@layout/activity_navigation">
 
+    <Button
+        android:text="No Buses Available at the moment, \n Please try again later"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/bus_icon_orange_ori"
+        android:textColor="@color/white"
+        android:id="@+id/buttonNoBusesAvailable" />
+
     <ProgressBar
         android:visibility="gone"
         android:id="@+id/progressBarNavigation"

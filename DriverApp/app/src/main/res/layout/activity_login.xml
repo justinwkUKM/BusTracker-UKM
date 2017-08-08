@@ -178,7 +178,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/cardlayout_coloraccent"
+                android:background="@drawable/cardlayout_color_accent"
                 android:text="@string/action_sign_in"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
