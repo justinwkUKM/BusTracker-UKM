@@ -334,7 +334,7 @@ int counter = 0;
         tvNextBusStop.setText(R.string.finish_journey);
 
         tickTockView.stop();
-
+//
         if (location.equals("")){
 
         }else{
