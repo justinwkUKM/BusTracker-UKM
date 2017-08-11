@@ -11,11 +11,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -23,6 +26,7 @@ import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +38,7 @@ import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -53,7 +58,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Controller.PagerAdapter;
-import com.myxlab.bustracker.Controller.VolleyApp;
 import com.myxlab.bustracker.DBHandler;
 import com.myxlab.bustracker.FontChangeCrawler;
 import com.myxlab.bustracker.Model.Auth;
@@ -488,17 +492,33 @@ public class MainActivity extends BaseActivity {
                 calculateWalk(busStopIndex);
                 }
             });
-        }else {
+        } else {
 
             tvBusStopClick.setText(getResources().getString(R.string.lets_go));
             tvBusStopClick.setOnClickListener(null);
             tvBusStopClick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
-                    intent.putExtra(BUS_STOP_KEY, busStopIndex);
-                    startActivity(intent);
-                    bottomSheetBusStop.setState(BottomSheetBehavior.STATE_HIDDEN);
+                    if (UserInstance.getInstance().getBuses()== null) {
+                        Snackbar mSnackBar = Snackbar.make(tvBusStopClick, "Please Wait for the buses to Load", Snackbar.LENGTH_LONG);
+                        View snackyview = mSnackBar.getView();
+                        CoordinatorLayout.LayoutParams params =(CoordinatorLayout.LayoutParams)snackyview.getLayoutParams();
+                        params.gravity = Gravity.TOP;
+                        snackyview.setLayoutParams(params);
+                        snackyview.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                        TextView mainTextView = (TextView) (snackyview).findViewById(android.support.design.R.id.snackbar_text);
+                        mainTextView.setTextColor(Color.WHITE);
+                        mSnackBar.show();
+
+                       // Snackbar.make(tvBusStopClick, "Please Wait for the buses to Load", Snackbar.LENGTH_LONG).show();
+                    } else {
+
+                        Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+                        intent.putExtra(BUS_STOP_KEY, busStopIndex);
+                        startActivity(intent);
+                        bottomSheetBusStop.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+                    }
                 }
             });
         }
