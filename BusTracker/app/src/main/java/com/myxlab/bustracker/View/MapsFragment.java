@@ -128,13 +128,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         mapFragment.getMapAsync(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //UserInstance.getInstance().getVolleyApp().getBusStop(getString(R.string.url_bus_stop_list), getActivity(), this);
+    }
 
     @Override
     public void onMapReady(GoogleMap maps) {
         map = maps;
         map.setOnMarkerClickListener(this);
-
-
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -174,6 +178,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     .tilt(0.0f)
                     .build();
         } else {
+            Toast.makeText(context, "mCurrentLoc is Null", Toast.LENGTH_SHORT).show();
             position = CameraPosition.builder()
                     .target(new LatLng(2.930107,
                             101.777434))
@@ -201,8 +206,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         {
             Log.e("Location", "Null");
         }
-
-
     }
 
     public void focusCamera(LatLng latLng) {
@@ -213,7 +216,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 .bearing(0.0f)
                 .tilt(0.0f)
                 .build();
-
         map.animateCamera(CameraUpdateFactory.newCameraPosition(position), null);
     }
 
@@ -344,9 +346,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     hashMapBus.put(busesMarker.get(index), UserInstance.getInstance().getBuses().get(i));
                     /*Hash Map map marker to differentiate marker type*/
                     hashMapMarker.put(busesMarker.get(index), "Bus");
-
                 }
-
                 // iterate map using entryset in for loop
                 for(Map.Entry<Marker, Bus> entry : hashMapBus.entrySet())
                 {   //print keys and values
@@ -374,9 +374,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                                     /*Animate Marker to new Location that has been set in Bus List*/
                                     animateMarker(busesMarker.get(j), new LatLng(UserInstance.getInstance().getBuses().get(i).getLat(), UserInstance.getInstance().getBuses().get(i).getLon()), false);
                                 }
-
                                 ////////////////////////////////////////////////////////
-
 
                                 ///////////////////////////////////////////////////////
                                /* String hashMapMarkervalues = String.valueOf(hashMapMarker.values());
@@ -387,8 +385,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                                 Log.e("hashMapBusValues", hashMapBusValues);
                                 String hashMapBusSize = String.valueOf(hashMapBus.size());
                                 Log.e("hashMapBusSize", hashMapBusSize);*/
-
-
                             }
                         }
                     }
@@ -441,7 +437,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                                 hashMapBus.put(busesMarker.get(index), UserInstance.getInstance().getBuses().get(newBuses.get(j)));
                                 /*Hash Map map marker to differentiate marker type*/
                                 hashMapMarker.put(busesMarker.get(index), "Bus");
-
                             }
                         }
                     }
@@ -554,15 +549,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 4);
                     return;
                 }
-                mCurrentLocation = LocationServices
+                /*mCurrentLocation = LocationServices
                         .FusedLocationApi
                         .getLastLocation(mGoogleApiClient);
                 initCamera(mCurrentLocation);
-                loopBus();
+                loopBus();*/
             }
         }catch (Exception e){
             e.printStackTrace();
         }
+        mCurrentLocation = LocationServices
+                .FusedLocationApi
+                .getLastLocation(mGoogleApiClient);
+        initCamera(mCurrentLocation);
+        loopBus();
 
     }
 
@@ -600,7 +600,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        if (!hashMapMarker.get(marker).equals("Bus")) {
+        if (!(hashMapMarker != null && hashMapMarker.get(marker).equals("Bus"))) {
 
             switch (hashMapMarker.get(marker)) {
                 case "Bus Stop":
@@ -728,18 +728,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, this);
-        checkBusStopDistance();
+
+        checkBusStopDistance(mCurrentLocation);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
+
     int busStopGreenIndex = 0;
 
-    private void checkBusStopDistance() {
+    private void checkBusStopDistance(Location location) {
 
-
+        mCurrentLocation = location;
         double distance = 0;
         if (mCurrentLocation != null){ LatLng myDistance = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
 
@@ -793,8 +791,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onLocationChanged(Location location) {
-        checkBusStopDistance();
-
+        checkBusStopDistance(location);
     }
 
     @Override

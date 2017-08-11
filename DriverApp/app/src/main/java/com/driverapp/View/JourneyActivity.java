@@ -58,9 +58,13 @@ public class JourneyActivity extends BaseActivity{
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         greed = (TextView) findViewById(R.id.greed_journey);
-
+        String iniGreed = "Hi Driver";
         //usually error below line
-        String iniGreed = "Hai, " + UserInstance.getInstance().getDriver().getDriver_id();
+        if (UserInstance.getInstance().getDriver().getDriver_id() != null){
+
+            iniGreed = "Hi, " + UserInstance.getInstance().getDriver().getDriver_id();
+
+        }
         greed.setText(iniGreed);
 
         selectBus = (TextView) findViewById(R.id.tv_select_bus);

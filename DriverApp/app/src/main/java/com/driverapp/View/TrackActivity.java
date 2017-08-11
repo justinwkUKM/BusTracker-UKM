@@ -13,12 +13,9 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +30,7 @@ import com.driverapp.ServiceCallbacks;
 import com.github.florent37.viewanimator.ViewAnimator;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.Random;
 
 import tyrantgit.explosionfield.ExplosionField;
 
@@ -366,5 +363,9 @@ int counter = 0;
     protected void simpleAnimation() {
         ViewAnimator.animate(tickTockView)
                .rubber().duration(1500).start();
+
+
+
+
     }
 }

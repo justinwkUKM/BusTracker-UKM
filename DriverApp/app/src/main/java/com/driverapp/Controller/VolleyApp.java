@@ -29,12 +29,10 @@ import com.driverapp.Model.BusStop;
 import com.driverapp.Model.Route;
 import com.driverapp.Model.UserInstance;
 import com.driverapp.R;
-import com.driverapp.Service.LocationListenerService;
 import com.driverapp.View.JourneyActivity;
 import com.driverapp.View.LoginActivity;
 import com.driverapp.View.SearchFragment;
 import com.driverapp.View.SetupFragment;
-import com.driverapp.View.TrackActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +43,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 public class VolleyApp {
@@ -60,6 +59,8 @@ public class VolleyApp {
     private static final String BUS_LOCATION_DOES_NOT_EXIST = "Bus_Location does not exist.";
     private static final String BUS_ROUTE = "route";
     private static final String BUS_POSITION = "position";
+    private static final String BUS_PLATE = "plate";
+    private static final String BUS_DRIVER = "driver";
     private int delay = 1200;
 
     public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final LoginActivity loginActivity) {
@@ -237,11 +238,13 @@ public class VolleyApp {
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
         final String dummy = "505";
         //change rest api//
+        int rand = randomInt();
+        int rand2 = randomInt();
         String driverID = UserInstance.getInstance().getDriver().getDriver_id();
         String deviceID = getUniquePhoneIdentity();
         Map<String, String> params = new HashMap<>();
-        params.put(DRIVER_ID, dummy);
-        params.put(DEVICE_ID, dummy);
+        params.put(DRIVER_ID, rand+"");
+        params.put(DEVICE_ID, rand2+"");
         params.put(REGISTERED_BUS_ID, UserInstance.getInstance().getBus().getBusId());
         params.put(ROUTE_ID, UserInstance.getInstance().getRoute().getRouteId());
         JSONObject parameters = new JSONObject(params);
@@ -290,6 +293,12 @@ public class VolleyApp {
         } else {
             addQueue(jsonRequest);
         }
+    }
+
+    private int randomInt() {
+        Random random = new Random();
+        int rand  = random.nextInt(19999);
+        return rand;
     }
 
     public void checkingBus(final String url, final Context context, final TextView statusText, final SetupFragment setupFragment) {
@@ -368,6 +377,8 @@ public class VolleyApp {
         params.put(LONGITUDE, "0");
         params.put(BUS_ROUTE,UserInstance.getInstance().getRoute().getRouteId());
         params.put(BUS_POSITION, String.valueOf(UserInstance.getInstance().getBusLocation()));
+        params.put(BUS_PLATE, String.valueOf(UserInstance.getInstance().getBus().getBusPlate()));
+        params.put(BUS_DRIVER, String.valueOf(UserInstance.getInstance().getDriver().getDriver_id()));
         JSONObject parameters = new JSONObject(params);
 
 
