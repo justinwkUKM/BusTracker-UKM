@@ -150,7 +150,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     private void simpleBlinkAnim(View itemView) {
         ViewAnimator.animate(itemView)
                 .flash().interpolator(new DecelerateInterpolator())
-                .duration(1500)
+                .duration(3000)
                 .start();
     }
 

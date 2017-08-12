@@ -346,6 +346,7 @@ public class MainActivity extends BaseActivity {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
                 auth.checkOutAuth(getApplicationContext());
+                finish();
                 /*DBHandler dbHandler = new DBHandler(context, null);
                 List<BusStop> bs = dbHandler.getBusStopList();
                 for(int i = 0; i < bs.size(); i++) {
