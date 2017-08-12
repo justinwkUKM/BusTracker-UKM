@@ -124,6 +124,11 @@ public class VolleyApp {
                         UserInstance.getInstance().getAuth().saveAuth(context, username, password);
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                        UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );
+
+
                         loginActivity.finish();
                         context.startActivity(intent);
                         view.setVisibility(View.GONE);

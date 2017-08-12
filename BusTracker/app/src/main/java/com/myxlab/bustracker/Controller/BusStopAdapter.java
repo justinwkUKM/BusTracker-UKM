@@ -100,10 +100,13 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         String busName  = busListCurrentAll.get(position).getName(); // bus.get(position);
         holder.busName.setText("\""+busName+"\"");
         holder.tvLocate.setText(busListCurrentAll.get(position).getPlate());
+        simpleBlinkAnim(holder.tvLocate);
+
         Random random = new Random();
         int rand = random.nextInt(25);
         String busStopJustPssed  = "Bus Stops Remaining "+ rand;
         holder.tvSchedule.setText(busStopJustPssed);
+        //holder.tvSchedule.setAlpha(0.2);
 
         switch (busName){
             case "Bus Zone 6":
@@ -119,7 +122,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         }
 
         simpleAnim(holder.imageViewBusIcon);
-        holder.tvLocate.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -144,6 +147,13 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
                 .duration(1500)
                 .start();
     }
+    private void simpleBlinkAnim(View itemView) {
+        ViewAnimator.animate(itemView)
+                .flash().interpolator(new DecelerateInterpolator())
+                .duration(1500)
+                .start();
+    }
+
     /*private void settingAdapter(List<Bus> list, String busName) {
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_currentBuses);
         recyclerView.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));

@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottomSheetBusStop"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
+    android:layout_height="80dp"
     app:behavior_hideable="true"
     android:visibility="visible"
     app:behavior_peekHeight="?attr/actionBarSize"
-    android:background="@android:color/white"
+    android:background="@color/blue"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <RelativeLayout
@@ -16,8 +16,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:padding="2dp"
+            android:layout_height="80dp"
+
             android:weightSum="10"
             android:orientation="horizontal"
             android:background="@color/blue">
@@ -30,18 +30,20 @@
                 android:layout_weight="9"
                 android:gravity="center_vertical"
                 android:text="@string/subject"
+
                 android:textColor="@android:color/white" />
 
             <RelativeLayout
-                android:padding="@dimen/small_dp"
+
                 android:layout_gravity="center_vertical"
                 android:id="@+id/bsBusStopIco"
+                android:background="@color/blueDarker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="@dimen/medium_dp">
+               >
 
                 <!--<ImageView
                     android:layout_width="wrap_content"
@@ -52,6 +54,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/medium_dp"
+                    android:padding="@dimen/small_dp"
+                    android:layout_marginRight="@dimen/medium_dp"
                     android:gravity="center_vertical"
                     android:text="@string/lets_go"
                     android:id="@+id/tvBusStopClick"

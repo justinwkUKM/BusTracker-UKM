@@ -126,6 +126,8 @@ public class LoginActivity extends BaseActivity{
             mProgressView.setVisibility(View.VISIBLE);
 
             UserInstance.getInstance().getVolleyApp().UserLoginTask(getString(R.string.url_login),username,password,getApplicationContext(),mProgressView,this);
+
+
         }
     }
 

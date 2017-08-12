@@ -34,6 +34,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -316,6 +317,7 @@ public class MainActivity extends BaseActivity {
         });
 
         FloatingActionButton fab_alert = (FloatingActionButton) findViewById(R.id.fab_alert);
+        fab_alert.setVisibility(View.GONE);
         fab_alert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -327,6 +329,7 @@ public class MainActivity extends BaseActivity {
         });
 
         FloatingActionButton fab_schedule = (FloatingActionButton) findViewById(R.id.fab_schedule);
+        fab_schedule.setVisibility(View.GONE);
         fab_schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -340,10 +343,10 @@ public class MainActivity extends BaseActivity {
         fab_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
-                auth.checkOutAuth(getApplicationContext());*/
-                DBHandler dbHandler = new DBHandler(context, null);
+                auth.checkOutAuth(getApplicationContext());
+                /*DBHandler dbHandler = new DBHandler(context, null);
                 List<BusStop> bs = dbHandler.getBusStopList();
                 for(int i = 0; i < bs.size(); i++) {
                     //System.out.println(bs.get(i).getName());
@@ -356,7 +359,7 @@ public class MainActivity extends BaseActivity {
                     Log.e("pois.getName()",pois.get(i).getName());
                     Log.e("pois.getEmail()",pois.get(i).getEmail());
                     Log.e("pois.getWebsite()",pois.get(i).getWebsite());
-                }
+                }*/
             }
         });
     }
@@ -454,7 +457,7 @@ public class MainActivity extends BaseActivity {
         tvPoiAddress.setText(website);
         tvPoiEmail.setText(email);
 
-        mapsFragment.addMarker(lat, lon, code, type, focus);
+        mapsFragment.addMarker(lat, lon, name, type, focus);
         imageLoaders(code);
 
 
@@ -476,10 +479,10 @@ public class MainActivity extends BaseActivity {
     }
 
     public void BusStopBottomSheetCall(final int busStopIndex, Boolean isNearest) {
-        closeBottomSheet();
+        closeBottomSheet();{}
         fab_menu.setVisibility(View.GONE);
         this.busStopIndex = busStopIndex;
-        bottomSheetBusStop.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        bottomSheetBusStop.setState(BottomSheetBehavior.STATE_EXPANDED);
         busStopTitle.setText(UserInstance.getInstance().getBusStopList().get(busStopIndex).getName());
 
         if (isNearest){
@@ -511,6 +514,7 @@ public class MainActivity extends BaseActivity {
                         mSnackBar.show();
 
                        // Snackbar.make(tvBusStopClick, "Please Wait for the buses to Load", Snackbar.LENGTH_LONG).show();
+
                     } else {
 
                         Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
@@ -613,11 +617,11 @@ public class MainActivity extends BaseActivity {
                     tabLayout.setVisibility(View.VISIBLE);
                     infoSwipeTitle.setVisibility(View.VISIBLE);
                     //infoHeader.setVisibility(View.VISIBLE);
-                    fab_menu.setVisibility(View.GONE);
+                    fab_menu.setVisibility(View.VISIBLE);
                 }
 
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    fab_menu.setVisibility(View.VISIBLE);
+                    fab_menu.setVisibility(View.GONE);
                 }
             }
 
@@ -648,6 +652,8 @@ public class MainActivity extends BaseActivity {
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     fab_menu.setVisibility(View.VISIBLE);
+                }else {
+                    fab_menu.setVisibility(View.GONE);
                 }
             }
 
@@ -662,6 +668,8 @@ public class MainActivity extends BaseActivity {
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     fab_menu.setVisibility(View.VISIBLE);
+                }else {
+                    fab_menu.setVisibility(View.GONE);
                 }
             }
 
@@ -690,7 +698,7 @@ public class MainActivity extends BaseActivity {
         }
 
         if (infoBottomSheet.getState() == BottomSheetBehavior.STATE_COLLAPSED || infoBottomSheet.getState() == BottomSheetBehavior.STATE_EXPANDED ||
-                bottomSheetBusStop.getState() == BottomSheetBehavior.STATE_COLLAPSED
+                bottomSheetBusStop.getState() == BottomSheetBehavior.STATE_EXPANDED
                 || bottomSheetBus.getState() == BottomSheetBehavior.STATE_COLLAPSED
                 || bottomSheetETA.getState() == BottomSheetBehavior.STATE_EXPANDED) {
 
@@ -888,8 +896,7 @@ public class MainActivity extends BaseActivity {
         busETATV.setText(readableETA);
         busETATV.setVisibility(View.VISIBLE);
         busETATV.setTextColor(getResources().getColor(R.color.green));
-
-
+        simpleBlinkAnim(busETATV);
 
         busETATV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -918,6 +925,13 @@ public class MainActivity extends BaseActivity {
 //            mapsFragment.focusCamera(new LatLng(busLat, busLon));
         }
 
+    }
+
+    private void simpleBlinkAnim(View itemView) {
+        ViewAnimator.animate(itemView)
+                .flash().interpolator(new DecelerateInterpolator())
+                .duration(3000)
+                .start();
     }
 
     private void drawPolyline(int color, int i, List<LatLng> latLngs) {
@@ -1038,16 +1052,16 @@ public class MainActivity extends BaseActivity {
     private void doAddButton(final String name, String code, final Double lat, final Double lon) {
 
         LinearLayout.LayoutParams params = new  LinearLayout.LayoutParams(
-               150, 150
+               180, 180
         );
-        params.setMargins(10,20,10,20);
+        params.setMargins(0,0,0,0);
 
 
         final Button button = new Button(this);
         //button.setText(name);
         button.setTag(code);
         button.setLayoutParams(params);
-        button.setBackground(getResources().getDrawable(R.drawable.bus_stop));
+        button.setBackground(getResources().getDrawable(R.drawable.ic_bus_stop_green));
         bottomSheetLLaddButtons.addView(button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

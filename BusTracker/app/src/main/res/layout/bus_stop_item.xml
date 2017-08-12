@@ -73,6 +73,7 @@
                             android:gravity="left"
                             android:padding="3dp"
                             android:text="@string/last_bus_stop"
+                            android:alpha="0.4"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@color/white" />
                     </LinearLayout>

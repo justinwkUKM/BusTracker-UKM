@@ -605,7 +605,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             switch (hashMapMarker.get(marker)) {
                 case "Bus Stop":
                     Log.e("INDEX", "#Map" + (hashMapBusStopListPosition.get(marker))+ "    GrIndex"+busStopGreenIndex);
-
                     if (hashMapBusStopListPosition.get(marker)==busStopGreenIndex){
                        isNearest = true;
                     }else{
@@ -615,6 +614,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     ((MainActivity) getActivity()).BusStopBottomSheetCall(hashMapBusStopListPosition.get(marker), isNearest );
 
                     break;
+                case "building":
+                    Log.e("INDEXXX", "#Map"+ marker.getTitle());
+                    for(Map.Entry<Marker, String> entry : hashMapMarker.entrySet())
+                    {   //print keys and values
+                        if (entry.getValue().equals("building")){
+                            Log.e("VXXX", entry.getKey().getTitle()+":"+entry.getValue().toString());
+                        }
+                    }
+
+
+
                 default:
                     break;
             }
