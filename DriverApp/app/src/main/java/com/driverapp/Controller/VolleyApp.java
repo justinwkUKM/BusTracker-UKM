@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +62,7 @@ public class VolleyApp {
     private static final String BUS_POSITION = "position";
     private static final String BUS_PLATE = "plate";
     private static final String BUS_DRIVER = "driver";
+    private static final String BUS_NEXT_BUS_STOP = "next_bus_stop";
     private int delay = 1200;
 
     public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final LoginActivity loginActivity) {
@@ -243,22 +245,21 @@ public class VolleyApp {
         String driverID = UserInstance.getInstance().getDriver().getDriver_id();
         String deviceID = getUniquePhoneIdentity();
         Map<String, String> params = new HashMap<>();
-        params.put(DRIVER_ID, rand+"");
-        params.put(DEVICE_ID, rand2+"");
+        params.put(DRIVER_ID, driverID+"");
+        params.put(DEVICE_ID, deviceID+"");
         params.put(REGISTERED_BUS_ID, UserInstance.getInstance().getBus().getBusId());
         params.put(ROUTE_ID, UserInstance.getInstance().getRoute().getRouteId());
+        params.put("plate_no", String.valueOf(UserInstance.getInstance().getBus().getBusPlate()));
         JSONObject parameters = new JSONObject(params);
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, api, parameters,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
                         statusText.setText(R.string.success);
                         statusText.setTextColor(ContextCompat.getColor(context, R.color.green));
                         statusText.setVisibility(View.VISIBLE);
                         setupFragment.nextStep(statusText);
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -379,6 +380,8 @@ public class VolleyApp {
         params.put(BUS_POSITION, String.valueOf(UserInstance.getInstance().getBusLocation()));
         params.put(BUS_PLATE, String.valueOf(UserInstance.getInstance().getBus().getBusPlate()));
         params.put(BUS_DRIVER, String.valueOf(UserInstance.getInstance().getDriver().getDriver_id()));
+        params.put(BUS_NEXT_BUS_STOP, String.valueOf(UserInstance.getInstance().getRoute().getBusStopList().get(1).getName()));
+
         JSONObject parameters = new JSONObject(params);
 
 
@@ -434,6 +437,9 @@ public class VolleyApp {
         params.put(LONGITUDE, String.valueOf(lon));
         params.put(BUS_ROUTE,UserInstance.getInstance().getRoute().getRouteId());
         params.put(BUS_POSITION, String.valueOf(UserInstance.getInstance().getBusLocation()));
+        params.put(BUS_PLATE, String.valueOf(UserInstance.getInstance().getBus().getBusPlate()));
+        params.put(BUS_DRIVER, String.valueOf(UserInstance.getInstance().getDriver().getDriver_id()));
+        params.put(BUS_NEXT_BUS_STOP, String.valueOf(UserInstance.getInstance().getRoute().getBusStopList().get(1).getName()));
         JSONObject parameters = new JSONObject(params);
 
 
@@ -478,7 +484,7 @@ public class VolleyApp {
         final int nextBusStopIndex = UserInstance.getInstance().getBusLocation() + 1;
 
         String api = context.getResources().getString(R.string.url_bus_stop) + "/" + UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName()+"/?token=" + UserInstance.getInstance().getAuth().getAuth_token();
-
+        Log.e("api", api);
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
                 new Response.Listener<JSONObject>() {
                     @Override

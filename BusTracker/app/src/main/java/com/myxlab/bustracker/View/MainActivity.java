@@ -272,7 +272,6 @@ public class MainActivity extends BaseActivity {
         bottomSheetLLaddButtons = (LinearLayout) findViewById(R.id.llBusStopButtons);
         //bottomSheetLLaddButtons.setWeightSum(1);
 
-
         bottomSheetBus = BottomSheetBehavior.from(findViewById(R.id.bottomSheetBus));
         fontChanger.replaceFonts((ViewGroup) findViewById(R.id.bottomSheetBus) );
         bottomSheetBus.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -294,7 +293,6 @@ public class MainActivity extends BaseActivity {
 
         tvBusStopClick = (TextView) findViewById(R.id.tvBusStopClick);
         rv_bsBusStopIco = (RelativeLayout) findViewById(R.id.bsBusStopIco);
-
     }
 
     private void initFab() {
@@ -329,18 +327,20 @@ public class MainActivity extends BaseActivity {
         });
 
         FloatingActionButton fab_schedule = (FloatingActionButton) findViewById(R.id.fab_schedule);
-        fab_schedule.setVisibility(View.GONE);
+        fab_schedule.setVisibility(View.VISIBLE);
         fab_schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserInstance.getInstance().getVolleyApp().updatePOIDB(getString(R.string.url_poi_list), getApplicationContext());
-                UserInstance.getInstance().getVolleyApp().updateBSDB(getString(R.string.url_bus_stop_list), getApplicationContext());
+                LatLng ukm = new LatLng(2.929794, 101.777447);
+                mapsFragment.focusCamera(ukm);
+                //UserInstance.getInstance().getVolleyApp().updatePOIDB(getString(R.string.url_poi_list), getApplicationContext());
+                //UserInstance.getInstance().getVolleyApp().updateBSDB(getString(R.string.url_bus_stop_list), getApplicationContext());
 
             }
         });
 
-        FloatingActionButton fab_report = (FloatingActionButton) findViewById(R.id.fab_report);
-        fab_report.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab_logout = (FloatingActionButton) findViewById(R.id.fab_report);
+        fab_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -448,8 +448,6 @@ public class MainActivity extends BaseActivity {
         Double nLat = Double.valueOf(poiInfo.getLat());
         Double nLon = Double.valueOf(poiInfo.getLon());
 
-
-
         fab_menu.setVisibility(View.GONE);
         infoBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
         //tvInfoTitle.setText(name);
@@ -460,10 +458,6 @@ public class MainActivity extends BaseActivity {
 
         mapsFragment.addMarker(lat, lon, name, type, focus);
         imageLoaders(code);
-
-
-
-
     }
 
     public void BusBottomSheetCall(String title, Marker marker) {
@@ -474,7 +468,6 @@ public class MainActivity extends BaseActivity {
         busTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
     }
@@ -527,7 +520,6 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
-
 
     }
 
@@ -599,8 +591,6 @@ public class MainActivity extends BaseActivity {
         }else{
             UserInstance.getInstance().getVolleyApp().getETA(getString(R.string.url_eta), bustop, bus, this, busLat, busLon);
         }
-
-
 
     }
 
@@ -915,7 +905,6 @@ public class MainActivity extends BaseActivity {
                     default:  latLngs = PolyUtil.decode(polyline);
                 }
                 drawPolyline(getResources().getColor(R.color.red), 12, latLngs);
-
             }
         });
 
@@ -965,7 +954,6 @@ public class MainActivity extends BaseActivity {
         mapsFragment.addMarker(startingPoint.latitude,startingPoint.longitude, "Start","start",false);
         mapsFragment.addMarker(endingPoint.latitude,endingPoint.longitude, "End","end",false);
 
-
         // Adding the polyline to the map
         line = mapsFragment.map.addPolyline(polylineOptions);
     }
@@ -996,7 +984,7 @@ public class MainActivity extends BaseActivity {
         numberOfHours = (eta % 86400 ) / 3600 ;
         numberOfMinutes = ((eta % 86400 ) % 3600 ) / 60 ;
         numberOfSeconds = ((eta % 86400 ) % 3600 ) % 60  ;
-        return  numberOfHours+"h:"+numberOfMinutes+"m:"+numberOfSeconds+"s";
+        return  numberOfMinutes+"min";
     }
 
     public boolean isStringInt(String s)
