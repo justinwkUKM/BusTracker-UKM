@@ -177,7 +177,7 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         List<Route> routeList = new LinkedList<>();
-
+                        Log.e("RouteListResponse", response.toString());
                         try {
                             JSONArray resultArray = response.getJSONArray("route");
 
@@ -482,7 +482,7 @@ public class VolleyApp {
     public void getNextBusStop(final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
         final int nextBusStopIndex = UserInstance.getInstance().getBusLocation() + 1;
-
+        Log.e("apiIndex", "" +nextBusStopIndex);
         String api = context.getResources().getString(R.string.url_bus_stop) + "/" + UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName()+"/?token=" + UserInstance.getInstance().getAuth().getAuth_token();
         Log.e("api", api);
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
@@ -508,10 +508,8 @@ public class VolleyApp {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         volleyErrorResponse(error, context);
                         setupFragment.failClose(statusText);
-
                     }
                 }){
 
@@ -520,7 +518,6 @@ public class VolleyApp {
 
                 return volleyParseNetworkResponse(response);
             }
-
         };
 
         if (!checkQueueServeTime()){

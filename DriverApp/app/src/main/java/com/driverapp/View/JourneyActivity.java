@@ -61,9 +61,7 @@ public class JourneyActivity extends BaseActivity{
         String iniGreed = "Hi Driver";
         //usually error below line
         if (UserInstance.getInstance().getDriver().getDriver_id() != null){
-
             iniGreed = "Hi, " + UserInstance.getInstance().getDriver().getDriver_id();
-
         }
         greed.setText(iniGreed);
 

@@ -53,6 +53,7 @@ import com.driverapp.Controller.VolleyApp;
 import com.driverapp.Utility;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.github.glomadrian.roadrunner.IndeterminateRoadRunner;
+import com.google.firebase.database.FirebaseDatabase;
 
 import tyrantgit.explosionfield.ExplosionField;
 
@@ -82,7 +83,7 @@ public class LoginActivity extends BaseActivity {
         }
 
 
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         UserInstance.getInstance().setAuth(new Auth());
         UserInstance.getInstance().setBus(new Bus());
         UserInstance.getInstance().setDriver(new Driver());

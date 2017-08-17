@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ import com.driverapp.R;
 import com.driverapp.Service.LocationListenerService;
 import com.driverapp.ServiceCallbacks;
 import com.github.florent37.viewanimator.ViewAnimator;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.Random;
@@ -119,11 +121,7 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
                 startJourneyButton.setText(R.string.resume_journey);
                 dialog.dismiss();
                 startJourneyButton.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
-                if (bound) {
-                    locationListenerService.setCallbacks(null);
-                    unbindService(serviceConnection);
-                    bound = false;
-                }
+                unbounding();
                 tickTockView.stop();
             }
         });
@@ -242,7 +240,13 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 minutesResume = 0;
+
+                unbounding();
+
                 onBackPressed();
+
+
+
             }
         });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -315,7 +319,11 @@ int counter = 0;
         if (routeList - 1 != counter){
             int nextBusStopIndex = UserInstance.getInstance().getBusLocation() + 1;
             UserInstance.getInstance().setBusLocation(nextBusStopIndex);
-            nextBusStopLabel(UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName());
+            if (UserInstance.getInstance().getRoute().getBusStopList().size() != nextBusStopIndex){
+
+                nextBusStopLabel(UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName());
+                Log.e(""+UserInstance.getInstance().getRoute().getBusStopList().size(),""+nextBusStopIndex);
+            }
 
         }else{
             finishJourney(new Location(""));
@@ -329,18 +337,22 @@ int counter = 0;
         startJourneyButton.setVisibility(View.GONE);
         trackBus();
         tvNextBusStop.setText(R.string.finish_journey);
-
         tickTockView.stop();
+        UserInstance.getInstance().setBusLocation(0);
 //
         if (location.equals("")){
-
+            unbounding();
         }else{
-            if (bound) {
-                locationListenerService.setCallbacks(null);
-                unbindService(serviceConnection);
-                bound = false;
-            }
+            unbounding();
             UserInstance.getInstance().getVolleyApp().setStatusBus(getString(R.string.url_bus_status),getApplicationContext(),false,location.getLatitude(),location.getLongitude());
+        }
+    }
+
+    private void unbounding() {
+        if (bound) {
+            locationListenerService.setCallbacks(null);
+            unbindService(serviceConnection);
+            bound = false;
         }
     }
 
@@ -363,9 +375,6 @@ int counter = 0;
     protected void simpleAnimation() {
         ViewAnimator.animate(tickTockView)
                .rubber().duration(1500).start();
-
-
-
 
     }
 }

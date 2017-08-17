@@ -60,7 +60,7 @@ public class LocationListenerService extends Service {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 3, listener);
 
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("coordinate").push();
         myRef.child("Details").child("Bus").setValue(UserInstance.getInstance().getBus().getBusName()+ " "+UserInstance.getInstance().getBus().getBusPlate());
