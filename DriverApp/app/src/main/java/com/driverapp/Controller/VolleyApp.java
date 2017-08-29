@@ -30,6 +30,7 @@ import com.driverapp.Model.BusStop;
 import com.driverapp.Model.Route;
 import com.driverapp.Model.UserInstance;
 import com.driverapp.R;
+import com.driverapp.View.AlertActivity;
 import com.driverapp.View.JourneyActivity;
 import com.driverapp.View.LoginActivity;
 import com.driverapp.View.SearchFragment;
@@ -439,7 +440,7 @@ public class VolleyApp {
         params.put(BUS_POSITION, String.valueOf(UserInstance.getInstance().getBusLocation()));
         params.put(BUS_PLATE, String.valueOf(UserInstance.getInstance().getBus().getBusPlate()));
         params.put(BUS_DRIVER, String.valueOf(UserInstance.getInstance().getDriver().getDriver_id()));
-        params.put(BUS_NEXT_BUS_STOP, String.valueOf(UserInstance.getInstance().getRoute().getBusStopList().get(1).getName()));
+        params.put(BUS_NEXT_BUS_STOP, String.valueOf(UserInstance.getInstance().getBusLocation()));
         JSONObject parameters = new JSONObject(params);
 
 
@@ -447,7 +448,7 @@ public class VolleyApp {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -590,7 +591,7 @@ public class VolleyApp {
         }
     }
 
-    public void submitAlert(final String url, final String subject,final String message, final String report_type, final int reporter_id, final Context context) {
+    public void submitAlert(final String url, final String subject, final String message, final String report_type, final int reporter_id, final AlertActivity alertActivity, final Context context) {
 
         //String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
         String api = url ;
@@ -609,7 +610,8 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Toast.makeText(context, "Success " + response.getString("status"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Successfully Reported : " + response.getString("status"), Toast.LENGTH_SHORT).show();
+                            alertActivity.setEmpty();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -647,7 +649,7 @@ public class VolleyApp {
     }
 
 
-    public void trackBus(final String url, final Context context, double lat, double lon) {
+    public void trackBus(final String url, final Context context, double lat, double lon, int nextBusStop) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
 
@@ -658,6 +660,8 @@ public class VolleyApp {
         params.put("bll_long", String.valueOf(lon));
         params.put("route",UserInstance.getInstance().getRoute().getRouteId());
         params.put("position", String.valueOf(UserInstance.getInstance().getBusLocation()));
+        params.put("bus_stop", nextBusStop+"");
+        Log.e("Next Bus Stop",nextBusStop+"");
         JSONObject parameters = new JSONObject(params);
 
 
@@ -665,7 +669,7 @@ public class VolleyApp {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {

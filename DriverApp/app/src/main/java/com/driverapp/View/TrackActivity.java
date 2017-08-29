@@ -322,7 +322,7 @@ int counter = 0;
             if (UserInstance.getInstance().getRoute().getBusStopList().size() != nextBusStopIndex){
 
                 nextBusStopLabel(UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName());
-                Log.e(""+UserInstance.getInstance().getRoute().getBusStopList().size(),""+nextBusStopIndex);
+               // Log.e(""+UserInstance.getInstance().getRoute().getBusStopList().size(),""+nextBusStopIndex);
             }
 
         }else{

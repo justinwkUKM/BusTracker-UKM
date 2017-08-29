@@ -12,6 +12,7 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.driverapp.Model.UserInstance;
@@ -104,9 +105,15 @@ public class LocationListenerService extends Service {
 
         public void onLocationChanged(final Location location) {
 
-            UserInstance.getInstance().getVolleyApp().trackBus(getString(R.string.url_bus_log),getApplicationContext(),location.getLatitude(),location.getLongitude());
+            int busLocs = UserInstance.getInstance().getBusLocation();
+            String nextBusStopName = UserInstance.getInstance().getRoute().getBusStopList().get(busLocs).getName();
+            Log.e("NextBusSTopLoc", busLocs+"");
+            //UserInstance.getInstance().getVolleyApp().trackBus(getString(R.string.url_bus_log),getApplicationContext(),location.getLatitude(),location.getLongitude(), nextBusStopName);
+            UserInstance.getInstance().getVolleyApp().trackBus(getString(R.string.url_bus_log),getApplicationContext(),location.getLatitude(),location.getLongitude(), busLocs);
             myRef.child("Coordinate").child(""+count).setValue(""+count+","+location.getLatitude()+","+location.getLongitude());
-            Toast.makeText(LocationListenerService.this, ""+count+" firebase", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(LocationListenerService.this, ""+count+" firebase", Toast.LENGTH_SHORT).show();
+
+
             count++;
             checkNextBusStop(location);
             if (startUP){
@@ -135,17 +142,17 @@ public class LocationListenerService extends Service {
         LatLng currentLocation = new LatLng( location.getLatitude(), location.getLongitude());
         LatLng nexBusStop = new LatLng(UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getLat(),UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getLon());
         double distance = SphericalUtil.computeDistanceBetween( currentLocation, nexBusStop);
-        Toast.makeText(this, ""+UserInstance.getInstance().getBusLocation(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, ""+UserInstance.getInstance().getBusLocation(), Toast.LENGTH_SHORT).show();
         if( distance <= 25 ) {
             if (nextBusStopIndex+1 < UserInstance.getInstance().getRoute().getBusStopList().size()){
                 nextBusStop();
-                Toast.makeText(this, String.format( "%4.2f%s", distance, "m" ), Toast.LENGTH_LONG).show();
+                // Toast.makeText(this, String.format( "%4.2f%s", distance, "m" ), Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Your Journey has finish", Toast.LENGTH_SHORT).show();
                 finishJourney(location);
             }
         } else {
-            Toast.makeText(this, String.format("%4.2f%s", distance, "m"), Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, String.format("%4.2f%s", distance, "m"), Toast.LENGTH_LONG).show();
         }
     }
 
