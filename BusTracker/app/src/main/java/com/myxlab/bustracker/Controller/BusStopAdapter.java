@@ -185,6 +185,9 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
                     for (int g = 0; g < newBusStopList.size(); g++) {
                         if(newBusStopList.get(g).getName().equals(nearestStopInCurrentRoute)){
                             remainingBusStops = (g + 1)  - (currentBusStop+1) ;
+                            if (remainingBusStops<0){
+                                remainingBusStops = 0;
+                            }
                             Log.e(TAG," N:"+ (g+1) +"-" + nearestStopInCurrentRoute +" C:"+ (currentBusStop+1) +"-" +newBusStopList.get(currentBusStop).getName()+ " R"+remainingBusStops+"");
                         }
                     }
