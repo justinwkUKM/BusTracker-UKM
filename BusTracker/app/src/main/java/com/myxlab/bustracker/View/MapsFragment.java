@@ -154,6 +154,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setTrafficEnabled(false);
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.mapstyle));
+
+        UserInstance.getInstance().getVolleyApp().getRouteList(getString(R.string.url_route),context, this);
+
         UserInstance.getInstance().getVolleyApp().getBusStop(getString(R.string.url_bus_stop_list), getActivity(), this);
 
 
@@ -359,7 +362,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             else {
                 /*Compare Bus List and Bus Marker size is same*/
                 if (UserInstance.getInstance().getBuses().size() == busesMarker.size()) {
-                    Log.e("MAPSFRAGMENT", "/*Compare Bus List and Bus Marker size is same*/");
+                    Log.d("MAPSFRAGMENT", "/*Compare Bus List and Bus Marker size is same*/");
 
                     /*Loop Bus List animate current bus marker*/
                     for (int i = 0; i < UserInstance.getInstance().getBuses().size(); i++) {
@@ -394,7 +397,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 }
                 /*If the Bus List is bigger than Bus Maker size*/
                 else if ((UserInstance.getInstance().getBuses().size() > busesMarker.size())) {
-                    Log.e("MAPSFRAGMENT", "/*If the Bus List is bigger than Bus Maker size*/");
+                    Log.d("MAPSFRAGMENT", "/*If the Bus List is bigger than Bus Maker size*/");
                     /*New Link list of Bus*/ /*TODO this should be change and make it much simpler by removing the deactivate bus when we found it (check the 3rd TODO)*/
                     List<Integer> newBuses = new LinkedList<>();
                     /*Loop Bus List animate current bus marker*/
@@ -446,7 +449,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 }
                 /*If the Bus List is less than Bus Maker size*/
                 else {
-                    Log.e("MAPSFRAGMENT", "/*If the Bus List is less than Bus Marker size*/");
+                    Log.d("MAPSFRAGMENT", "/*If the Bus List is less than Bus Marker size*/");
                     /*New Link list of Bus*/
                     List<Integer> onBuses = new LinkedList<>();
                     /*Loop Bus List animate current bus marker*/

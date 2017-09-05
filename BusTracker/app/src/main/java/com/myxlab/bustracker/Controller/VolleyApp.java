@@ -36,6 +36,7 @@ import com.myxlab.bustracker.Model.Auth;
 import com.myxlab.bustracker.Model.Bus;
 import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.POI;
+import com.myxlab.bustracker.Model.Route;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.Model.maps.Helper;
 import com.myxlab.bustracker.R;
@@ -549,8 +550,9 @@ public class VolleyApp {
                                     Double lon = Double.valueOf(json.getString("lon"));
                                     String name = String.valueOf(json.getString("bus"));
                                     String plate = String.valueOf(json.getString("plate"));
+                                    String currentBusStop = String.valueOf(json.getString("currentbusstop"));
 
-                                    Bus bus= new Bus(name, lat, lon, plate);
+                                    Bus bus= new Bus(name, lat, lon, plate,currentBusStop);
                                     buses.add(bus);
 
                                 } catch (JSONException e) {
@@ -963,5 +965,73 @@ public class VolleyApp {
         }
 
     }
+
+    public void getRouteList(final String url, final Context context, final MapsFragment mapsFragment) {
+
+        String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        List<Route> routeList = new LinkedList<>();
+                        Log.e("RouteListResponse", response.toString());
+                        try {
+                            JSONArray resultArray = response.getJSONArray("route");
+
+                            if (resultArray.length() != 0) {
+                                for (int i = 0; i < resultArray.length(); i++) {
+                                    JSONObject json = resultArray.getJSONObject(i);
+
+                                    List<BusStop> busStopList = new LinkedList<>();
+
+                                    for (int j = 0; j < json.getJSONArray("route").length(); j ++){
+                                        BusStop busStop = new BusStop(0,json.getJSONArray("route").getString(j),0.00,0.00);
+                                        busStopList.add(busStop);
+                                    }
+
+                                    Route route = new Route(String.valueOf(json.get("id")),String.valueOf(json.getString("name")), busStopList);
+                                    routeList.add(route);
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (routeList!=null){
+                            UserInstance.getInstance().setRouteList(routeList);
+                        }
+                        //searchFragment.populateRoute(routeList);
+                        //view.setVisibility(View.GONE);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        volleyErrorResponse(error, context);
+                    }
+                }) {
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response){
+                return volleyParseNetworkResponse(response);
+            }
+        };
+
+        if (!checkQueueServeTime()){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mapsFragment.getActivity() != null){
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+
 
 }

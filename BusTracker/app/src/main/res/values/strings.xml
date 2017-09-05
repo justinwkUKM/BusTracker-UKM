@@ -148,8 +148,10 @@
     <string name="url_get_alerts">http://api.myxlab.solutions/api/v1/adu</string>
     <string name="url_poi_bus_stop_list">http://api.myxlab.solutions/api/v1/nearestpoi</string>
     <string name="url_bus">http://api.myxlab.solutions/api/v1/bus</string>
+    <string name="url_bus_location">http://api.myxlab.solutions/api/v1/translocate</string>
     <string name="url_eta_old">http://vbus.myxlab.solutions/getETAv2.php</string>
     <string name="url_eta">http://api.myxlab.solutions/api/v1/eta</string>
+    <string name="url_route">http://api.myxlab.solutions/api/v1/way</string>
     <string name="get_walking_url">https://maps.googleapis.com/maps/api/directions/json?origin=</string>
 
     <string name="API_KEY_GET_WALK">AIzaSyCuZCfoPPUV1upJT10kJbCbV71LUqwhFCM</string>

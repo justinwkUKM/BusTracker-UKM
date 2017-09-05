@@ -15,6 +15,7 @@ import com.github.florent37.viewanimator.ViewAnimator;
 import com.myxlab.bustracker.FontChangeCrawler;
 import com.myxlab.bustracker.Model.Bus;
 import com.myxlab.bustracker.Model.BusStop;
+import com.myxlab.bustracker.Model.Route;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.View.MapsFragment;
@@ -40,6 +41,10 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     private List<Bus> busListCurrentAll;
     //List of all the available buses of one route type.
     private List<Bus> busListSelected;
+
+    private List<BusStop> busStopList;
+    public List<Route> routeList;
+
     private CurrentBusesAdapter currentBusesAdapter;
     private RecyclerView recyclerView;
 
@@ -52,7 +57,14 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         this.mapsFragment = new MapsFragment();
         busListCurrentAll = new ArrayList<>();
         busListSelected = new ArrayList<>();
+        busStopList = new ArrayList<>();
+
+
+        busStopList = UserInstance.getInstance().getBusStopList();
         busListAll = UserInstance.getInstance().getBuses();
+        routeList =  UserInstance.getInstance().getRouteList();
+
+
 
         if (!bus.isEmpty()) {
             for (int i = 0; i < bus.size(); i++) {
@@ -103,20 +115,27 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         simpleBlinkAnim(holder.tvLocate);
 
         Random random = new Random();
+
         int rand = random.nextInt(25);
-        String busStopJustPssed  = "Bus Stops Remaining "+ rand;
-        holder.tvSchedule.setText(busStopJustPssed);
+
+
+        int currentBusStop = Integer.parseInt(busListCurrentAll.get(position).getCurrentBusStop());
+
+        //Log.e(TAG, "rand:"+rand +" nearest:"+ nearest +" current:"+ currentBusStopp + " Name:"+busStopName);
         //holder.tvSchedule.setAlpha(0.2);
 
         switch (busName){
             case "Bus Zone 6":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
             case "Bus Zone 2" :
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
             case "Bus Zone 3U":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
             default:  holder.imageViewBusIcon.setImageResource(R.drawable.ic_directions);
         }
@@ -126,7 +145,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
             @Override
             public void onClick(View view) {
 
-                    /*TODO Change the holder.getAdapterPosition()).getName() to plate number in Here and in the API for ETA*/
+                /*TODO Change the holder.getAdapterPosition()).getName() to plate number in Here and in the API for ETA*/
                 UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),busListCurrentAll.get(holder.getAdapterPosition()).getName(),busListCurrentAll.get(holder.getAdapterPosition()).getLat(),busListCurrentAll.get(holder.getAdapterPosition()).getLon());
                 navigationActivity.finish();
 
@@ -141,6 +160,48 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         });
 
     }
+
+    private int calculateRemainingBusStops(String busName, int currentBusStop, TextView tvSchedule) {
+        String zonName = busName.replace("Bus ", "");
+        Log.d(TAG, zonName);
+        int remainingBusStops = 0;
+        String busStopJustPssed = "";
+        String buscurrentBSName = "";
+        int nearest = UserInstance.getInstance().getNearestBusStopIndex();
+        String nearestStopInCurrentRoute = UserInstance.getInstance().getBusStopList().get(nearest).getCode();
+        Log.d("nearestStop", nearestStopInCurrentRoute);
+
+
+        for (int h = 0; h < routeList.size(); h++) {
+
+            String routeName = routeList.get(h).getRouteName();
+
+
+                if (zonName.equals(routeName)){
+                    List<BusStop> newBusStopList = routeList.get(h).getBusStopList();
+                    Log.e(TAG, routeName);
+                    buscurrentBSName =  newBusStopList.get(currentBusStop).getName();
+
+                    for (int g = 0; g < newBusStopList.size(); g++) {
+                        if(newBusStopList.get(g).getName().equals(nearestStopInCurrentRoute)){
+                            remainingBusStops = (g + 1)  - (currentBusStop+1) ;
+                            Log.e(TAG," N:"+ (g+1) +"-" + nearestStopInCurrentRoute +" C:"+ (currentBusStop+1) +"-" +newBusStopList.get(currentBusStop).getName()+ " R"+remainingBusStops+"");
+                        }
+                    }
+
+
+
+                }
+
+
+
+
+        }
+        busStopJustPssed  = "Just Passed "+ buscurrentBSName +"\nBus Stops Remaining "+ remainingBusStops;
+        tvSchedule.setText(busStopJustPssed);
+        return remainingBusStops;
+    }
+
     private void simpleAnim(View itemView) {
         ViewAnimator.animate(itemView)
                 .zoomIn().fadeIn().interpolator(new DecelerateInterpolator())
