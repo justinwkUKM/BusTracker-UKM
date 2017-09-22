@@ -728,6 +728,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         findBusStop();
     }
+
     public Bitmap resizeMapIcons(String iconName,int width, int height){
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);

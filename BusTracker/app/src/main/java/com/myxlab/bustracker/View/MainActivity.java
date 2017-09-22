@@ -335,6 +335,8 @@ public class MainActivity extends BaseActivity {
                 mapsFragment.focusCamera(ukm);
                 //UserInstance.getInstance().getVolleyApp().updatePOIDB(getString(R.string.url_poi_list), getApplicationContext());
                 //UserInstance.getInstance().getVolleyApp().updateBSDB(getString(R.string.url_bus_stop_list), getApplicationContext());
+                Intent intent = new Intent(MainActivity.this, TestMapsActivity.class);
+                startActivity(intent);
 
             }
         });

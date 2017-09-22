@@ -32,7 +32,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PatternItem;
+import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.ui.IconGenerator;
+import com.myxlab.bustracker.Model.maps.ClusterMarkerLocation;
 import com.myxlab.bustracker.R;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -42,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 
 public class TestMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnPolylineClickListener {
@@ -95,6 +98,7 @@ public class TestMapsActivity extends FragmentActivity implements OnMapReadyCall
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
+
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
@@ -119,7 +123,62 @@ public class TestMapsActivity extends FragmentActivity implements OnMapReadyCall
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
+
+        setUpClusterer();
+
     }
+
+    private void initMarkers() {
+    }
+
+    // Declare a variable for the cluster manager.
+    private ClusterManager<ClusterMarkerLocation> mClusterManager;
+
+    private void setUpClusterer() {
+        // Position the map.
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude()), 10));
+
+        // Initialize the manager with the context and the map.
+        // (Activity extends context, so we can pass 'this' in the constructor.)
+        mClusterManager = new ClusterManager<ClusterMarkerLocation>(this, mMap);
+
+        // Point the map's listeners at the listeners implemented by the cluster
+        // manager.
+        mMap.setOnCameraIdleListener(mClusterManager);
+        mMap.setOnMarkerClickListener(mClusterManager);
+
+        // Add cluster items (markers) to the cluster manager.
+        addItems();
+    }
+
+    private void addItems() {
+
+        // Set some lat/lng coordinates to start with.
+        double lat = mCurrentLocation.getLatitude();
+        double lng = mCurrentLocation.getLongitude();
+
+        // Add ten cluster items in close proximity, for purposes of this example.
+        for (int i = 0; i < 1000; i++) {
+            double offset = i / 60d;
+            lat = lat + offset;
+            lng = lng + offset;
+            ClusterMarkerLocation offsetItem = new ClusterMarkerLocation(lat, lng);
+            mClusterManager.addItem(offsetItem);
+
+/*            // Set the title and snippet strings.
+            String titleee = "Title";
+            String snippet = "Snippet";
+            // Create a cluster item for the marker and set the title and snippet using the constructor.
+            ClusterMarkerLocation infoWindowItem = new ClusterMarkerLocation(lat, lng, titleee, snippet);
+            // Add the cluster item (marker) to the cluster manager.
+            mClusterManager.addItem(infoWindowItem);*/
+        }
+
+
+
+    }
+
+
 
     @Override
     public void onConnected(Bundle bundle) {

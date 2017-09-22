@@ -717,7 +717,7 @@ public class VolleyApp {
                                         bs.setLon(Double.valueOf(json.getString("lon")));
                                         bs.setCode(String.valueOf(json.getString("code")));
                                         dbHandler.addBusStop(bs);
-
+                                        //Log.e("json", json.toString());
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
