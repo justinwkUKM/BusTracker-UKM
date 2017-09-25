@@ -17,5 +17,9 @@
     <color name="bus_icon_orange">#ffca4c</color>
     <color name="background_pink">#f4366c</color>
 
+    <!--Login Colors-->
+    <color name="background_color">#009688</color>
+    <color name="white_greyish">#EEEEEE</color>
+    <color name="button_selectorcolor">#9E9E9E</color>
 
 </resources>

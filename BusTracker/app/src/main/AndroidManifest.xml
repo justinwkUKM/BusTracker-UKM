@@ -59,6 +59,9 @@
         <activity android:name=".View.MaintainaceActivity"
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>
+        <activity android:name=".View.Login.MainLoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
     </application>
 
 </manifest>

@@ -2,7 +2,6 @@ package com.myxlab.bustracker.View;
 
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -12,7 +11,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -25,7 +23,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,17 +60,13 @@ import com.myxlab.bustracker.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import me.toptas.fancyshowcase.FancyShowCaseView;
-import me.toptas.fancyshowcase.FocusShape;
-
 import static android.content.Context.LOCATION_SERVICE;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnMarkerClickListener, LocationListener {
 
@@ -91,10 +84,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public HashMap<Marker, Bus> hashMapBus;
     private LocationManager locationManager;
     private Marker greenMarker;
-    MapsFragment mapsFragment;
+    MapsFragmentOri mapsFragment;
     List<Marker> busesMarker, startEndMarker;
     Boolean isNearest = false;
-    public MapsFragment() {
+    public MapsFragmentOri() {
     }
 
     @Override
@@ -122,7 +115,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         greenMarker = null;
         busesMarker = new LinkedList<>();
         startEndMarker = new LinkedList<>();
-        ((MainActivity) getActivity()).mapsFragment = this;
+
+        //((MainActivity) getActivity()).mapsFragment = this;
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
@@ -134,13 +128,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         mapFragment.getMapAsync(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        //UserInstance.getInstance().getVolleyApp().getBusStop(getString(R.string.url_bus_stop_list), getActivity(), this);
+    }
 
     @Override
     public void onMapReady(GoogleMap maps) {
         map = maps;
         map.setOnMarkerClickListener(this);
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -155,10 +154,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setTrafficEnabled(false);
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.mapstyle));
-
-        UserInstance.getInstance().getVolleyApp().getRouteList(getString(R.string.url_route),context, this);
-        UserInstance.getInstance().getVolleyApp().getBusStop(getString(R.string.url_bus_stop_list), getActivity(), this);
-
+//
+        //UserInstance.getInstance().getVolleyApp().getRouteList(getString(R.string.url_route),context, this);
+//
+        //UserInstance.getInstance().getVolleyApp().getBusStop(getString(R.string.url_bus_stop_list), getActivity(), this);
 
 
 
@@ -172,36 +171,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             }
         });*/
     }
-
-    public void getData() {
-
-
-
-        busStopGreenIndex=0;
-        clearAllMapMarkers();
-
-        onResume();
-        onMapReady(map);
-        if (greenMarker!=null)
-            greenMarker=null;
-       setBus();
-    }
-
-    /**
-     * Alternative to myMap.clear() to avoid undesired exceptions
-     */
-    private void clearAllMapMarkers() {
-        // Clearing the current map markers being shown
-        // Note that we do not use myMap.clear() because that incur in the exception
-        // "java.lang.IllegalArgumentException: Released unknown bitmap reference"
-        try {
-            for (Map.Entry<BusStop, Marker> markerEntry : hashMapBusStopMarker.entrySet())
-                markerEntry.getValue().remove();
-        } catch (IllegalArgumentException e) {
-            // Manage here the exception (never raised but who knows...)
-        }
-    }
-
 
     private void initCamera(Location location) {
         if (location != null) {
@@ -732,7 +701,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void run() {
                 if (isAdded() && getActivity() != null) {
-                    UserInstance.getInstance().getVolleyApp().getBuses(getString(R.string.url_bus), getActivity(), mapsFragment);
+
+                    //
+//                    UserInstance.getInstance().getVolleyApp().getBuses(getString(R.string.url_bus), getActivity(), mapsFragment);
                     loopBus();
                 }
             }
@@ -765,10 +736,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
-
     }
-    public void findBusStop() {
-        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    private void findBusStop() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -780,14 +750,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 5, this);
 
-        //setUpClusterer();
+        setUpClusterer();
         checkBusStopDistance(mCurrentLocation);
     }
 
 
     int busStopGreenIndex = 0;
 
-    public void checkBusStopDistance(Location location) {
+    private void checkBusStopDistance(Location location) {
 
         mCurrentLocation = location;
         double distance = 0;

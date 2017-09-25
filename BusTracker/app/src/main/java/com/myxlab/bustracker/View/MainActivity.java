@@ -231,6 +231,7 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -314,35 +315,34 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        FloatingActionButton fab_alert = (FloatingActionButton) findViewById(R.id.fab_alert);
-        fab_alert.setVisibility(View.GONE);
-        fab_alert.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton nearestBSFab = (FloatingActionButton) findViewById(R.id.fab_alert);
+        nearestBSFab.setVisibility(View.VISIBLE);
+        nearestBSFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "recreate", Toast.LENGTH_SHORT).show();
-                recreate();
-                startActivity(new Intent(MainActivity.this, TestMapsActivity.class));
-                //mapsFragment.onCheckAnimation();
+
+                mapsFragment.getData();
             }
         });
 
-        FloatingActionButton fab_schedule = (FloatingActionButton) findViewById(R.id.fab_schedule);
-        fab_schedule.setVisibility(View.VISIBLE);
-        fab_schedule.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton toUKMFab = (FloatingActionButton) findViewById(R.id.fab_schedule);
+        toUKMFab.setVisibility(View.VISIBLE);
+        toUKMFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LatLng ukm = new LatLng(2.929794, 101.777447);
                 mapsFragment.focusCamera(ukm);
                 //UserInstance.getInstance().getVolleyApp().updatePOIDB(getString(R.string.url_poi_list), getApplicationContext());
                 //UserInstance.getInstance().getVolleyApp().updateBSDB(getString(R.string.url_bus_stop_list), getApplicationContext());
-                Intent intent = new Intent(MainActivity.this, TestMapsActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(MainActivity.this, TestMapsActivity.class);
+                startActivity(intent);*/
+                //recreate();
 
             }
         });
 
-        FloatingActionButton fab_logout = (FloatingActionButton) findViewById(R.id.fab_report);
-        fab_logout.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton logoutFab = (FloatingActionButton) findViewById(R.id.fab_report);
+        logoutFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);

@@ -1,14 +1,13 @@
 package com.myxlab.bustracker.View;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -32,9 +31,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PatternItem;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.ClusterRenderer;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.ui.IconGenerator;
-import com.myxlab.bustracker.Model.maps.ClusterMarkerLocation;
+import com.myxlab.bustracker.Model.BusStop;
+import com.myxlab.bustracker.Model.UserInstance;
+import com.myxlab.bustracker.Model.maps.MyClusterItem;
 import com.myxlab.bustracker.R;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -44,7 +49,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
+import java.util.Set;
 
 
 public class TestMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnPolylineClickListener {
@@ -132,15 +137,18 @@ public class TestMapsActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     // Declare a variable for the cluster manager.
-    private ClusterManager<ClusterMarkerLocation> mClusterManager;
+    private ClusterManager<MyClusterItem> mClusterManager;
 
     private void setUpClusterer() {
+
+
         // Position the map.
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude()), 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(2.9214,101.7720), 10));
 
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
-        mClusterManager = new ClusterManager<ClusterMarkerLocation>(this, mMap);
+        mClusterManager = new ClusterManager<MyClusterItem>(this, mMap);
+        mClusterManager.setRenderer(new CustomRenderer<MyClusterItem>(this,mMap,mClusterManager));
 
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
@@ -151,18 +159,28 @@ public class TestMapsActivity extends FragmentActivity implements OnMapReadyCall
         addItems();
     }
 
+    class CustomRenderer<T extends ClusterItem> extends DefaultClusterRenderer<T> {
+        public CustomRenderer(Context context, GoogleMap map, ClusterManager<T> clusterManager) {
+            super(context, map, clusterManager);
+        }
+
+        @Override
+        protected boolean shouldRenderAsCluster(Cluster<T> cluster) {
+            //start clustering if at least 3 items overlap
+            return cluster.getSize() > 2;
+        }
+
+    }
+
     private void addItems() {
 
-        // Set some lat/lng coordinates to start with.
-        double lat = mCurrentLocation.getLatitude();
-        double lng = mCurrentLocation.getLongitude();
+        List<BusStop> BusStopsList = UserInstance.getInstance().getBusStopList();
 
         // Add ten cluster items in close proximity, for purposes of this example.
-        for (int i = 0; i < 1000; i++) {
-            double offset = i / 60d;
-            lat = lat + offset;
-            lng = lng + offset;
-            ClusterMarkerLocation offsetItem = new ClusterMarkerLocation(lat, lng);
+        for (int i = 0; i < BusStopsList.size(); i++) {
+            double lat = BusStopsList.get(i).getLat();
+            double lng = BusStopsList.get(i).getLon();
+            MyClusterItem offsetItem = new MyClusterItem(lat, lng);
             mClusterManager.addItem(offsetItem);
 
 /*            // Set the title and snippet strings.

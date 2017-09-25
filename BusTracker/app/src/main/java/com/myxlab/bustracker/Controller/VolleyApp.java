@@ -41,6 +41,7 @@ import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.Model.maps.Helper;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.View.AlertsFragment;
+import com.myxlab.bustracker.View.Login.MainLoginActivity;
 import com.myxlab.bustracker.View.LoginActivity;
 import com.myxlab.bustracker.View.MainActivity;
 import com.myxlab.bustracker.View.MapsFragment;
@@ -110,7 +111,7 @@ public class VolleyApp {
         return imageLoader;
     }
 
-    public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final LoginActivity loginActivity) {
+    public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final MainLoginActivity loginActivity) {
 
         Map<String, String> params = new HashMap<>();
         params.put(Auth.KEY_USERNAME, username);
@@ -157,6 +158,55 @@ public class VolleyApp {
             addQueue(jsonRequest);
         }
     }
+
+/*    public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final MainLoginActivity loginActivity) {
+
+        Map<String, String> params = new HashMap<>();
+        params.put(Auth.KEY_USERNAME, username);
+        params.put(Auth.KEY_PASSWORD, password);
+        JSONObject parameters = new JSONObject(params);
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
+                        UserInstance.getInstance().getAuth().saveAuth(context, username, password);
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                        UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );
+
+
+                        loginActivity.finish();
+                        context.startActivity(intent);
+                        view.setVisibility(View.GONE);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        view.setVisibility(View.GONE);
+                        volleyErrorResponse(error, context);
+                    }
+                });
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (loginActivity.getApplication() != null) {
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }*/
+
 
     public void autoLogin(String Url, final Context context, final SplashActivity splashActivity) {
 

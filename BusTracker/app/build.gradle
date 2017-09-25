@@ -29,7 +29,6 @@ dependencies {
     })
 
     compile 'com.google.maps.android:android-maps-utils:0.4.4'
-
     compile 'com.google.maps.android:android-maps-utils:0.4.4'
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.mcxiaoke.volley:library:1.0.19'

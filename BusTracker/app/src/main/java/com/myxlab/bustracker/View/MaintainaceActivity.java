@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.myxlab.bustracker.R;
+import com.myxlab.bustracker.View.Login.MainLoginActivity;
 
 public class MaintainaceActivity extends AppCompatActivity {
 
@@ -49,7 +50,7 @@ public class MaintainaceActivity extends AppCompatActivity {
         tvBtnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MaintainaceActivity.this, LoginActivity.class));
+                startActivity(new Intent(MaintainaceActivity.this, MainLoginActivity.class));
             }
         });
 
