@@ -332,6 +332,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 LatLng ukm = new LatLng(2.929794, 101.777447);
                 mapsFragment.focusCamera(ukm);
+                //
                 //UserInstance.getInstance().getVolleyApp().updatePOIDB(getString(R.string.url_poi_list), getApplicationContext());
                 //UserInstance.getInstance().getVolleyApp().updateBSDB(getString(R.string.url_bus_stop_list), getApplicationContext());
                 /*Intent intent = new Intent(MainActivity.this, TestMapsActivity.class);
