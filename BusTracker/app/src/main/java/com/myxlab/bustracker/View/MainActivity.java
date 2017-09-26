@@ -66,6 +66,7 @@ import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.POI;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
+import com.myxlab.bustracker.View.Login.MainLoginActivity;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -346,7 +347,7 @@ public class MainActivity extends BaseActivity {
         logoutFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, MainLoginActivity.class);
                 startActivity(intent);
                 auth.checkOutAuth(getApplicationContext());
                 finish();
