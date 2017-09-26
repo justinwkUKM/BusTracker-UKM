@@ -41,6 +41,7 @@ import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.Model.maps.Helper;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.View.AlertsFragment;
+import com.myxlab.bustracker.View.Login.Login_Fragment;
 import com.myxlab.bustracker.View.Login.MainLoginActivity;
 import com.myxlab.bustracker.View.LoginActivity;
 import com.myxlab.bustracker.View.MainActivity;
@@ -111,7 +112,85 @@ public class VolleyApp {
         return imageLoader;
     }
 
-    public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final MainLoginActivity loginActivity) {
+    public void UserRegistrationTask(final String Url, final String username, final String password, final String name, final String email, final Context context, final View view, final MainLoginActivity loginActivity) {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("U_Name", name);
+        params.put("U_Username", username);
+        params.put("U_Password", password);
+        params.put("U_Email", email);
+        params.put("U_Created", "2016-10-12 00:00:00");
+        params.put("U_Active", "1");
+        params.put("U_Last_Login", "2016-10-12 00:00:00");
+        params.put("U_Last_Password", "");
+        params.put("U_Address", "");
+        params.put("U_Phone", "");
+        params.put("U_Occup", "");
+        params.put("U_Device_Id", "");
+        params.put("U_Last_Latitud", "");
+        params.put("U_Last_Longitud", "");
+        params.put("U_Last_Origin", "");
+        params.put("U_Last_Destination", "");
+        params.put("U_Update", "2016-10-12 00:00:00");
+        params.put("U_Updated_By", "1");
+        params.put("U_Point", "1");
+        params.put("U_Refer_Id", "1");
+        params.put("U_In_Journey", "1");
+        params.put("U_Fav_Origin", "");
+        params.put("U_Fav_Destination", "");
+        params.put("U_Gender", "1");
+        params.put("U_Nationality", "");
+        params.put("U_Avatar", "");
+
+        JSONObject parameters = new JSONObject(params);
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                /*      UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
+                        UserInstance.getInstance().getAuth().saveAuth(context, username, password);
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                        UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );*/
+                        Log.e("Res",response.toString());
+                        UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
+                        UserInstance.getInstance().getAuth().saveAuth(context, username, password);
+
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        loginActivity.finish();
+                        context.startActivity(intent);
+                        view.setVisibility(View.GONE);
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        view.setVisibility(View.GONE);
+                        volleyErrorResponse(error, context);
+                    }
+                });
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (loginActivity.getApplication() != null) {
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+
+    public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final MainLoginActivity loginActivity, final Login_Fragment login_fragment) {
 
         Map<String, String> params = new HashMap<>();
         params.put(Auth.KEY_USERNAME, username);
@@ -140,7 +219,10 @@ public class VolleyApp {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         view.setVisibility(View.GONE);
-                        volleyErrorResponse(error, context);
+                        if (error instanceof AuthFailureError) {
+                            login_fragment.createCustomToast("Invalid Username and Password");
+                        }
+                        //volleyErrorResponse(error, context);
                     }
                 });
 
@@ -377,12 +459,12 @@ public class VolleyApp {
         params.put(BUS_STOP, busStop);
         params.put(BUS, bus);
         JSONObject parameters = new JSONObject(params);
-        Log.e("getETAParams",bus +"/"+ busStop);
+       // Log.e("getETAParams",bus +"/"+ busStop);
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e("ResponseETA", response.toString());
+                 //       Log.e("ResponseETA", response.toString());
                         Toast.makeText(mainActivity, response.toString() , Toast.LENGTH_SHORT).show();
                         String eta = null;
                         String etaTo = null;
@@ -410,11 +492,11 @@ public class VolleyApp {
 
 
 
-                            Log.e("getETA",eta + " "+ etaTo +" "+ lat + " "+lon+ " ");
+                 //           Log.e("getETA",eta + " "+ etaTo +" "+ lat + " "+lon+ " ");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("getETA",e.toString());
+                //            Log.e("getETA",e.toString());
                         }
 
                         assert eta != null;
@@ -528,7 +610,7 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        Log.e("VolleyAPP Response",response.toString());
+               //         Log.e("VolleyAPP Response",response.toString());
                         try {
                             JSONArray resultArray = response.getJSONArray("results");
 
@@ -825,7 +907,8 @@ public class VolleyApp {
             } else if (error instanceof AuthFailureError) {
                 Toast.makeText(context, R.string.error_credential, Toast.LENGTH_LONG).show();
             } else if (error instanceof ServerError) {
-                Toast.makeText(context, R.string.error_server, Toast.LENGTH_LONG).show();
+                Log.e("server_error", "VolleyApp.java");
+              //  Toast.makeText(context, R.string.error_server, Toast.LENGTH_LONG).show();
             } else if (error instanceof NetworkError) {
                 Toast.makeText(context, R.string.error_connectivity, Toast.LENGTH_LONG).show();
             } else if (error instanceof ParseError) {
@@ -965,7 +1048,7 @@ public class VolleyApp {
 
 
                                     JSONArray legs = jsonRoute.getJSONArray("legs");
-                                    Log.e("ResponseDirectionAPI",legs.toString());
+                              //      Log.e("ResponseDirectionAPI",legs.toString());
                                     for (int j = 0; j < legs.length(); j++) {
                                         JSONObject jsonLegs = legs.getJSONObject(i);
                                         distance[0] = jsonLegs.getJSONObject("distance").getString("text");
@@ -1025,7 +1108,7 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         List<Route> routeList = new LinkedList<>();
-                        Log.e("RouteListResponse", response.toString());
+                    //    Log.e("RouteListResponse", response.toString());
                         try {
                             JSONArray resultArray = response.getJSONArray("route");
 

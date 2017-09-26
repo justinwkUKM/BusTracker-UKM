@@ -43,7 +43,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
     private static Animation shakeAnimation;
     private static FragmentManager fragmentManager;
     private static MainLoginActivity mainLoginActivity;
-
+    private static Login_Fragment login_fragment;
 
 
     public Login_Fragment() {
@@ -56,6 +56,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
         view = inflater.inflate(R.layout.login_fragment, container, false);
         initViews();
         setListeners();
+        login_fragment = this;
         mainLoginActivity = (MainLoginActivity) getActivity();
         return view;
     }
@@ -205,6 +206,10 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
     }
 
+    public void createCustomToast(String s){
+        new CustomToast().Show_Toast(getActivity(), view,
+                s);
+    }
     private void attemptLogin() {
 
         mUsernameView.setError(null);
@@ -238,7 +243,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
             focusView.requestFocus();
         } else {
             mProgressView.setVisibility(View.VISIBLE);
-            UserInstance.getInstance().getVolleyApp().UserLoginTask(getString(R.string.url_login), username, password, getActivity(), mProgressView, mainLoginActivity);
+            UserInstance.getInstance().getVolleyApp().UserLoginTask(getString(R.string.url_login), username, password, getActivity(), mProgressView, mainLoginActivity, login_fragment);
         }
     }
 

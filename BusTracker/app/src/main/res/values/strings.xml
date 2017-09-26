@@ -142,6 +142,7 @@
     <string name="error_server">Please try again later server currently down</string>
     <string name="error_opss">Opss something wrong</string>
 
+    <string name="url_signup">http://api.myxlab.solutions/api/v1/register</string>
     <string name="url_login">http://api.myxlab.solutions/api/v1/came_in</string>
     <string name="url_poi_list">http://api.myxlab.solutions/api/v1/attractpoint</string>
     <string name="url_bus_stop_list">http://api.myxlab.solutions/api/v1/terminal</string>
@@ -421,7 +422,7 @@ C68.5809,277.075,273.832,71.8233,527.023,71.8233 Z
     <string name="location">Location</string>
     <string name="confirmPassword">Confirm Password</string>
     <string name="terms_conditions">By clicking SignUp you agree all the Terms and Conditions.</string>
-    <string name="signUp">Register Account</string>
+    <string name="signUp">Sign Up in Seconds</string>
     <string name="already_user">Already have Account? Login here.</string>
     <string name="registered_emailid">Please enter your Registered Email Id below:</string>
     <string name="submit">SUBMIT</string>
