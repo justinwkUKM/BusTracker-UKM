@@ -566,11 +566,17 @@ public class VolleyApp {
                             JSONObject jsonObject = response.getJSONObject("station");
                             double lat = Double.parseDouble(jsonObject.getString("lat"));
                             double lon = Double.parseDouble(jsonObject.getString("lon"));
-                            UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).setLat(lat);
-                            UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).setLon(lon);
-                            if (nextBusStopIndex+1 < UserInstance.getInstance().getRoute().getBusStopList().size()){
-                                getAllBusStopJourney(context, nextBusStopIndex+1);
+                            try {
+                                UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).setLat(lat);
+                                UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).setLon(lon);
+                                if (nextBusStopIndex + 1 < UserInstance.getInstance().getRoute().getBusStopList().size()) {
+                                    getAllBusStopJourney(context, nextBusStopIndex + 1);
+                                }
+                            }catch (Exception e){
+                                Log.e("e",e.getMessage());
                             }
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
