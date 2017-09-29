@@ -74,7 +74,10 @@ public class AlertsFragment extends Fragment {
 
     public void callUrl() {
         Log.e(TAG, "callURL");
-        UserInstance.getInstance().getVolleyApp().getAlertsData(getString(R.string.url_get_alerts),getActivity(),this);
+
+        if(getActivity() != null){
+            UserInstance.getInstance().getVolleyApp().getAlertsData(getString(R.string.url_get_alerts),getActivity(),this);
+        }
     }
 
     private void initVar() {

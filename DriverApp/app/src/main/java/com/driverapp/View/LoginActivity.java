@@ -1,16 +1,22 @@
 package com.driverapp.View;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.CountDownTimer;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.test.mock.MockPackageManager;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +41,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 import com.driverapp.BaseActivity;
+
 import com.driverapp.Model.Auth;
 import com.driverapp.Model.Bus;
 import com.driverapp.Model.BusStop;
@@ -46,6 +53,7 @@ import com.driverapp.Controller.VolleyApp;
 import com.driverapp.Utility;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.github.glomadrian.roadrunner.IndeterminateRoadRunner;
+import com.google.firebase.database.FirebaseDatabase;
 
 import tyrantgit.explosionfield.ExplosionField;
 
@@ -59,7 +67,7 @@ public class LoginActivity extends BaseActivity {
     private ExplosionField mExplosionField;
     private RelativeLayout relativeLayout;
     private IndeterminateRoadRunner indeterminateRoadRunner;
-
+    private static final int REQUEST_CODE_PERMISSION = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,8 @@ public class LoginActivity extends BaseActivity {
             window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
         }
 
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         UserInstance.getInstance().setAuth(new Auth());
         UserInstance.getInstance().setBus(new Bus());
         UserInstance.getInstance().setDriver(new Driver());
@@ -167,8 +177,40 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 4);
+                    return;
+                }
+                // If any permission above not allowed by user, this condition will execute every time, else your else part will work
+            } else {
+                //
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.e("Req Code", "" + requestCode);
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.length >0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
+                // Success Stuff here
+                Log.e("Success Stuff here", "" + requestCode);
+            }
+            else{
+                // Failure Stuff
+                Log.e("Failure Stuff here", "" + requestCode);
+            }
+        }
+
+    }
+
 
     private void attemptLogin() {
 

@@ -32,8 +32,8 @@
             android:id="@+id/fab_schedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_query_builder"
-            app:fab_label="Refresh Database"
+            android:src="@drawable/ic_map"
+            app:fab_label="UKM Bangi"
             style="@style/MenuButtonsSmall"/>
 
 
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_query_builder"
-        app:fab_label="New Menu"
+        app:fab_label="Nearest Bus Stop"
         style="@style/MenuButtonsSmall"/>
 
 </com.github.clans.fab.FloatingActionMenu>

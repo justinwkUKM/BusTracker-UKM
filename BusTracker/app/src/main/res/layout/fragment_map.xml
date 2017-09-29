@@ -1,4 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/confirm_address_map_wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="220dp">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.myxlab.bustracker.View.MapsFragment"
+        map:uiCompass="false"
+        map:uiMapToolbar="false"
+        map:uiZoomControls="false"/>
+    <!-- Image View that acts as map marker notice centerInParent-->
+    <ImageView
+        android:id="@+id/confirm_address_map_custom_marker"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:src="@drawable/fab_add"/>
+</RelativeLayout>
+
+<!--
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,4 +37,4 @@
     tools:context="com.myxlab.bustracker.View.MapsFragment"
     map:uiCompass="false"
     map:uiMapToolbar="false"
-    map:uiZoomControls="false"/>
+    map:uiZoomControls="false"/>-->

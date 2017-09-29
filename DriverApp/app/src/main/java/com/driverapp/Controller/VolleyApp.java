@@ -3,8 +3,10 @@ package com.driverapp.Controller;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,12 +30,11 @@ import com.driverapp.Model.BusStop;
 import com.driverapp.Model.Route;
 import com.driverapp.Model.UserInstance;
 import com.driverapp.R;
-import com.driverapp.Service.LocationListenerService;
+import com.driverapp.View.AlertActivity;
 import com.driverapp.View.JourneyActivity;
 import com.driverapp.View.LoginActivity;
 import com.driverapp.View.SearchFragment;
 import com.driverapp.View.SetupFragment;
-import com.driverapp.View.TrackActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +45,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 public class VolleyApp {
 
@@ -58,6 +61,9 @@ public class VolleyApp {
     private static final String BUS_LOCATION_DOES_NOT_EXIST = "Bus_Location does not exist.";
     private static final String BUS_ROUTE = "route";
     private static final String BUS_POSITION = "position";
+    private static final String BUS_PLATE = "plate";
+    private static final String BUS_DRIVER = "driver";
+    private static final String BUS_NEXT_BUS_STOP = "next_bus_stop";
     private int delay = 1200;
 
     public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final LoginActivity loginActivity) {
@@ -172,7 +178,7 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         List<Route> routeList = new LinkedList<>();
-
+                        Log.e("RouteListResponse", response.toString());
                         try {
                             JSONArray resultArray = response.getJSONArray("route");
 
@@ -234,24 +240,27 @@ public class VolleyApp {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
         final String dummy = "505";
-
+        //change rest api//
+        int rand = randomInt();
+        int rand2 = randomInt();
+        String driverID = UserInstance.getInstance().getDriver().getDriver_id();
+        String deviceID = getUniquePhoneIdentity();
         Map<String, String> params = new HashMap<>();
-        params.put(DRIVER_ID, dummy);
-        params.put(DEVICE_ID, dummy);
+        params.put(DRIVER_ID, driverID+"");
+        params.put(DEVICE_ID, deviceID+"");
         params.put(REGISTERED_BUS_ID, UserInstance.getInstance().getBus().getBusId());
         params.put(ROUTE_ID, UserInstance.getInstance().getRoute().getRouteId());
+        params.put("plate_no", String.valueOf(UserInstance.getInstance().getBus().getBusPlate()));
         JSONObject parameters = new JSONObject(params);
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, api, parameters,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
                         statusText.setText(R.string.success);
                         statusText.setTextColor(ContextCompat.getColor(context, R.color.green));
                         statusText.setVisibility(View.VISIBLE);
                         setupFragment.nextStep(statusText);
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -286,6 +295,12 @@ public class VolleyApp {
         } else {
             addQueue(jsonRequest);
         }
+    }
+
+    private int randomInt() {
+        Random random = new Random();
+        int rand  = random.nextInt(19999);
+        return rand;
     }
 
     public void checkingBus(final String url, final Context context, final TextView statusText, final SetupFragment setupFragment) {
@@ -364,6 +379,10 @@ public class VolleyApp {
         params.put(LONGITUDE, "0");
         params.put(BUS_ROUTE,UserInstance.getInstance().getRoute().getRouteId());
         params.put(BUS_POSITION, String.valueOf(UserInstance.getInstance().getBusLocation()));
+        params.put(BUS_PLATE, String.valueOf(UserInstance.getInstance().getBus().getBusPlate()));
+        params.put(BUS_DRIVER, String.valueOf(UserInstance.getInstance().getDriver().getDriver_id()));
+        params.put(BUS_NEXT_BUS_STOP, String.valueOf(UserInstance.getInstance().getRoute().getBusStopList().get(1).getName()));
+
         JSONObject parameters = new JSONObject(params);
 
 
@@ -419,6 +438,9 @@ public class VolleyApp {
         params.put(LONGITUDE, String.valueOf(lon));
         params.put(BUS_ROUTE,UserInstance.getInstance().getRoute().getRouteId());
         params.put(BUS_POSITION, String.valueOf(UserInstance.getInstance().getBusLocation()));
+        params.put(BUS_PLATE, String.valueOf(UserInstance.getInstance().getBus().getBusPlate()));
+        params.put(BUS_DRIVER, String.valueOf(UserInstance.getInstance().getDriver().getDriver_id()));
+        params.put(BUS_NEXT_BUS_STOP, String.valueOf(UserInstance.getInstance().getBusLocation()));
         JSONObject parameters = new JSONObject(params);
 
 
@@ -426,7 +448,7 @@ public class VolleyApp {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -461,9 +483,9 @@ public class VolleyApp {
     public void getNextBusStop(final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
         final int nextBusStopIndex = UserInstance.getInstance().getBusLocation() + 1;
-
+        Log.e("apiIndex", "" +nextBusStopIndex);
         String api = context.getResources().getString(R.string.url_bus_stop) + "/" + UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName()+"/?token=" + UserInstance.getInstance().getAuth().getAuth_token();
-
+        Log.e("api", api);
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -487,10 +509,8 @@ public class VolleyApp {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         volleyErrorResponse(error, context);
                         setupFragment.failClose(statusText);
-
                     }
                 }){
 
@@ -499,7 +519,6 @@ public class VolleyApp {
 
                 return volleyParseNetworkResponse(response);
             }
-
         };
 
         if (!checkQueueServeTime()){
@@ -572,7 +591,7 @@ public class VolleyApp {
         }
     }
 
-    public void submitAlert(final String url, final String subject,final String message, final String report_type, final int reporter_id, final Context context) {
+    public void submitAlert(final String url, final String subject, final String message, final String report_type, final int reporter_id, final AlertActivity alertActivity, final Context context) {
 
         //String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
         String api = url ;
@@ -591,7 +610,8 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Toast.makeText(context, "Success " + response.getString("status"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Successfully Reported : " + response.getString("status"), Toast.LENGTH_SHORT).show();
+                            alertActivity.setEmpty();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -629,7 +649,7 @@ public class VolleyApp {
     }
 
 
-    public void trackBus(final String url, final Context context, double lat, double lon) {
+    public void trackBus(final String url, final Context context, double lat, double lon, int nextBusStop) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
 
@@ -640,6 +660,8 @@ public class VolleyApp {
         params.put("bll_long", String.valueOf(lon));
         params.put("route",UserInstance.getInstance().getRoute().getRouteId());
         params.put("position", String.valueOf(UserInstance.getInstance().getBusLocation()));
+        params.put("bus_stop", nextBusStop+"");
+        Log.e("Next Bus Stop",nextBusStop+"");
         JSONObject parameters = new JSONObject(params);
 
 
@@ -647,7 +669,7 @@ public class VolleyApp {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(context, ""+response, Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -695,7 +717,8 @@ public class VolleyApp {
                 Toast.makeText(context, R.string.error_credential, Toast.LENGTH_LONG).show();
                 newToken(context.getResources().getString(R.string.url_login),context);
             } else if (error instanceof ServerError) {
-                Toast.makeText(context, R.string.error_server, Toast.LENGTH_LONG).show();
+                Log.e("ServerError",context.getResources().getString(R.string.error_server));
+                //Toast.makeText(context, R.string.error_server, Toast.LENGTH_LONG).show();
             } else if (error instanceof NetworkError) {
                 Toast.makeText(context, R.string.error_connectivity, Toast.LENGTH_LONG).show();
             } else if (error instanceof ParseError) {
@@ -770,5 +793,21 @@ public class VolleyApp {
 
     private int statusValue(boolean status){
         return (status) ? 1 : 0;
+    }
+
+    public String getUniquePhoneIdentity() {
+        String m_szDevIDShort = "35" + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10) + (Build.PRODUCT.length() % 10);
+
+        String serial = null;
+        try {
+            serial = android.os.Build.class.getField("SERIAL").get(null).toString();
+
+            // Go ahead and return the serial for api => 9
+            return "android-" + new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
+        } catch (Exception exception) {
+            // String needs to be initialized
+            serial = "serial"; // some value
+        }
+        return "android-" + new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
     }
 }

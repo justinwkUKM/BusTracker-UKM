@@ -16,7 +16,7 @@ public class AlertActivity extends BaseActivity {
 
     EditText etSubject, etMessage;
     Button btSubmit;
-
+    AlertActivity alertActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,20 +29,26 @@ public class AlertActivity extends BaseActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
         }
-
+        alertActivity = new AlertActivity();
+        etSubject = (EditText) findViewById(R.id.etAlertSubject);
+        etMessage = (EditText) findViewById(R.id.etAlertMessage);
 
     }
 
     public void submitAlertButton(View view){
 
-        etSubject = (EditText) findViewById(R.id.etAlertSubject);
-        etMessage = (EditText) findViewById(R.id.etAlertMessage);
+
         String subject = etSubject.getText().toString();
         String message = etMessage.getText().toString();
         String reportType = "Testing";
         int reporterID = 35555;
+        UserInstance.getInstance().getVolleyApp().submitAlert(getString(R.string.url_alert),subject,message,reportType,reporterID,alertActivity, this);
 
-        UserInstance.getInstance().getVolleyApp().submitAlert(getString(R.string.url_alert),subject,message,reportType,reporterID, this);
+    }
 
+    public void setEmpty(){
+        etSubject.setText("");
+        etMessage.setText("");
+        //finish();
     }
 }

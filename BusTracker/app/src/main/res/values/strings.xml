@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">Bus Tracker</string>
+    <string name="app_name">BasKita</string>
     <string name="action_settings">Settings</string>
     <string name="google_api_key">AIzaSyDoa09BvszoRopB6Jdw7rsVeDiIV9AoUvo</string>
     <string name="schedule">Schedule</string>
     <string name="next">Next</string>
     <string name="loading">Loading...</string>
     <string name="locate">Locate</string>
+    <string name="bus_id"> Bus ID </string>
+    <string name="last_bus_stop"> Just Passed.. </string>
     <string name="my_location">My Location</string>
     <string name="hint_search_text">Search Places..</string>
     <string name="hint_current_lcoation">Current Location</string>
@@ -17,6 +19,8 @@
     <string name="lorem_ipsum_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
     <string name="lorem_ipsum_short">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</string>
     <string name="subject">Lorem ipsum</string>
+    <string name="lets_go">Let\'s Go</string>
+    <string name="lets_walk">Let\'s Walk</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -138,14 +142,23 @@
     <string name="error_server">Please try again later server currently down</string>
     <string name="error_opss">Opss something wrong</string>
 
-    <string name="url_login">http://api.faizhasan.info/api/v1/came_in</string>
-    <string name="url_poi_list">http://api.faizhasan.info/api/v1/attractpoint</string>
-    <string name="url_bus_stop_list">http://api.faizhasan.info/api/v1/terminal</string>
-    <string name="url_get_alerts">http://api.faizhasan.info/api/v1/adu</string>
-    <string name="url_poi_bus_stop_list">http://api.faizhasan.info/api/v1/nearestpoi</string>
-    <string name="url_bus">http://api.faizhasan.info/api/v1/bus</string>
-    <string name="url_eta_old">http://vbus.faizhasan.info/getETAv2.php</string>
-    <string name="url_eta">http://api.faizhasan.info/api/v1/eta</string>
+    <string name="url_signup">http://api.myxlab.solutions/api/v1/register</string>
+    <string name="url_login">http://api.myxlab.solutions/api/v1/came_in</string>
+    <string name="url_poi_list">http://api.myxlab.solutions/api/v1/attractpoint</string>
+    <string name="url_bus_stop_list">http://api.myxlab.solutions/api/v1/terminal</string>
+    <string name="url_get_alerts">http://api.myxlab.solutions/api/v1/adu</string>
+    <string name="url_poi_bus_stop_list">http://api.myxlab.solutions/api/v1/nearestpoi</string>
+    <string name="url_bus">http://api.myxlab.solutions/api/v1/bus</string>
+    <string name="url_bus_location">http://api.myxlab.solutions/api/v1/translocate</string>
+    <string name="url_eta_old">http://vbus.myxlab.solutions/getETAv2.php</string>
+    <string name="url_eta">http://api.myxlab.solutions/api/v1/eta</string>
+    <string name="url_route">http://api.myxlab.solutions/api/v1/way</string>
+    <string name="get_walking_url">https://maps.googleapis.com/maps/api/directions/json?origin=</string>
+
+    <string name="API_KEY_GET_WALK">AIzaSyCuZCfoPPUV1upJT10kJbCbV71LUqwhFCM</string>
+    <integer name="socket_timeout_time">5000</integer>
+
+
 
      <string name="wallapop">M874.323897,513.518484 C860.358769,445.332884 816.382769,412.921263
     805.267282,406.191832 C800.657846,403.400084 797.676103,399.358653 797.88841,392.435874
@@ -383,5 +396,36 @@ C68.5809,277.075,273.832,71.8233,527.023,71.8233 Z
 	C582.927,177.05,583.765,161.341,584.651,145.636 Z
   </string>
     <integer name="slide_animation_duration">300</integer>
-    <integer name="slicky">300</integer>
+    <string name="title_activity_test_maps">TestMap</string>
+    <string name="title_activity_route_maps">Map</string>
+
+
+    <string name="title_activity_maps">Map</string>
+    <string name="permission_refused">Permission was not granted</string>
+    <string name="permission_request_title">Special Permission Request</string>
+    <string name="app_permission_notice">This permission request is very important to your app functionality. If it is not granted your app might not work the way it is intended</string>
+    <string name="failed_draw">Empty line path return</string>
+    <string name="server_error">Server error. Something when wrong with the server</string>
+    <string name="skip_button">SKIP</string>
+
+    <!--Login String-->
+    <string name="email">Email Id</string>
+    <string name="passowrd">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="show_pwd">Show Password</string>
+    <string name="hide_pwd">Hide Password</string>
+    <string name="forgot">Forgot password?</string>
+    <string name="closebutton">Close Button for Activity</string>
+    <string name="newUser">Not a Member yet? Sign Up here.</string>
+    <string name="fullName">Full Name</string>
+    <string name="mobileNumber">Mobile Number</string>
+    <string name="location">Location</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="terms_conditions">By clicking SignUp you agree all the Terms and Conditions.</string>
+    <string name="signUp">Sign Up in Seconds</string>
+    <string name="already_user">Already have Account? Login here.</string>
+    <string name="registered_emailid">Please enter your Registered Email Id below:</string>
+    <string name="submit">SUBMIT</string>
+    <string name="back">BACK</string>
+
 </resources>

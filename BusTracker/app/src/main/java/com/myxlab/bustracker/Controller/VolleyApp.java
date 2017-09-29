@@ -36,9 +36,13 @@ import com.myxlab.bustracker.Model.Auth;
 import com.myxlab.bustracker.Model.Bus;
 import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.POI;
+import com.myxlab.bustracker.Model.Route;
 import com.myxlab.bustracker.Model.UserInstance;
+import com.myxlab.bustracker.Model.maps.Helper;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.View.AlertsFragment;
+import com.myxlab.bustracker.View.Login.Login_Fragment;
+import com.myxlab.bustracker.View.Login.MainLoginActivity;
 import com.myxlab.bustracker.View.LoginActivity;
 import com.myxlab.bustracker.View.MainActivity;
 import com.myxlab.bustracker.View.MapsFragment;
@@ -108,7 +112,85 @@ public class VolleyApp {
         return imageLoader;
     }
 
-    public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final LoginActivity loginActivity) {
+    public void UserRegistrationTask(final String Url, final String username, final String password, final String name, final String email, final Context context, final View view, final MainLoginActivity loginActivity) {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("U_Name", name);
+        params.put("U_Username", username);
+        params.put("U_Password", password);
+        params.put("U_Email", email);
+        params.put("U_Created", "2016-10-12 00:00:00");
+        params.put("U_Active", "1");
+        params.put("U_Last_Login", "2016-10-12 00:00:00");
+        params.put("U_Last_Password", "");
+        params.put("U_Address", "");
+        params.put("U_Phone", "");
+        params.put("U_Occup", "");
+        params.put("U_Device_Id", "");
+        params.put("U_Last_Latitud", "");
+        params.put("U_Last_Longitud", "");
+        params.put("U_Last_Origin", "");
+        params.put("U_Last_Destination", "");
+        params.put("U_Update", "2016-10-12 00:00:00");
+        params.put("U_Updated_By", "1");
+        params.put("U_Point", "1");
+        params.put("U_Refer_Id", "1");
+        params.put("U_In_Journey", "1");
+        params.put("U_Fav_Origin", "");
+        params.put("U_Fav_Destination", "");
+        params.put("U_Gender", "1");
+        params.put("U_Nationality", "");
+        params.put("U_Avatar", "");
+
+        JSONObject parameters = new JSONObject(params);
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                /*      UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
+                        UserInstance.getInstance().getAuth().saveAuth(context, username, password);
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                        UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );*/
+                        Log.e("Res",response.toString());
+                        UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
+                        UserInstance.getInstance().getAuth().saveAuth(context, username, password);
+
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        loginActivity.finish();
+                        context.startActivity(intent);
+                        view.setVisibility(View.GONE);
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        view.setVisibility(View.GONE);
+                        volleyErrorResponse(error, context);
+                    }
+                });
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (loginActivity.getApplication() != null) {
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+
+    public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final MainLoginActivity loginActivity, final Login_Fragment login_fragment) {
 
         Map<String, String> params = new HashMap<>();
         params.put(Auth.KEY_USERNAME, username);
@@ -123,6 +205,62 @@ public class VolleyApp {
                         UserInstance.getInstance().getAuth().saveAuth(context, username, password);
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                        UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );
+
+
+                        loginActivity.finish();
+                        context.startActivity(intent);
+                        view.setVisibility(View.GONE);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        view.setVisibility(View.GONE);
+                        if (error instanceof AuthFailureError) {
+                            login_fragment.createCustomToast("Invalid Username and Password");
+                        }
+                        //volleyErrorResponse(error, context);
+                    }
+                });
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (loginActivity.getApplication() != null) {
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+
+/*    public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final MainLoginActivity loginActivity) {
+
+        Map<String, String> params = new HashMap<>();
+        params.put(Auth.KEY_USERNAME, username);
+        params.put(Auth.KEY_PASSWORD, password);
+        JSONObject parameters = new JSONObject(params);
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
+                        UserInstance.getInstance().getAuth().saveAuth(context, username, password);
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                        UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );
+
+
                         loginActivity.finish();
                         context.startActivity(intent);
                         view.setVisibility(View.GONE);
@@ -149,7 +287,8 @@ public class VolleyApp {
         } else {
             addQueue(jsonRequest);
         }
-    }
+    }*/
+
 
     public void autoLogin(String Url, final Context context, final SplashActivity splashActivity) {
 
@@ -238,8 +377,18 @@ public class VolleyApp {
 
                                     String name = String.valueOf(json.getString("name"));
                                     String code = String.valueOf(json.getString("code"));
-                                    Double lat = Double.valueOf(json.getString("lat"));
-                                    Double lon = Double.valueOf(json.getString("lon"));
+                                    String latitude = json.getString("lat");
+                                    String longitude = json.getString("lon");
+                                    Double lat;
+                                    Double lon;
+                                    if (latitude.equals("null") && longitude.equals("null")){
+                                        lat = 2.998489;
+                                        lon = 101.712087;
+                                    }else{
+                                        lat = Double.parseDouble(latitude);
+                                        lon = Double.parseDouble(longitude);
+                                    }
+
                                     List<String> busItem = new LinkedList<>();
                                     /*if (json.getString("buses") != null) {
                                         String buses = String.valueOf(json.getString("buses"));
@@ -304,45 +453,62 @@ public class VolleyApp {
         }
     }
 
-    public void getETA(String url, final String busStop, final String bus, final MainActivity mainActivity) {
+    public void getETA(String url, final String busStop, final String bus, final MainActivity mainActivity, final Double busLat, final Double busLon) {
 
         Map<String, String> params = new HashMap<>();
         params.put(BUS_STOP, busStop);
         params.put(BUS, bus);
         JSONObject parameters = new JSONObject(params);
-        Log.e("getETAParams",bus +"/"+ busStop);
+       // Log.e("getETAParams",bus +"/"+ busStop);
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, parameters,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                 //       Log.e("ResponseETA", response.toString());
                         Toast.makeText(mainActivity, response.toString() , Toast.LENGTH_SHORT).show();
-                       String eta = null;
+                        String eta = null;
                         String etaTo = null;
                         Double lat = null;
                         Double lon = null;
+                        String polyline = null;
 
                         try {
                             JSONObject obj = response.getJSONObject("results");
 
                             //JSONObject obj = resultArray.getJSONObject(0);
+                            polyline = obj.optString("polyline");
 
                             eta = obj.getString("eta");
                             etaTo = "to " + busStop;
-                            lat = Double.valueOf(obj.getString("lat"));
-                            lon = Double.valueOf(obj.getString("lon"));
-                            Log.e("getETA",eta + " "+ etaTo +" "+ lat + " "+lon+ " ");
+                            String latitude = obj.getString("lat");
+                            String longitude = obj.getString("lon");
+                            if (latitude.equals("null") && longitude.equals("null")){
+                                lat = 2.998489;
+                                lon = 101.712087;
+                            }else{
+                                lat = Double.valueOf(latitude);
+                                lon = Double.valueOf(longitude);
+                            }
+
+
+
+                 //           Log.e("getETA",eta + " "+ etaTo +" "+ lat + " "+lon+ " ");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("getETA",e.toString());
+                //            Log.e("getETA",e.toString());
                         }
 
                         assert eta != null;
+                        assert etaTo != null;
+                        assert lat != null;
+                        assert lon != null;
+
                         if (!eta.equals("Please wait for next Trip")) {
-                            mainActivity.setETA(eta, etaTo, lat, lon, true);
+                            mainActivity.setETA(bus, eta, etaTo, lat, lon, polyline, true, busLat, busLon);
 
                         } else {
-                            mainActivity.setETA("Next", eta, lat, lon, false);
+                            mainActivity.setETA("Next", eta, etaTo, lat, lon, polyline, false, busLat, busLon);
                         }
 
                     }
@@ -444,7 +610,7 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        Log.e("VolleyAPP Response",response.toString());
+               //         Log.e("VolleyAPP Response",response.toString());
                         try {
                             JSONArray resultArray = response.getJSONArray("results");
 
@@ -516,8 +682,9 @@ public class VolleyApp {
                                     Double lon = Double.valueOf(json.getString("lon"));
                                     String name = String.valueOf(json.getString("bus"));
                                     String plate = String.valueOf(json.getString("plate"));
+                                    String currentBusStop = String.valueOf(json.getString("currentbusstop"));
 
-                                    Bus bus= new Bus(name, lat, lon, plate);
+                                    Bus bus= new Bus(name, lat, lon, plate,currentBusStop);
                                     buses.add(bus);
 
                                 } catch (JSONException e) {
@@ -682,7 +849,7 @@ public class VolleyApp {
                                         bs.setLon(Double.valueOf(json.getString("lon")));
                                         bs.setCode(String.valueOf(json.getString("code")));
                                         dbHandler.addBusStop(bs);
-
+                                        //Log.e("json", json.toString());
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -722,6 +889,8 @@ public class VolleyApp {
         }
     }
 
+
+
     private void volleyErrorResponse(VolleyError error, Context context) {
 
         try {
@@ -738,7 +907,8 @@ public class VolleyApp {
             } else if (error instanceof AuthFailureError) {
                 Toast.makeText(context, R.string.error_credential, Toast.LENGTH_LONG).show();
             } else if (error instanceof ServerError) {
-                Toast.makeText(context, R.string.error_server, Toast.LENGTH_LONG).show();
+                Log.e("server_error", "VolleyApp.java");
+              //  Toast.makeText(context, R.string.error_server, Toast.LENGTH_LONG).show();
             } else if (error instanceof NetworkError) {
                 Toast.makeText(context, R.string.error_connectivity, Toast.LENGTH_LONG).show();
             } else if (error instanceof ParseError) {
@@ -854,4 +1024,147 @@ public class VolleyApp {
         UserInstance.getInstance().getQueue().add(jsonRequest);
         UserInstance.getInstance().setLastRequestTime(System.currentTimeMillis());
     }
+
+    public void getWalkingData(String directionPath, final MainActivity mainActivity){
+        String api = directionPath;
+        final String[] distance = {""};
+        final String[] duration = {""};
+        final String[] polyline = {""};
+        Log.e("DirectionPath",directionPath);
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+
+
+                        try {
+                            JSONArray resultArray = response.getJSONArray("routes");
+
+                            for (int i = 0; i < resultArray.length(); i++) {
+
+                                try {
+                                    JSONObject jsonRoute = resultArray.getJSONObject(i);
+
+
+                                    JSONArray legs = jsonRoute.getJSONArray("legs");
+                              //      Log.e("ResponseDirectionAPI",legs.toString());
+                                    for (int j = 0; j < legs.length(); j++) {
+                                        JSONObject jsonLegs = legs.getJSONObject(i);
+                                        distance[0] = jsonLegs.getJSONObject("distance").getString("text");
+                                        duration[0] = jsonLegs.getJSONObject("duration").getString("text");
+                                    }
+
+                                   polyline[0] = jsonRoute.getJSONObject("overview_polyline").getString("points");
+
+                                    mainActivity.show_getWalk(distance[0], duration[0], polyline[0]);
+                                    Log.e("ASD",distance[0] +"//"+duration[0]+"//"+ polyline[0]);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        volleyErrorResponse(error, context);
+                    }
+                }) {
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+
+                return volleyParseNetworkResponse(response);
+            }
+
+        };
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    addQueue(jsonRequest);
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+
+    }
+
+    public void getRouteList(final String url, final Context context, final MapsFragment mapsFragment) {
+
+        String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        List<Route> routeList = new LinkedList<>();
+                    //    Log.e("RouteListResponse", response.toString());
+                        try {
+                            JSONArray resultArray = response.getJSONArray("route");
+
+                            if (resultArray.length() != 0) {
+                                for (int i = 0; i < resultArray.length(); i++) {
+                                    JSONObject json = resultArray.getJSONObject(i);
+
+                                    List<BusStop> busStopList = new LinkedList<>();
+
+                                    for (int j = 0; j < json.getJSONArray("route").length(); j ++){
+                                        BusStop busStop = new BusStop(0,json.getJSONArray("route").getString(j),0.00,0.00);
+                                        busStopList.add(busStop);
+                                    }
+
+                                    Route route = new Route(String.valueOf(json.get("id")),String.valueOf(json.getString("name")), busStopList);
+                                    routeList.add(route);
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (routeList!=null){
+                            UserInstance.getInstance().setRouteList(routeList);
+                        }
+                        //searchFragment.populateRoute(routeList);
+                        //view.setVisibility(View.GONE);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        volleyErrorResponse(error, context);
+                    }
+                }) {
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response){
+                return volleyParseNetworkResponse(response);
+            }
+        };
+
+        if (!checkQueueServeTime()){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mapsFragment.getActivity() != null){
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+
+
 }

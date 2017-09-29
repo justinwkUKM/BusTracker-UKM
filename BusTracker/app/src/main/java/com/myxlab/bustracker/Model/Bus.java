@@ -3,8 +3,24 @@ package com.myxlab.bustracker.Model;
 public class Bus {
 
 
-    private String name, plate, id;
+    private String name, plate, id, currentBusStop;
     private Double lat, lon;
+
+    public Bus(String name, Double lat, Double lon, String plate, String currentBusStop) {
+        this.name = name;
+        this.plate = plate;
+        this.currentBusStop = currentBusStop;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
+    public String getCurrentBusStop() {
+        return currentBusStop;
+    }
+
+    public void setCurrentBusStop(String currentBusStop) {
+        this.currentBusStop = currentBusStop;
+    }
 
     public String getId() {
         return id;

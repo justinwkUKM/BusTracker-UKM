@@ -1,10 +1,25 @@
 package com.myxlab.bustracker.Model;
 
+import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.myxlab.bustracker.Controller.VolleyApp;
 import com.myxlab.bustracker.Utility;
 import com.myxlab.bustracker.View.MainActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.LinkedList;
 import java.util.List;
 
 public class UserInstance {
@@ -17,7 +32,10 @@ public class UserInstance {
     private List<BusStop> busStopList;
     private List<AlertsData> alertsDataList;
     private List<Bus> buses;
+    List<Route> routeList;
     private MainActivity mainActivity;
+
+    private int nearestBusStopIndex = 0;
 
 
 
@@ -95,5 +113,21 @@ public class UserInstance {
 
     public void setBuses(List<Bus> buses) {
         this.buses = buses;
+    }
+
+    public int getNearestBusStopIndex() {
+        return nearestBusStopIndex;
+    }
+
+    public void setNearestBusStopIndex(int nearestBusStopIndex) {
+        this.nearestBusStopIndex = nearestBusStopIndex;
+    }
+
+    public List<Route> getRouteList() {
+        return routeList;
+    }
+
+    public void setRouteList(List<Route> routeList) {
+        this.routeList = routeList;
     }
 }

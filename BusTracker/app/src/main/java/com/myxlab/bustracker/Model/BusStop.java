@@ -7,6 +7,8 @@ public class BusStop {
     private String name,code;
     private Double lat, lon;
     private List<String> bus;
+    private int id;
+
 
     public BusStop() {
     }
@@ -29,6 +31,13 @@ public class BusStop {
     public BusStop(String name, String code, Double lat, Double lon) {
         this.name = name;
         this.code = code;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
+    public BusStop(int id, String name, Double lat, Double lon) {
+        this.id = id;
+        this.name = name;
         this.lat = lat;
         this.lon = lon;
     }
@@ -73,5 +82,13 @@ public class BusStop {
 
     public void setBus(List<String> bus) {
         this.bus = bus;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
