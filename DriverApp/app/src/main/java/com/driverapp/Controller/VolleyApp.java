@@ -78,7 +78,7 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
-                        UserInstance.getInstance().getAuth().saveAuth(username, password);
+                        UserInstance.getInstance().getAuth().saveAuth(context, username, password);
                         UserInstance.getInstance().getDriver().saveDriverInfo(username, password);
                         Intent intent = new Intent(context, JourneyActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -178,21 +178,33 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         List<Route> routeList = new LinkedList<>();
-                        Log.e("RouteListResponse", response.toString());
+                        //Log.e("RouteListResponse", response.toString());
                         try {
                             JSONArray resultArray = response.getJSONArray("route");
+
+                            Log.e("resultlength",resultArray.length()+"");
 
                             if (resultArray.length() != 0) {
                                 for (int i = 0; i < resultArray.length(); i++) {
                                     JSONObject json = resultArray.getJSONObject(i);
-
                                     List<BusStop> busStopList = new LinkedList<>();
 
+                                        Log.e("routelength",json.getJSONArray("route").length()+"");
                                     for (int j = 0; j < json.getJSONArray("route").length(); j ++){
                                         BusStop busStop = new BusStop(0,json.getJSONArray("route").getString(j),0.00,0.00);
                                         busStopList.add(busStop);
                                     }
 
+
+                                   /* JSONArray insideroute = json.getJSONArray("route");
+                                    if (insideroute != null  ) {
+                                        Log.e("FROMINSIDE",json.getString("name"));
+                                    }else {
+                                        Log.e("FROMINSIDE","NULL");
+                                    }*/
+
+
+                                    Log.e(json.getInt("id")+"",json.getString("name"));
                                     Route route = new Route(String.valueOf(json.get("id")),String.valueOf(json.getString("name")), busStopList);
                                     routeList.add(route);
                                 }
@@ -537,8 +549,12 @@ public class VolleyApp {
     }
 
     public void getAllBusStopJourney(final Context context, final int nextBusStopIndex) {
-
-        String api = context.getResources().getString(R.string.url_bus_stop) + "/" + UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName()+"/?token=" + UserInstance.getInstance().getAuth().getAuth_token();
+        String api= "";
+        try {
+            api = context.getResources().getString(R.string.url_bus_stop) + "/" + UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName()+"/?token=" + UserInstance.getInstance().getAuth().getAuth_token();
+        }catch (Exception e){
+            Log.e("e", e.getMessage());
+        }
 
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,

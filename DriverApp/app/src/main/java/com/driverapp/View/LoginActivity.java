@@ -83,7 +83,7 @@ public class LoginActivity extends BaseActivity {
         }
 
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         UserInstance.getInstance().setAuth(new Auth());
         UserInstance.getInstance().setBus(new Bus());
         UserInstance.getInstance().setDriver(new Driver());

@@ -3,6 +3,8 @@ package com.driverapp;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class Utility {
 
@@ -21,4 +23,16 @@ public class Utility {
 
         return true;
     }
+
+    private static FirebaseDatabase mDatabase;
+
+    public static FirebaseDatabase getDatabase() {
+        if (mDatabase == null) {
+            mDatabase = FirebaseDatabase.getInstance();
+            mDatabase.setPersistenceEnabled(true);
+        }
+        return mDatabase;
+    }
+
+
 }
