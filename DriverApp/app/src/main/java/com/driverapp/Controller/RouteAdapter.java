@@ -14,7 +14,10 @@ import com.driverapp.R;
 import com.driverapp.View.JourneyActivity;
 
 import java.util.List;
-
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Adapter to feed all the available routes.
+ */
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> {
 
     private List<Route> routeList;

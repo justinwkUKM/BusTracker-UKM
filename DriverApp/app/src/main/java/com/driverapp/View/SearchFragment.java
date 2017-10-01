@@ -27,6 +27,11 @@ import com.driverapp.R;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Fragment to fetch the Bus and Route data from backend
+ */
+
 public class SearchFragment extends Fragment {
 
     List<Bus> busList;

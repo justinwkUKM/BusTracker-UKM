@@ -48,6 +48,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Adapter to call the LARAVEL Generated Web API using Volley Library. The methods name are self explanatory.
+ */
+
 public class VolleyApp {
 
     private static final String ROUTE_ID = "route_id";
@@ -613,7 +618,7 @@ public class VolleyApp {
         }
     }
 
-    public void submitAlert(final String url, final String subject, final String message, final String report_type, final int reporter_id, final AlertActivity alertActivity, final Context context) {
+    public void submitAlert(final String url, final String subject, final String message, final String report_type, final int reporter_id, final Context context) {
 
         //String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
         String api = url ;
@@ -632,11 +637,14 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+
                             Toast.makeText(context, "Successfully Reported : " + response.getString("status"), Toast.LENGTH_SHORT).show();
-                            alertActivity.setEmpty();
+                            //alertActivity.setEmpty();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+
                     }
                 },
                 new Response.ErrorListener() {

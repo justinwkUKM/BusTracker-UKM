@@ -30,6 +30,10 @@ import com.google.maps.android.SphericalUtil;
 import java.text.DateFormat;
 import java.util.Date;
 
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Service for Detecting bus location and sending data to backend
+ */
 public class LocationListenerService extends Service {
 
     public LocationManager locationManager;
@@ -57,11 +61,14 @@ public class LocationListenerService extends Service {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
+        //Determines the location will be updated only after 1 sec and 3 metres.
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 3, listener);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 3, listener);
 
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
+        //sending data to firebase realtime-database
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("coordinate").push();
         myRef.child("Details").child("Bus").setValue(UserInstance.getInstance().getBus().getBusName()+ " "+UserInstance.getInstance().getBus().getBusPlate());

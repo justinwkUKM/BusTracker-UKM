@@ -12,6 +12,11 @@ import com.driverapp.R;
 
 import java.util.List;
 
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Adapter to feed all the available bus stops for the selected route.
+ */
+
 public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHolder> {
 
     private List<BusStop> busStopList;

@@ -10,7 +10,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:src="@drawable/baskita"
+        android:src="@drawable/baskita_pemandu"
         android:layout_alignParentTop="true"
         android:layout_height="200dp" />
     <!--<com.github.glomadrian.grav.GravView

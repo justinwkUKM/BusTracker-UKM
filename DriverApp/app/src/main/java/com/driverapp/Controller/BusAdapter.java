@@ -15,6 +15,10 @@ import com.driverapp.View.JourneyActivity;
 
 import java.util.List;
 
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Adapter to feed all the available buses.
+ */
 
 public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
 

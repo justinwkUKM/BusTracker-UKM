@@ -38,6 +38,11 @@ import java.util.Random;
 
 import tyrantgit.explosionfield.ExplosionField;
 
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Activity for Tracking the bus locations.
+ */
+
 public class TrackActivity extends BaseActivity implements ServiceCallbacks{
 
     public static final String SETUP_FRAGMENT = "Setup Fragment";
@@ -306,7 +311,7 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
         ViewAnimator.animate(tvNextBusStop)
                 .flash().pulse()
                 .start();
-        tvNextBusStop.setText("Next Bus Stop " + string.toUpperCase());
+        tvNextBusStop.setText("Hentian Bas Seterusnya " + string.toUpperCase());
 
         tvNextBusStop.setOnClickListener(new View.OnClickListener() {
             @Override

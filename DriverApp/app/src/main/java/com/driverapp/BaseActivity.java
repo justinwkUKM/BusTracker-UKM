@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by MyXLab on 30/5/2017.
+ * BaseActivity for Even Transitions in all the activities
  */
 
 public class BaseActivity extends AppCompatActivity {

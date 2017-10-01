@@ -614,7 +614,6 @@ public class VolleyApp {
                         try {
                             JSONArray resultArray = response.getJSONArray("results");
 
-
                             List<String> busStops = new LinkedList<>();
 
                             for (int j = 0; j < resultArray.length(); j++) {
@@ -622,9 +621,6 @@ public class VolleyApp {
                             }
 
                             mainActivity.setPOIBusStops(busStops);
-
-
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();

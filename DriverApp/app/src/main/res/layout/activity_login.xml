@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-
-
     tools:context="com.driverapp.View.LoginActivity">
 
     <!-- Login progress -->
@@ -130,7 +128,6 @@
                         android:imeOptions="actionUnspecified"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:text="waqas"
                         android:singleLine="true"
                         />
 
@@ -155,7 +152,6 @@
                         android:imeActionLabel="@string/prompt_password"
                         android:imeOptions="actionUnspecified"
                         android:inputType="textPassword"
-                        android:text="123456"
                         android:maxLines="1"
                         android:singleLine="true"
                          />

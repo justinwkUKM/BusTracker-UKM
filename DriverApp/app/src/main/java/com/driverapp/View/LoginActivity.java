@@ -168,7 +168,7 @@ public class LoginActivity extends BaseActivity {
                     public void onFinish() {
 //                        Intent i = new Intent(LoginActivity.this, SplashActivity.class);
 //                        startActivity(i);
-                        Toast.makeText(LoginActivity.this, "Open Sign-Up Activity", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(LoginActivity.this, "Open Sign-Up Activity", Toast.LENGTH_SHORT).show();
                     }
 
                 }.start();

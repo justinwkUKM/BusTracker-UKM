@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Driver BasKita</string>
+    <string name="app_name">BasKita Pemandu</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_username">Nama Pengguna</string>
     <string name="prompt_password">Kata Laluan</string>
@@ -36,7 +36,7 @@
     <string name="next_bus_stop_null">Hentian Bas Seterusnya (Menanti)</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="setting_up">Sedang Ditetapkan..</string>
-    <string name="checking_connectivity">Memeriksa Connectivity..</string>
+    <string name="checking_connectivity">Memeriksa Sambungan..</string>
     <string name="setting_up_route">Laluan sedang ditetapkan</string>
     <string name="waiting">Menanti</string>
     <string name="setting_up_bus">Bas sedang ditetapkan</string>
