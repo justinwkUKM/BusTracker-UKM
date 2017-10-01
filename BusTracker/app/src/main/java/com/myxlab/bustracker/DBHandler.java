@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * The type Db handler.
+ * The Db handler.
  */
 public class DBHandler extends SQLiteOpenHelper{
 
