@@ -832,9 +832,15 @@ public class MainActivity extends BaseActivity {
         }
     }*/
     //long lastTimePressed=0L;
+
+    /**
+     * Load Images from the web
+     * @param string
+     */
+    //TODO: Add this to API to avoid future mismatch issues
     private void imageLoaders(String string) {
         ImageLoader imageLoader = UserInstance.getInstance().getVolleyApp().getInstance(context).getImageLoader();
-        ivInfoIMG.setImageUrl("http://bt.faizhasan.info/pages/img/poi/" + string+".jpg", imageLoader);
+        ivInfoIMG.setImageUrl("http://bt.myxlab.solutions/pages/img/poi/" + string+".jpg", imageLoader);
     }
 
     private void textWatcher() {
