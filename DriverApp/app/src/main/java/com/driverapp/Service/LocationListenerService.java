@@ -93,6 +93,7 @@ public class LocationListenerService extends Service {
         locationManager.removeUpdates(listener);
     }
 
+
     public class LocalBinder extends Binder {
         public LocationListenerService getService() {
             return LocationListenerService.this;
@@ -107,6 +108,7 @@ public class LocationListenerService extends Service {
     public void setCallbacks(ServiceCallbacks callbacks) {
         serviceCallbacks = callbacks;
     }
+
 
     public class DriverLocationListener implements LocationListener {
 
@@ -144,6 +146,10 @@ public class LocationListenerService extends Service {
 
     }
 
+    /**
+     *
+     * @param location
+     */
     public void checkNextBusStop(Location location){
         int nextBusStopIndex = UserInstance.getInstance().getBusLocation();
         LatLng currentLocation = new LatLng( location.getLatitude(), location.getLongitude());
@@ -169,6 +175,10 @@ public class LocationListenerService extends Service {
         }
     }
 
+    /**
+     *
+     * @param location
+     */
     public void finishJourney(Location location){
         if (serviceCallbacks != null) {
             serviceCallbacks.finishJourney(location);

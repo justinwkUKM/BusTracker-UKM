@@ -71,6 +71,15 @@ public class VolleyApp {
     private static final String BUS_NEXT_BUS_STOP = "next_bus_stop";
     private int delay = 1200;
 
+    /**
+     *
+      * @param Url
+     * @param username
+     * @param password
+     * @param context
+     * @param view
+     * @param loginActivity
+     */
     public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final LoginActivity loginActivity) {
 
         Map<String, String> params = new HashMap<>();
@@ -115,6 +124,13 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @param view
+     * @param context
+     * @param searchFragment
+     */
     public void getBusList(final String url, final View view, final Context context, final SearchFragment searchFragment) {
 
         String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -174,6 +190,13 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @param view
+     * @param context
+     * @param searchFragment
+     */
     public void getRouteList(final String url, final View view, final Context context, final SearchFragment searchFragment) {
 
         String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -253,6 +276,13 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @param context
+     * @param statusText
+     * @param setupFragment
+     */
     public void setupDriver(final String url, final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -320,6 +350,13 @@ public class VolleyApp {
         return rand;
     }
 
+    /**
+     *
+     * @param url
+     * @param context
+     * @param statusText
+     * @param setupFragment
+     */
     public void checkingBus(final String url, final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
         String api = url + "/" + UserInstance.getInstance().getBus().getBusId() +"/?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -385,6 +422,14 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @param context
+     * @param status
+     * @param statusText
+     * @param setupFragment
+     */
     private void setBus(final String url, final Context context, boolean status, final TextView statusText, final SetupFragment setupFragment) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -444,6 +489,14 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @param context
+     * @param status
+     * @param lat
+     * @param lon
+     */
     public void setStatusBus(final String url, final Context context, final boolean status, final double lat, final double lon) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -497,6 +550,12 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param context
+     * @param statusText
+     * @param setupFragment
+     */
     public void getNextBusStop(final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
         final int nextBusStopIndex = UserInstance.getInstance().getBusLocation() + 1;
@@ -553,6 +612,11 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param context
+     * @param nextBusStopIndex
+     */
     public void getAllBusStopJourney(final Context context, final int nextBusStopIndex) {
         String api= "";
         try {
@@ -618,6 +682,15 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @param subject
+     * @param message
+     * @param report_type
+     * @param reporter_id
+     * @param context
+     */
     public void submitAlert(final String url, final String subject, final String message, final String report_type, final int reporter_id, final Context context) {
 
         //String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -679,6 +752,14 @@ public class VolleyApp {
     }
 
 
+    /**
+     *
+     * @param url
+     * @param context
+     * @param lat
+     * @param lon
+     * @param nextBusStop
+     */
     public void trackBus(final String url, final Context context, double lat, double lon, int nextBusStop) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -730,6 +811,11 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param error
+     * @param context
+     */
     private void volleyErrorResponse(VolleyError error, Context context){
 
         try {
@@ -759,6 +845,11 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param response
+     * @return
+     */
     private Response<JSONObject> volleyParseNetworkResponse(NetworkResponse response){
 
         try {
@@ -784,12 +875,21 @@ public class VolleyApp {
 
     }
 
+    /**
+     *
+     * @param jsonRequest
+     */
     private void addQueue(JsonRequest jsonRequest){
 
         UserInstance.getInstance().getQueue().add(jsonRequest);
         UserInstance.getInstance().setLastRequestTime(System.currentTimeMillis());
     }
 
+    /**
+     *
+     * @param Url
+     * @param context
+     */
     private void newToken(String Url, final Context context) {
 
         JSONObject parameters = new JSONObject(UserInstance.getInstance().getAuth().getCredential());
@@ -825,6 +925,10 @@ public class VolleyApp {
         return (status) ? 1 : 0;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUniquePhoneIdentity() {
         String m_szDevIDShort = "35" + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10) + (Build.PRODUCT.length() % 10);
 
