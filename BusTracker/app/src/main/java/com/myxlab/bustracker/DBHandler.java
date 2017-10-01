@@ -140,7 +140,7 @@ public class DBHandler extends SQLiteOpenHelper{
     }
 
     /**
-     * Search po is list.
+     * Search pois list.
      *
      * @param key the key
      * @return the list
@@ -350,7 +350,7 @@ public class DBHandler extends SQLiteOpenHelper{
     }
 
     /**
-     * Del all bus stops data.
+     * Delete all bus stops data.
      */
     public void delAllBusStopsData(){
 
