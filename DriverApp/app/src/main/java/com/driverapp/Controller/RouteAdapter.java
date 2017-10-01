@@ -14,6 +14,7 @@ import com.driverapp.R;
 import com.driverapp.View.JourneyActivity;
 
 import java.util.List;
+
 /**
  * Created by MyXLab on 30/1/2017.
  * Adapter to feed all the available routes.
@@ -25,12 +26,24 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> 
     private FragmentManager fragmentManager;
     private JourneyActivity journeyActivity;
 
+    /**
+     * Instantiates a new Route adapter.
+     *
+     * @param routeList       the route list
+     * @param fragmentManager the fragment manager
+     * @param journeyActivity the journey activity
+     */
     public RouteAdapter(List<Route> routeList, FragmentManager fragmentManager, JourneyActivity journeyActivity) {
         this.routeList = routeList;
         this.fragmentManager = fragmentManager;
         this.journeyActivity = journeyActivity;
     }
 
+    /**
+     * Sets route list.
+     *
+     * @param routeList the route list
+     */
     public void setRouteList(List<Route> routeList) {
         this.routeList = routeList;
     }
@@ -67,10 +80,24 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> 
         return routeList.size();
     }
 
+    /**
+     * The type View holder.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
+        /**
+         * The Title.
+         */
         TextView title;
+        /**
+         * The Icon.
+         */
         ImageView icon;
 
+        /**
+         * Instantiates a new View holder.
+         *
+         * @param itemView the item view
+         */
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) view.findViewById(R.id.item_title);

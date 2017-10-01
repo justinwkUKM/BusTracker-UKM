@@ -10,8 +10,14 @@ import android.view.ViewGroup;
 import com.myxlab.bustracker.R;
 
 
+/**
+ * The type Navigation search fragment.
+ */
 public class NavigationSearchFragment extends Fragment {
 
+    /**
+     * Instantiates a new Navigation search fragment.
+     */
     public NavigationSearchFragment() {
     }
 

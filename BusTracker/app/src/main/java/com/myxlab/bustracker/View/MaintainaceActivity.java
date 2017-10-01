@@ -16,6 +16,9 @@ import com.github.florent37.viewanimator.ViewAnimator;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.View.Login.MainLoginActivity;
 
+/**
+ * The type Maintainace activity.
+ */
 public class MaintainaceActivity extends AppCompatActivity {
 
     private android.widget.TextView tvMaintainMessage;

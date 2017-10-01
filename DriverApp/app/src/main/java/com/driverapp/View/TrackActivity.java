@@ -43,6 +43,8 @@ import tyrantgit.explosionfield.ExplosionField;
  * Activity for Tracking the bus locations.
  */
 
+// TODO: Improve the tick tock timer design and functionality
+
 public class TrackActivity extends BaseActivity implements ServiceCallbacks{
 
     public static final String SETUP_FRAGMENT = "Setup Fragment";

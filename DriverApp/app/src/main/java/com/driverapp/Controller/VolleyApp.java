@@ -52,7 +52,6 @@ import java.util.UUID;
  * Created by MyXLab on 30/1/2017.
  * Adapter to call the LARAVEL Generated Web API using Volley Library. The methods name are self explanatory.
  */
-
 public class VolleyApp {
 
     private static final String ROUTE_ID = "route_id";
@@ -72,13 +71,14 @@ public class VolleyApp {
     private int delay = 1200;
 
     /**
+     * User login task.
      *
-      * @param Url
-     * @param username
-     * @param password
-     * @param context
-     * @param view
-     * @param loginActivity
+     * @param Url           the url
+     * @param username      the username
+     * @param password      the password
+     * @param context       the context
+     * @param view          the view
+     * @param loginActivity the login activity
      */
     public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final LoginActivity loginActivity) {
 
@@ -125,11 +125,12 @@ public class VolleyApp {
     }
 
     /**
+     * Gets bus list.
      *
-     * @param url
-     * @param view
-     * @param context
-     * @param searchFragment
+     * @param url            the url
+     * @param view           the view
+     * @param context        the context
+     * @param searchFragment the search fragment
      */
     public void getBusList(final String url, final View view, final Context context, final SearchFragment searchFragment) {
 
@@ -191,11 +192,12 @@ public class VolleyApp {
     }
 
     /**
+     * Gets route list.
      *
-     * @param url
-     * @param view
-     * @param context
-     * @param searchFragment
+     * @param url            the url
+     * @param view           the view
+     * @param context        the context
+     * @param searchFragment the search fragment
      */
     public void getRouteList(final String url, final View view, final Context context, final SearchFragment searchFragment) {
 
@@ -277,11 +279,12 @@ public class VolleyApp {
     }
 
     /**
+     * Sets driver.
      *
-     * @param url
-     * @param context
-     * @param statusText
-     * @param setupFragment
+     * @param url           the url
+     * @param context       the context
+     * @param statusText    the status text
+     * @param setupFragment the setup fragment
      */
     public void setupDriver(final String url, final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
@@ -351,11 +354,12 @@ public class VolleyApp {
     }
 
     /**
+     * Checking bus.
      *
-     * @param url
-     * @param context
-     * @param statusText
-     * @param setupFragment
+     * @param url           the url
+     * @param context       the context
+     * @param statusText    the status text
+     * @param setupFragment the setup fragment
      */
     public void checkingBus(final String url, final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
@@ -490,12 +494,13 @@ public class VolleyApp {
     }
 
     /**
+     * Sets status bus.
      *
-     * @param url
-     * @param context
-     * @param status
-     * @param lat
-     * @param lon
+     * @param url     the url
+     * @param context the context
+     * @param status  the status
+     * @param lat     the lat
+     * @param lon     the lon
      */
     public void setStatusBus(final String url, final Context context, final boolean status, final double lat, final double lon) {
 
@@ -551,10 +556,11 @@ public class VolleyApp {
     }
 
     /**
+     * Gets next bus stop.
      *
-     * @param context
-     * @param statusText
-     * @param setupFragment
+     * @param context       the context
+     * @param statusText    the status text
+     * @param setupFragment the setup fragment
      */
     public void getNextBusStop(final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
@@ -613,9 +619,10 @@ public class VolleyApp {
     }
 
     /**
+     * Gets all bus stop journey.
      *
-     * @param context
-     * @param nextBusStopIndex
+     * @param context          the context
+     * @param nextBusStopIndex the next bus stop index
      */
     public void getAllBusStopJourney(final Context context, final int nextBusStopIndex) {
         String api= "";
@@ -683,13 +690,14 @@ public class VolleyApp {
     }
 
     /**
+     * Submit alert.
      *
-     * @param url
-     * @param subject
-     * @param message
-     * @param report_type
-     * @param reporter_id
-     * @param context
+     * @param url         the url
+     * @param subject     the subject
+     * @param message     the message
+     * @param report_type the report type
+     * @param reporter_id the reporter id
+     * @param context     the context
      */
     public void submitAlert(final String url, final String subject, final String message, final String report_type, final int reporter_id, final Context context) {
 
@@ -753,12 +761,13 @@ public class VolleyApp {
 
 
     /**
+     * Track bus.
      *
-     * @param url
-     * @param context
-     * @param lat
-     * @param lon
-     * @param nextBusStop
+     * @param url         the url
+     * @param context     the context
+     * @param lat         the lat
+     * @param lon         the lon
+     * @param nextBusStop the next bus stop
      */
     public void trackBus(final String url, final Context context, double lat, double lon, int nextBusStop) {
 
@@ -926,8 +935,9 @@ public class VolleyApp {
     }
 
     /**
+     * Gets unique phone identity.
      *
-     * @return
+     * @return unique phone identity
      */
     public String getUniquePhoneIdentity() {
         String m_szDevIDShort = "35" + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10) + (Build.PRODUCT.length() % 10);

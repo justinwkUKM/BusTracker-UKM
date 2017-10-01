@@ -20,8 +20,14 @@ import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.Utility;
 
+/**
+ * The type Splash activity.
+ */
 public class SplashActivity extends BaseActivity {
 
+    /**
+     * The Image view.
+     */
     ImageView imageView ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,10 @@ public class SplashActivity extends BaseActivity {
             UserInstance.getInstance().getVolleyApp().autoLogin(getResources().getString(R.string.url_login),getApplicationContext(),this);
         }
     }
+
+    /**
+     * Simple animation.
+     */
     protected void simpleAnimation() {
         ViewAnimator.animate(imageView)
                 .zoomIn().bounceIn().interpolator(new DecelerateInterpolator())

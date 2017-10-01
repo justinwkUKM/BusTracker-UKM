@@ -11,7 +11,6 @@ import android.view.View;
 /**
  * Created by MyXLab on 1/6/2017.
  */
-
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
@@ -20,6 +19,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * Default divider will be used
+     *
+     * @param context the context
      */
     public DividerItemDecoration(Context context) {
         final TypedArray styledAttributes = context.obtainStyledAttributes(ATTRS);
@@ -29,6 +30,9 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * Custom divider will be used
+     *
+     * @param context the context
+     * @param resId   the res id
      */
     public DividerItemDecoration(Context context, int resId) {
         divider = ContextCompat.getDrawable(context, resId);

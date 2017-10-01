@@ -52,16 +52,34 @@ import java.util.List;
 import java.util.Set;
 
 
+/**
+ * The type Test maps activity.
+ */
 public class TestMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnPolylineClickListener {
 
     private GoogleMap mMap;
+    /**
+     * The M google api client.
+     */
     GoogleApiClient mGoogleApiClient;
+    /**
+     * The M last location.
+     */
     Location mLastLocation;
 
+    /**
+     * The M curr location marker.
+     */
     Marker mCurrLocationMarker;
+    /**
+     * The M location request.
+     */
     LocationRequest mLocationRequest;
 
     private ArrayList<LatLng> points; //added
+    /**
+     * The Line.
+     */
     Polyline line; //added
 
 
@@ -121,6 +139,9 @@ public class TestMapsActivity extends FragmentActivity implements OnMapReadyCall
         mMap.setOnPolylineClickListener(this);
     }
 
+    /**
+     * Build google api client.
+     */
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -159,7 +180,19 @@ public class TestMapsActivity extends FragmentActivity implements OnMapReadyCall
         addItems();
     }
 
+    /**
+     * The type Custom renderer.
+     *
+     * @param <T> the type parameter
+     */
     class CustomRenderer<T extends ClusterItem> extends DefaultClusterRenderer<T> {
+        /**
+         * Instantiates a new Custom renderer.
+         *
+         * @param context        the context
+         * @param map            the map
+         * @param clusterManager the cluster manager
+         */
         public CustomRenderer(Context context, GoogleMap map, ClusterManager<T> clusterManager) {
             super(context, map, clusterManager);
         }
@@ -316,6 +349,9 @@ public class TestMapsActivity extends FragmentActivity implements OnMapReadyCall
         Log.e("Test", "Zoom done.............................");
     }
 
+    /**
+     * Create location request.
+     */
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(INTERVAL);
@@ -352,7 +388,16 @@ public class TestMapsActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
+    /**
+     * The constant MY_PERMISSIONS_REQUEST_LOCATION.
+     */
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    /**
+     * Check location permission boolean.
+     *
+     * @return the boolean
+     */
     public boolean checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)

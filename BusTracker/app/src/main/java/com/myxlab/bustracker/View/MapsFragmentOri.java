@@ -66,27 +66,64 @@ import java.util.Map;
 
 import static android.content.Context.LOCATION_SERVICE;
 
+/**
+ * The type Maps fragment ori.
+ */
 public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnMarkerClickListener, LocationListener {
 
     private GoogleApiClient mGoogleApiClient;
+    /**
+     * The M current location.
+     */
     public Location mCurrentLocation;
     private CameraPosition position;
+    /**
+     * The Map.
+     */
     public GoogleMap map;
     private Context context;
+    /**
+     * The Duration.
+     */
     static long duration = 5000;
     private List<Bus> bus = new ArrayList<>();
+    /**
+     * The Hash map marker.
+     */
     public HashMap<Marker, String> hashMapMarker;
+    /**
+     * The Hash map title.
+     */
     public HashMap<String, String> hashMapTitle;
     private HashMap<Marker, Integer> hashMapBusStopListPosition;
     private HashMap<BusStop, Marker> hashMapBusStopMarker;
+    /**
+     * The Hash map bus.
+     */
     public HashMap<Marker, Bus> hashMapBus;
     private LocationManager locationManager;
     private Marker greenMarker;
+    /**
+     * The Maps fragment.
+     */
     MapsFragmentOri mapsFragment;
-    List<Marker> busesMarker, startEndMarker;
+    /**
+     * The Buses marker.
+     */
+    List<Marker> busesMarker, /**
+     * The Start end marker.
+     */
+    startEndMarker;
+    /**
+     * The Is nearest.
+     */
     Boolean isNearest = false;
+
+    /**
+     * Instantiates a new Maps fragment ori.
+     */
     public MapsFragmentOri() {
     }
 
@@ -196,6 +233,9 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
 
     }
 
+    /**
+     * Map camera.
+     */
     public void mapCamera() {
         if (mCurrentLocation != null) {
             position = CameraPosition.builder()
@@ -212,6 +252,11 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
         }
     }
 
+    /**
+     * Focus camera.
+     *
+     * @param latLng the lat lng
+     */
     public void focusCamera(LatLng latLng) {
         position = CameraPosition.builder()
                 .target(new LatLng(latLng.latitude,
@@ -223,7 +268,10 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
         map.animateCamera(CameraUpdateFactory.newCameraPosition(position), null);
     }
 
-    /*public void setBus() {
+    /**
+     * Sets bus.
+     */
+/*public void setBus() {
 
         if (!UserInstance.getInstance().getBuses().isEmpty()) {
 
@@ -655,6 +703,13 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
         return false;
     }
 
+    /**
+     * Animate marker.
+     *
+     * @param marker     the marker
+     * @param toPosition the to position
+     * @param hideMarker the hide marker
+     */
     public void animateMarker(final Marker marker, final LatLng toPosition,
                               final boolean hideMarker) {
         final Handler handler = new Handler();
@@ -690,6 +745,13 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
         });
     }
 
+    /**
+     * Check distance double.
+     *
+     * @param oldPos the old pos
+     * @param newPos the new pos
+     * @return the double
+     */
     public static double checkDistance(LatLng oldPos, LatLng newPos) {
 
         return SphericalUtil.computeDistanceBetween(oldPos, newPos);
@@ -710,6 +772,9 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
         }, duration);
     }
 
+    /**
+     * Sets bus stop marker.
+     */
     public void setBusStopMarker() {
 
         hashMapBusStopListPosition.clear();
@@ -732,6 +797,14 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
         findBusStop();
     }
 
+    /**
+     * Resize map icons bitmap.
+     *
+     * @param iconName the icon name
+     * @param width    the width
+     * @param height   the height
+     * @return the bitmap
+     */
     public Bitmap resizeMapIcons(String iconName,int width, int height){
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
@@ -755,6 +828,9 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
     }
 
 
+    /**
+     * The Bus stop green index.
+     */
     int busStopGreenIndex = 0;
 
     private void checkBusStopDistance(Location location) {
@@ -831,6 +907,15 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
 
     }
 
+    /**
+     * Add marker.
+     *
+     * @param lat   the lat
+     * @param lon   the lon
+     * @param name  the name
+     * @param type  the type
+     * @param focus the focus
+     */
     public void addMarker(Double lat, Double lon, String name, String type, Boolean focus) {
 
         MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(lat, lon));
@@ -896,6 +981,13 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
         }
     }
 
+    /**
+     * Focus cam.
+     *
+     * @param lat   the lat
+     * @param lon   the lon
+     * @param focus the focus
+     */
     public void focusCam(Double lat, Double lon, Boolean focus){
         if (focus) {
             focusCamera(new LatLng(lat, lon));
@@ -923,6 +1015,13 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
         return returnedBitmap;
     }
 
+    /**
+     * Selected marker.
+     *
+     * @param lat  the lat
+     * @param lon  the lon
+     * @param name the name
+     */
     public void selectedMarker(Double lat, Double lon, String name) {
 
         MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(lat,lon));
@@ -1029,7 +1128,19 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
         addItems();
     }
 
+    /**
+     * The type Custom renderer.
+     *
+     * @param <T> the type parameter
+     */
     class CustomRenderer<T extends ClusterItem> extends DefaultClusterRenderer<T> {
+        /**
+         * Instantiates a new Custom renderer.
+         *
+         * @param context        the context
+         * @param map            the map
+         * @param clusterManager the cluster manager
+         */
         public CustomRenderer(Context context, GoogleMap map, ClusterManager<T> clusterManager) {
             super(context, map, clusterManager);
         }

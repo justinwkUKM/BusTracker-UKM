@@ -14,6 +14,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class DriverApp extends Application {
 
+    /**
+     * @param base
+     */
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

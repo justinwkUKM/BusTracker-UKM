@@ -19,7 +19,6 @@ import java.util.List;
  * Created by MyXLab on 30/1/2017.
  * Adapter to feed all the available buses.
  */
-
 public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
 
     private List<Bus> busList;
@@ -27,12 +26,24 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
     private FragmentManager fragmentManager;
     private JourneyActivity journeyActivity;
 
+    /**
+     * Instantiates a new Bus adapter.
+     *
+     * @param busList         the bus list
+     * @param fragmentManager the fragment manager
+     * @param journeyActivity the journey activity
+     */
     public BusAdapter(List<Bus> busList, FragmentManager fragmentManager, JourneyActivity journeyActivity) {
         this.busList = busList;
         this.fragmentManager = fragmentManager;
         this.journeyActivity = journeyActivity;
     }
 
+    /**
+     * Sets bus list.
+     *
+     * @param busList the bus list
+     */
     public void setBusList(List<Bus> busList) {
         this.busList = busList;
     }
@@ -68,10 +79,24 @@ public class BusAdapter extends RecyclerView.Adapter<BusAdapter.ViewHolder> {
         return busList.size();
     }
 
+    /**
+     * The type View holder.
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
+        /**
+         * The Title.
+         */
         TextView title;
+        /**
+         * The Icon.
+         */
         ImageView icon;
 
+        /**
+         * Instantiates a new View holder.
+         *
+         * @param itemView the item view
+         */
         ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) view.findViewById(R.id.item_title);

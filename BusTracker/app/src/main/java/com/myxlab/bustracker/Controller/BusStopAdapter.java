@@ -25,15 +25,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * The type Bus stop adapter.
+ */
 public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHolder> {
 
+    /**
+     * The constant TAG.
+     */
     public static final String TAG = BusStopAdapter.class.getSimpleName();
     private List<String> bus;
     private BusStop busStop;
     private View view;
     private NavigationActivity navigationActivity;
     private FontChangeCrawler fontChanger;
+    /**
+     * The Context.
+     */
     Context context;
+    /**
+     * The Maps fragment.
+     */
     MapsFragment mapsFragment;
     //List of all the active buses.
     private List<Bus> busListAll;
@@ -43,12 +55,23 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     private List<Bus> busListSelected;
 
     private List<BusStop> busStopList;
+    /**
+     * The Route list.
+     */
     public List<Route> routeList;
 
     private CurrentBusesAdapter currentBusesAdapter;
     private RecyclerView recyclerView;
 
 
+    /**
+     * Instantiates a new Bus stop adapter.
+     *
+     * @param buses              the buses
+     * @param busStop            the bus stop
+     * @param context            the context
+     * @param navigationActivity the navigation activity
+     */
     public BusStopAdapter(List<String> buses, BusStop busStop, Context context, NavigationActivity navigationActivity) {
         this.bus = buses;
         this.busStop = busStop;
@@ -235,11 +258,31 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         return busListCurrentAll.size();
     }
 
+    /**
+     * The type View holder.
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView busName,tvLocate,tvSchedule;
+        /**
+         * The Bus name.
+         */
+        TextView busName, /**
+         * The Tv locate.
+         */
+        tvLocate, /**
+         * The Tv schedule.
+         */
+        tvSchedule;
 
+        /**
+         * The Image view bus icon.
+         */
         ImageView imageViewBusIcon;
 
+        /**
+         * Instantiates a new View holder.
+         *
+         * @param itemView the item view
+         */
         ViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "ViewHolder()");

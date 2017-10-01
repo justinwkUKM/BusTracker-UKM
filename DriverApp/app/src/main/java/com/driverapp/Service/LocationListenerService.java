@@ -31,18 +31,36 @@ import java.text.DateFormat;
 import java.util.Date;
 
 /**
- * Created by MyXLab on 30/1/2017.
+ * Created by MyXLab on 30/2/2017.
  * Service for Detecting bus location and sending data to backend
  */
 public class LocationListenerService extends Service {
 
+    /**
+     * The Location manager.
+     */
     public LocationManager locationManager;
+    /**
+     * The Listener.
+     */
     public DriverLocationListener listener;
+    /**
+     * The Start up.
+     */
     boolean startUP = true;
     private final IBinder binder = new LocalBinder();
     private ServiceCallbacks serviceCallbacks;
+    /**
+     * The Count.
+     */
     int count = 1;
+    /**
+     * The Database.
+     */
     FirebaseDatabase database;
+    /**
+     * The My ref.
+     */
     DatabaseReference myRef;
 
     @Override
@@ -52,7 +70,7 @@ public class LocationListenerService extends Service {
         listener = new DriverLocationListener();
         UserInstance.getInstance().getVolleyApp().getAllBusStopJourney(getApplicationContext(),2);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -81,7 +99,6 @@ public class LocationListenerService extends Service {
     public void onDestroy() {
         super.onDestroy();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -94,7 +111,15 @@ public class LocationListenerService extends Service {
     }
 
 
+    /**
+     * The type Local binder.
+     */
     public class LocalBinder extends Binder {
+        /**
+         * Gets service.
+         *
+         * @return the service
+         */
         public LocationListenerService getService() {
             return LocationListenerService.this;
         }
@@ -105,11 +130,19 @@ public class LocationListenerService extends Service {
         return binder;
     }
 
+    /**
+     * Sets callbacks.
+     *
+     * @param callbacks the callbacks
+     */
     public void setCallbacks(ServiceCallbacks callbacks) {
         serviceCallbacks = callbacks;
     }
 
 
+    /**
+     * The type Driver location listener.
+     */
     public class DriverLocationListener implements LocationListener {
 
         public void onLocationChanged(final Location location) {
@@ -147,8 +180,9 @@ public class LocationListenerService extends Service {
     }
 
     /**
+     * Check next bus stop.
      *
-     * @param location
+     * @param location the location
      */
     public void checkNextBusStop(Location location){
         int nextBusStopIndex = UserInstance.getInstance().getBusLocation();
@@ -169,6 +203,9 @@ public class LocationListenerService extends Service {
         }
     }
 
+    /**
+     * Next bus stop.
+     */
     public void nextBusStop(){
         if (serviceCallbacks != null) {
             serviceCallbacks.nextBusStop();
@@ -176,8 +213,9 @@ public class LocationListenerService extends Service {
     }
 
     /**
+     * Finish journey.
      *
-     * @param location
+     * @param location the location
      */
     public void finishJourney(Location location){
         if (serviceCallbacks != null) {

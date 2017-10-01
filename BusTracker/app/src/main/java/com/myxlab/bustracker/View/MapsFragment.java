@@ -73,27 +73,64 @@ import me.toptas.fancyshowcase.FocusShape;
 
 import static android.content.Context.LOCATION_SERVICE;
 
+/**
+ * The type Maps fragment.
+ */
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnMarkerClickListener, LocationListener {
 
     private GoogleApiClient mGoogleApiClient;
+    /**
+     * The M current location.
+     */
     public Location mCurrentLocation;
     private CameraPosition position;
+    /**
+     * The Map.
+     */
     public GoogleMap map;
     private Context context;
+    /**
+     * The Duration.
+     */
     static long duration = 5000;
     private List<Bus> bus = new ArrayList<>();
+    /**
+     * The Hash map marker.
+     */
     public HashMap<Marker, String> hashMapMarker;
+    /**
+     * The Hash map title.
+     */
     public HashMap<String, String> hashMapTitle;
     private HashMap<Marker, Integer> hashMapBusStopListPosition;
     private HashMap<BusStop, Marker> hashMapBusStopMarker;
+    /**
+     * The Hash map bus.
+     */
     public HashMap<Marker, Bus> hashMapBus;
     private LocationManager locationManager;
     private Marker greenMarker;
+    /**
+     * The Maps fragment.
+     */
     MapsFragment mapsFragment;
-    List<Marker> busesMarker, startEndMarker;
+    /**
+     * The Buses marker.
+     */
+    List<Marker> busesMarker, /**
+     * The Start end marker.
+     */
+    startEndMarker;
+    /**
+     * The Is nearest.
+     */
     Boolean isNearest = false;
+
+    /**
+     * Instantiates a new Maps fragment.
+     */
     public MapsFragment() {
     }
 
@@ -173,6 +210,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         });*/
     }
 
+    /**
+     * Gets data.
+     */
     public void getData() {
 
 
@@ -227,6 +267,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     }
 
+    /**
+     * Map camera.
+     */
     public void mapCamera() {
         if (mCurrentLocation != null) {
             position = CameraPosition.builder()
@@ -243,6 +286,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
+    /**
+     * Focus camera.
+     *
+     * @param latLng the lat lng
+     */
     public void focusCamera(LatLng latLng) {
         position = CameraPosition.builder()
                 .target(new LatLng(latLng.latitude,
@@ -254,7 +302,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         map.animateCamera(CameraUpdateFactory.newCameraPosition(position), null);
     }
 
-    /*public void setBus() {
+    /**
+     * Sets bus.
+     */
+/*public void setBus() {
 
         if (!UserInstance.getInstance().getBuses().isEmpty()) {
 
@@ -686,6 +737,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         return false;
     }
 
+    /**
+     * Animate marker.
+     *
+     * @param marker     the marker
+     * @param toPosition the to position
+     * @param hideMarker the hide marker
+     */
     public void animateMarker(final Marker marker, final LatLng toPosition,
                               final boolean hideMarker) {
         final Handler handler = new Handler();
@@ -721,6 +779,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         });
     }
 
+    /**
+     * Check distance double.
+     *
+     * @param oldPos the old pos
+     * @param newPos the new pos
+     * @return the double
+     */
     public static double checkDistance(LatLng oldPos, LatLng newPos) {
 
         return SphericalUtil.computeDistanceBetween(oldPos, newPos);
@@ -739,6 +804,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         }, duration);
     }
 
+    /**
+     * Sets bus stop marker.
+     */
     public void setBusStopMarker() {
 
         hashMapBusStopListPosition.clear();
@@ -761,12 +829,24 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         findBusStop();
     }
 
+    /**
+     * Resize map icons bitmap.
+     *
+     * @param iconName the icon name
+     * @param width    the width
+     * @param height   the height
+     * @return the bitmap
+     */
     public Bitmap resizeMapIcons(String iconName,int width, int height){
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", context.getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
 
     }
+
+    /**
+     * Find bus stop.
+     */
     public void findBusStop() {
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -785,8 +865,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
 
+    /**
+     * The Bus stop green index.
+     */
     int busStopGreenIndex = 0;
 
+    /**
+     * Check bus stop distance.
+     *
+     * @param location the location
+     */
     public void checkBusStopDistance(Location location) {
 
         mCurrentLocation = location;
@@ -861,6 +949,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     }
 
+    /**
+     * Add marker.
+     *
+     * @param lat   the lat
+     * @param lon   the lon
+     * @param name  the name
+     * @param type  the type
+     * @param focus the focus
+     */
     public void addMarker(Double lat, Double lon, String name, String type, Boolean focus) {
 
         MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(lat, lon));
@@ -926,6 +1023,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
+    /**
+     * Focus cam on map.
+     *
+     * @param lat   the lat
+     * @param lon   the lon
+     * @param focus the focus
+     */
     public void focusCam(Double lat, Double lon, Boolean focus){
         if (focus) {
             focusCamera(new LatLng(lat, lon));
@@ -953,6 +1057,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         return returnedBitmap;
     }
 
+    /**
+     * Selected marker.
+     *
+     * @param lat  the lat
+     * @param lon  the lon
+     * @param name the name
+     */
     public void selectedMarker(Double lat, Double lon, String name) {
 
         MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(lat,lon));
@@ -965,7 +1076,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         int zoom = (int)map.getCameraPosition().zoom;
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), zoom), 4000, null);
 
-        Log.e("selectedMarker","Lat:"+lat.toString()+ "   Long:"+lon.toString()+"    Name:"+name);
+        //Log.e("selectedMarker","Lat:"+lat.toString()+ "   Long:"+lon.toString()+"    Name:"+name);
 
     }
 
@@ -1059,7 +1170,19 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         addItems();
     }
 
+    /**
+     * The type Custom renderer.
+     *
+     * @param <T> the type parameter
+     */
     class CustomRenderer<T extends ClusterItem> extends DefaultClusterRenderer<T> {
+        /**
+         * Instantiates a new Custom renderer.
+         *
+         * @param context        the context
+         * @param map            the map
+         * @param clusterManager the cluster manager
+         */
         public CustomRenderer(Context context, GoogleMap map, ClusterManager<T> clusterManager) {
             super(context, map, clusterManager);
         }

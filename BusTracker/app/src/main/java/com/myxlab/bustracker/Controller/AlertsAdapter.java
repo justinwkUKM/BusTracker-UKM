@@ -15,13 +15,25 @@ import com.myxlab.bustracker.R;
 import java.util.List;
 
 
+/**
+ * The type Alerts adapter.
+ */
 public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.ViewHolder> {
 
     private List<AlertsData> alertsData;
     private View view;
     private FontChangeCrawler fontChanger;
+    /**
+     * The Context.
+     */
     Context context;
 
+    /**
+     * Instantiates a new Alerts adapter.
+     *
+     * @param alertsData the alerts data
+     * @param activity   the activity
+     */
     public AlertsAdapter(List<AlertsData> alertsData, FragmentActivity activity) {
         this.alertsData = alertsData;
         this.context = activity;
@@ -51,10 +63,24 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.ViewHolder
         return alertsData.size();
     }
 
+    /**
+     * The type View holder.
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, issue;
+        /**
+         * The Title.
+         */
+        TextView title, /**
+         * The Issue.
+         */
+        issue;
 
+        /**
+         * Instantiates a new View holder.
+         *
+         * @param itemView the item view
+         */
         ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) view.findViewById(R.id.titleAlertItem);

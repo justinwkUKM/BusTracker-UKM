@@ -20,6 +20,9 @@ import com.myxlab.bustracker.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Alerts fragment.
+ */
 public class AlertsFragment extends Fragment {
 
     private static final String TAG = AlertsFragment.class.getSimpleName();
@@ -27,6 +30,9 @@ public class AlertsFragment extends Fragment {
     private List<AlertsData> alertsDatasList = new ArrayList<>();
     private AlertsAdapter alertsAdapter;
 
+    /**
+     * Instantiates a new Alerts fragment.
+     */
     public AlertsFragment() {
     }
 
@@ -72,6 +78,9 @@ public class AlertsFragment extends Fragment {
 
     }
 
+    /**
+     * Call url.
+     */
     public void callUrl() {
         Log.e(TAG, "callURL");
 
@@ -93,6 +102,11 @@ public class AlertsFragment extends Fragment {
     }
 
 
+    /**
+     * Populate data.
+     *
+     * @param alertsDatasLists the alerts datas lists
+     */
     public void populateData( List<AlertsData> alertsDatasLists){
 
         alertsDatasList = alertsDatasLists;

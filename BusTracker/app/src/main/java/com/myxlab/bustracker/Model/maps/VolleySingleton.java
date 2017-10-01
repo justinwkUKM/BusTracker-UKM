@@ -11,6 +11,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+
+/**
+ * The type Volley singleton.
+ */
 public class VolleySingleton {
     private static VolleySingleton mInstance;
     private RequestQueue mRequestQueue;
@@ -31,21 +35,47 @@ public class VolleySingleton {
             }
         });
     }
+
+    /**
+     * Gets instance.
+     *
+     * @param context the context
+     * @return the instance
+     */
     public static synchronized VolleySingleton getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new VolleySingleton(context);
         }
         return mInstance;
     }
+
+    /**
+     * Gets request queue.
+     *
+     * @return the request queue
+     */
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;
     }
+
+    /**
+     * Add to request queue.
+     *
+     * @param <T> the type parameter
+     * @param req the req
+     */
     public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
+
+    /**
+     * Gets image loader.
+     *
+     * @return the image loader
+     */
     public ImageLoader getImageLoader() {
         return mImageLoader;
     }

@@ -22,6 +22,9 @@ import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 
+/**
+ * The type Login activity.
+ */
 public class LoginActivity extends BaseActivity{
 
     private EditText mUsernameView, mPasswordView;

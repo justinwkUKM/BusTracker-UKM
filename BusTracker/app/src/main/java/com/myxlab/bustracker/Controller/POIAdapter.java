@@ -21,6 +21,9 @@ import com.myxlab.bustracker.View.SearchFragment;
 
 import java.util.List;
 
+/**
+ * The type Poi adapter.
+ */
 public class POIAdapter extends RecyclerView.Adapter<POIAdapter.ViewHolder> {
 
     private List<POI> poiData;
@@ -31,6 +34,14 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.ViewHolder> {
     private FontChangeCrawler fontChanger;
 
 
+    /**
+     * Instantiates a new Poi adapter.
+     *
+     * @param poiData        the poi data
+     * @param context        the context
+     * @param mainActivity   the main activity
+     * @param searchFragment the search fragment
+     */
     public POIAdapter(List<POI> poiData, Context context, MainActivity mainActivity, SearchFragment searchFragment) {
         this.poiData = poiData;
         this.context = context;
@@ -93,11 +104,25 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.ViewHolder> {
         return poiData.size();
     }
 
+    /**
+     * The type View holder.
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        /**
+         * The Name.
+         */
         TextView name;
+        /**
+         * The Icon.
+         */
         ImageView icon;
 
+        /**
+         * Instantiates a new View holder.
+         *
+         * @param itemView the item view
+         */
         ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) view.findViewById(R.id.poi_name);
