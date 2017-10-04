@@ -59,6 +59,9 @@ import com.myxlab.bustracker.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Route maps activity.
+ */
 public class RouteMapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMapClickListener, GoogleApiClient.ConnectionCallbacks  {
 
     /*private GoogleMap mMap;
@@ -238,6 +241,12 @@ public class RouteMapsActivity extends FragmentActivity implements OnMapReadyCal
     private void refreshMap(GoogleMap mapInstance){
         mapInstance.clear();
     }
+
+    /**
+     * Create location request location request.
+     *
+     * @return the location request
+     */
     protected LocationRequest createLocationRequest() {
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(5000);
@@ -361,6 +370,9 @@ public class RouteMapsActivity extends FragmentActivity implements OnMapReadyCal
         return poly;
     }
 
+    /**
+     * The Double back to exit pressed once.
+     */
     boolean doubleBackToExitPressedOnce = false;
 
     @Override

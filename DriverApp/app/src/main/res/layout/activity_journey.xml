@@ -56,7 +56,7 @@
                 android:layout_alignParentBottom="true"
                 android:gravity="center"
                 android:padding="@dimen/medium_dp"
-                android:text="Select your journey"
+                android:text="@string/selectyourjourney"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="5dp">
+            >
 
 
 <!--            <LinearLayout
@@ -103,8 +103,13 @@
             </LinearLayout>-->
 
 
-
-
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:text="@string/action_sign_out"
+                android:id="@+id/btnLogout"
+                android:textColor="@color/white" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -144,7 +149,7 @@
                     android:layout_gravity="center"
                     android:textStyle="bold"
                     android:paddingTop="@dimen/large_dp"
-                    android:text="Journey Details"
+                    android:text="@string/journey_detail"
                     android:textColor="@color/colorAccent" />
 
                 <LinearLayout

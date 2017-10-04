@@ -61,6 +61,9 @@ import java.util.Map;
 import static com.myxlab.bustracker.View.MainActivity.BUS;
 import static com.myxlab.bustracker.View.MainActivity.BUS_STOP;
 
+/**
+ * The type Volley app.
+ */
 public class VolleyApp {
     private VolleyApp volleyApp;
     private Context context;
@@ -68,6 +71,9 @@ public class VolleyApp {
     private ImageLoader imageLoader;
     private int delay = 1200;
 
+    /**
+     * Instantiates a new Volley app.
+     */
     public VolleyApp() {
     }
 
@@ -91,6 +97,12 @@ public class VolleyApp {
                 });
     }
 
+    /**
+     * Gets instance.
+     *
+     * @param context the context
+     * @return the instance
+     */
     public synchronized VolleyApp getInstance(Context context) {
         if (volleyApp == null) {
             volleyApp = new VolleyApp(context);
@@ -108,10 +120,27 @@ public class VolleyApp {
         return requestQueue;
     }
 
+    /**
+     * Gets image loader.
+     *
+     * @return the image loader
+     */
     public ImageLoader getImageLoader() {
         return imageLoader;
     }
 
+    /**
+     * User registration task.
+     *
+     * @param Url           the url
+     * @param username      the username
+     * @param password      the password
+     * @param name          the name
+     * @param email         the email
+     * @param context       the context
+     * @param view          the view
+     * @param loginActivity the login activity
+     */
     public void UserRegistrationTask(final String Url, final String username, final String password, final String name, final String email, final Context context, final View view, final MainLoginActivity loginActivity) {
 
         Map<String, String> params = new HashMap<>();
@@ -190,6 +219,17 @@ public class VolleyApp {
         }
     }
 
+    /**
+     * User login task.
+     *
+     * @param Url            the url
+     * @param username       the username
+     * @param password       the password
+     * @param context        the context
+     * @param view           the view
+     * @param loginActivity  the login activity
+     * @param login_fragment the login fragment
+     */
     public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final MainLoginActivity loginActivity, final Login_Fragment login_fragment) {
 
         Map<String, String> params = new HashMap<>();
@@ -290,6 +330,13 @@ public class VolleyApp {
     }*/
 
 
+    /**
+     * Auto login.
+     *
+     * @param Url            the url
+     * @param context        the context
+     * @param splashActivity the splash activity
+     */
     public void autoLogin(String Url, final Context context, final SplashActivity splashActivity) {
 
         JSONObject parameters = new JSONObject(UserInstance.getInstance().getAuth().getCredential());
@@ -356,6 +403,13 @@ public class VolleyApp {
 //        }
 //    }
 
+    /**
+     * Gets bus stop.
+     *
+     * @param url          the url
+     * @param context      the context
+     * @param mapsFragment the maps fragment
+     */
     public void getBusStop(String url, final Context context, final MapsFragment mapsFragment) {
         String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
 
@@ -453,6 +507,16 @@ public class VolleyApp {
         }
     }
 
+    /**
+     * Gets eta.
+     *
+     * @param url          the url
+     * @param busStop      the bus stop
+     * @param bus          the bus
+     * @param mainActivity the main activity
+     * @param busLat       the bus lat
+     * @param busLon       the bus lon
+     */
     public void getETA(String url, final String busStop, final String bus, final MainActivity mainActivity, final Double busLat, final Double busLon) {
 
         Map<String, String> params = new HashMap<>();
@@ -535,7 +599,10 @@ public class VolleyApp {
     }
 
 
-    /*public void getPOIBusStops(String url, final String poi, final MainActivity mainActivity) {
+    /**
+     * The constant KEY_POI.
+     */
+/*public void getPOIBusStops(String url, final String poi, final MainActivity mainActivity) {
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
 
         Map<String, String> params = new HashMap<>();
@@ -597,6 +664,14 @@ public class VolleyApp {
     }
 */
     public static final String KEY_POI = "poi";
+
+    /**
+     * Gets poi bus stops.
+     *
+     * @param url          the url
+     * @param poi          the poi
+     * @param mainActivity the main activity
+     */
     public void getPoiBusStops(String url, final String poi, final MainActivity mainActivity) {
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
         Map<String, String> params = new HashMap<>();
@@ -614,7 +689,6 @@ public class VolleyApp {
                         try {
                             JSONArray resultArray = response.getJSONArray("results");
 
-
                             List<String> busStops = new LinkedList<>();
 
                             for (int j = 0; j < resultArray.length(); j++) {
@@ -622,9 +696,6 @@ public class VolleyApp {
                             }
 
                             mainActivity.setPOIBusStops(busStops);
-
-
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -662,6 +733,13 @@ public class VolleyApp {
         }
     }
 
+    /**
+     * Gets buses.
+     *
+     * @param url          the url
+     * @param context      the context
+     * @param mapsFragment the maps fragment
+     */
     public void getBuses(String url, final Context context, final MapsFragment mapsFragment) {
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
@@ -729,9 +807,12 @@ public class VolleyApp {
     }
 
 
-
-
-
+    /**
+     * Update poidb.
+     *
+     * @param url     the url
+     * @param context the context
+     */
     public void updatePOIDB(String url, final Context context) {
 
         String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -822,6 +903,12 @@ public class VolleyApp {
         }
     }
 
+    /**
+     * Update bsdb.
+     *
+     * @param url     the url
+     * @param context the context
+     */
     public void updateBSDB(String url, final Context context) {
 
         String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -938,6 +1025,13 @@ public class VolleyApp {
     }
 
 
+    /**
+     * Gets alerts data.
+     *
+     * @param url            the url
+     * @param context        the context
+     * @param alertsFragment the alerts fragment
+     */
     public void getAlertsData(String url, final Context context, final AlertsFragment alertsFragment) {
         String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
 
@@ -1025,6 +1119,12 @@ public class VolleyApp {
         UserInstance.getInstance().setLastRequestTime(System.currentTimeMillis());
     }
 
+    /**
+     * Get walking data.
+     *
+     * @param directionPath the direction path
+     * @param mainActivity  the main activity
+     */
     public void getWalkingData(String directionPath, final MainActivity mainActivity){
         String api = directionPath;
         final String[] distance = {""};
@@ -1099,6 +1199,13 @@ public class VolleyApp {
 
     }
 
+    /**
+     * Gets route list.
+     *
+     * @param url          the url
+     * @param context      the context
+     * @param mapsFragment the maps fragment
+     */
     public void getRouteList(final String url, final Context context, final MapsFragment mapsFragment) {
 
         String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();

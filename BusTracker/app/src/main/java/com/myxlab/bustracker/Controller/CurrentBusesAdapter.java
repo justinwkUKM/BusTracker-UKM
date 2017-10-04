@@ -21,21 +21,37 @@ import com.myxlab.bustracker.View.NavigationActivity;
 
 import java.util.List;
 
+/**
+ * The type Current buses adapter.
+ */
 public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapter.ViewHolder> {
 
+    /**
+     * The constant TAG used for Logging.
+     */
     public static final String TAG = CurrentBusesAdapter.class.getSimpleName();
     private BusStop busStop;
     private View view;
     private NavigationActivity navigationActivity;
     private FontChangeCrawler fontChanger;
+    /**
+     * The Context.
+     */
     Context context;
     private List<Bus> busList;
     private List<Bus> busListToAdd;
     private String busName;
 
 
-
-
+    /**
+     * Instantiates a new Current buses adapter.
+     *
+     * @param buses              the buses
+     * @param context            the context
+     * @param busName            the bus name
+     * @param navigationActivity the navigation activity
+     * @param busStop            the bus stop
+     */
     public CurrentBusesAdapter(List<Bus> buses, Context context, String busName, NavigationActivity navigationActivity, BusStop busStop) {
         this.busList = buses;
         this.context = context;
@@ -145,11 +161,31 @@ public class CurrentBusesAdapter extends RecyclerView.Adapter<CurrentBusesAdapte
         return busList.size();
     }
 
+    /**
+     * The type View holder.
+     */
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        RelativeLayout locate, schedule;
-        TextView tvPlate, tvJustPassed;
+        /**
+         * The Locate.
+         */
+        RelativeLayout locate, /**
+         * The Schedule.
+         */
+        schedule;
+        /**
+         * The Tv plate.
+         */
+        TextView tvPlate, /**
+         * The Tv just passed.
+         */
+        tvJustPassed;
 
+        /**
+         * Instantiates a new View holder.
+         *
+         * @param itemView the item view
+         */
         ViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "ViewHolder()");

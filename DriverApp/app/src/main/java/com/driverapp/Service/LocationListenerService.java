@@ -30,15 +30,37 @@ import com.google.maps.android.SphericalUtil;
 import java.text.DateFormat;
 import java.util.Date;
 
+/**
+ * Created by MyXLab on 30/2/2017.
+ * Service for Detecting bus location and sending data to backend
+ */
 public class LocationListenerService extends Service {
 
+    /**
+     * The Location manager.
+     */
     public LocationManager locationManager;
+    /**
+     * The Listener.
+     */
     public DriverLocationListener listener;
+    /**
+     * The Start up.
+     */
     boolean startUP = true;
     private final IBinder binder = new LocalBinder();
     private ServiceCallbacks serviceCallbacks;
+    /**
+     * The Count.
+     */
     int count = 1;
+    /**
+     * The Database.
+     */
     FirebaseDatabase database;
+    /**
+     * The My ref.
+     */
     DatabaseReference myRef;
 
     @Override
@@ -48,7 +70,7 @@ public class LocationListenerService extends Service {
         listener = new DriverLocationListener();
         UserInstance.getInstance().getVolleyApp().getAllBusStopJourney(getApplicationContext(),2);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -57,11 +79,14 @@ public class LocationListenerService extends Service {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
+        //Determines the location will be updated only after 1 sec and 3 metres.
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 3, listener);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 3, listener);
 
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
+        //sending data to firebase realtime-database
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("coordinate").push();
         myRef.child("Details").child("Bus").setValue(UserInstance.getInstance().getBus().getBusName()+ " "+UserInstance.getInstance().getBus().getBusPlate());
@@ -74,7 +99,6 @@ public class LocationListenerService extends Service {
     public void onDestroy() {
         super.onDestroy();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -86,7 +110,16 @@ public class LocationListenerService extends Service {
         locationManager.removeUpdates(listener);
     }
 
+
+    /**
+     * The type Local binder.
+     */
     public class LocalBinder extends Binder {
+        /**
+         * Gets service.
+         *
+         * @return the service
+         */
         public LocationListenerService getService() {
             return LocationListenerService.this;
         }
@@ -97,10 +130,19 @@ public class LocationListenerService extends Service {
         return binder;
     }
 
+    /**
+     * Sets callbacks.
+     *
+     * @param callbacks the callbacks
+     */
     public void setCallbacks(ServiceCallbacks callbacks) {
         serviceCallbacks = callbacks;
     }
 
+
+    /**
+     * The type Driver location listener.
+     */
     public class DriverLocationListener implements LocationListener {
 
         public void onLocationChanged(final Location location) {
@@ -137,6 +179,11 @@ public class LocationListenerService extends Service {
 
     }
 
+    /**
+     * Check next bus stop.
+     *
+     * @param location the location
+     */
     public void checkNextBusStop(Location location){
         int nextBusStopIndex = UserInstance.getInstance().getBusLocation();
         LatLng currentLocation = new LatLng( location.getLatitude(), location.getLongitude());
@@ -156,12 +203,20 @@ public class LocationListenerService extends Service {
         }
     }
 
+    /**
+     * Next bus stop.
+     */
     public void nextBusStop(){
         if (serviceCallbacks != null) {
             serviceCallbacks.nextBusStop();
         }
     }
 
+    /**
+     * Finish journey.
+     *
+     * @param location the location
+     */
     public void finishJourney(Location location){
         if (serviceCallbacks != null) {
             serviceCallbacks.finishJourney(location);

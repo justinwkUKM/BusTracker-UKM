@@ -83,7 +83,7 @@ public class LoginActivity extends BaseActivity {
         }
 
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         UserInstance.getInstance().setAuth(new Auth());
         UserInstance.getInstance().setBus(new Bus());
         UserInstance.getInstance().setDriver(new Driver());
@@ -168,7 +168,7 @@ public class LoginActivity extends BaseActivity {
                     public void onFinish() {
 //                        Intent i = new Intent(LoginActivity.this, SplashActivity.class);
 //                        startActivity(i);
-                        Toast.makeText(LoginActivity.this, "Open Sign-Up Activity", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(LoginActivity.this, "Open Sign-Up Activity", Toast.LENGTH_SHORT).show();
                     }
 
                 }.start();

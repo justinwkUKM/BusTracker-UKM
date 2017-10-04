@@ -8,6 +8,11 @@
 
     tools:context="com.driverapp.View.SplashActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:src="@drawable/baskita_pemandu"
+        android:layout_alignParentTop="true"
+        android:layout_height="200dp" />
     <!--<com.github.glomadrian.grav.GravView
         android:id="@+id/grav"
         android:layout_width="400dp"

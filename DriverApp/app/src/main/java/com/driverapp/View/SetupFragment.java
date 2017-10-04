@@ -20,7 +20,13 @@ import android.widget.Toast;
 import com.driverapp.Model.UserInstance;
 import com.driverapp.R;
 
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Fragment for checking if data available from backend for selected journey initialisation.
+ */
+
 public class SetupFragment extends Fragment {
+
 
     private Context context;
     private RelativeLayout closeRecyclerView;

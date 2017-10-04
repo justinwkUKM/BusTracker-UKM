@@ -14,12 +14,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.driverapp.BaseActivity;
 import com.driverapp.Controller.BusStopAdapter;
+import com.driverapp.Model.Auth;
 import com.driverapp.Model.Bus;
 import com.driverapp.Model.BusStop;
 import com.driverapp.Model.Route;
@@ -40,6 +42,8 @@ public class JourneyActivity extends BaseActivity{
     RecyclerView routeRecyclerView;
     List<BusStop> busStopList;
     BusStopAdapter busStopAdapter;
+    Button btnLogout;
+    Auth auth;
     private ConnectivityManager connectivityManager;
 
     @Override
@@ -57,6 +61,7 @@ public class JourneyActivity extends BaseActivity{
 
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        auth = new Auth();
         greed = (TextView) findViewById(R.id.greed_journey);
         String iniGreed = "Hi Driver";
         //usually error below line
@@ -65,6 +70,7 @@ public class JourneyActivity extends BaseActivity{
         }
         greed.setText(iniGreed);
 
+        btnLogout = (Button) findViewById(R.id.btnLogout);
         selectBus = (TextView) findViewById(R.id.tv_select_bus);
         selectRoute = (TextView) findViewById(R.id.tv_select_route);
 
@@ -76,7 +82,18 @@ public class JourneyActivity extends BaseActivity{
         routeRecyclerView.setLayoutManager(mLayoutManager);
         routeRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(JourneyActivity.this, LoginActivity.class);
+                startActivity(intent);
+                auth.checkOutAuth(getApplicationContext());
+                finish();
+            }
+        });
     }
+
+
 
     public void nextButton(View view) {
 

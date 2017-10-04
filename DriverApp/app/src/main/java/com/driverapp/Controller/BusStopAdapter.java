@@ -12,15 +12,29 @@ import com.driverapp.R;
 
 import java.util.List;
 
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Adapter to feed all the available bus stops for the selected route.
+ */
 public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHolder> {
 
     private List<BusStop> busStopList;
     private View view;
 
+    /**
+     * Instantiates a new Bus stop adapter.
+     *
+     * @param busStopList the bus stop list
+     */
     public BusStopAdapter(List<BusStop> busStopList) {
         this.busStopList = busStopList;
     }
 
+    /**
+     * Sets bus stop list.
+     *
+     * @param busStopList the bus stop list
+     */
     public void setBusStopList(List<BusStop> busStopList) {
         this.busStopList = busStopList;
     }
@@ -64,10 +78,24 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         return busStopList.size();
     }
 
+    /**
+     * The type View holder.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
+        /**
+         * The Title.
+         */
         TextView title;
+        /**
+         * The Icon.
+         */
         ImageView icon;
 
+        /**
+         * Instantiates a new View holder.
+         *
+         * @param itemView the item view
+         */
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) view.findViewById(R.id.route_title);

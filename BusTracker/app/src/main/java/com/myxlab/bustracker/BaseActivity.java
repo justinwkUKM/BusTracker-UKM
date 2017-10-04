@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 /**
  * Created by MyXLab on 30/5/2017.
  */
-
 public class BaseActivity extends AppCompatActivity {
 
     @Override

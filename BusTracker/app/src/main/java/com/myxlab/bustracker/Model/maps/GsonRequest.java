@@ -13,6 +13,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+
+/**
+ * The type Gson request.
+ *
+ * @param <T> the type parameter
+ */
 public class GsonRequest<T> extends Request<T> {
     // create variables
     private Gson mGson = new Gson();
@@ -20,12 +26,33 @@ public class GsonRequest<T> extends Request<T> {
     private Map<String, String> headers;
     private Map<String, String> params;
     private Response.Listener<T> listener;
+
+    /**
+     * Instantiates a new Gson request.
+     *
+     * @param method        the method
+     * @param url           the url
+     * @param tClass        the t class
+     * @param listener      the listener
+     * @param errorListener the error listener
+     */
     public GsonRequest(int method, String url, Class<T> tClass, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.tClass = tClass;
         this.listener = listener;
         mGson = new Gson();
     }
+
+    /**
+     * Instantiates a new Gson request.
+     *
+     * @param method        the method
+     * @param url           the url
+     * @param tClass        the t class
+     * @param params        the params
+     * @param listener      the listener
+     * @param errorListener the error listener
+     */
     public GsonRequest(int method, String url, Class<T> tClass, Map<String, String> params, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.tClass = tClass;

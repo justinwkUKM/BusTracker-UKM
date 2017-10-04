@@ -72,11 +72,26 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The type Main activity.
+ */
 public class MainActivity extends BaseActivity {
 
+    /**
+     * The constant BUS_STOP_KEY.
+     */
     public static final String BUS_STOP_KEY = "BUS STOP KEY";
+    /**
+     * The constant BUS_STOP.
+     */
     public static final String BUS_STOP = "busStop";
+    /**
+     * The constant BUS.
+     */
     public static final String BUS = "bus";
+    /**
+     * The Tab layout.
+     */
     public TabLayout tabLayout;
     private ArrayList<String> tabs;
     private ViewPager viewPager = null;
@@ -85,17 +100,53 @@ public class MainActivity extends BaseActivity {
     private LinearLayout infoHeader, bottomSheetLLaddButtons;
     private TextView tvInfoTitle, infoSwipeTitle, tvInfoTitleExpand, busTitle, busStopTitle, tv_chip_text, busETAName, busETAFrom, busETATV, etaText, tvpoiBusStops, tvPoiAddress, tvPoiPhone, tvPoiEmail, tvBusStopClick;
     private NetworkImageView ivInfoIMG;
+    /**
+     * The Context.
+     */
     public Context context;
+    /**
+     * The Search.
+     */
     public EditText search;
-    public ImageView search_cancel, iv_chip_close, icon_search;
-    public RelativeLayout rv_search_chip, rv_bsBusStopIco;
+    /**
+     * The Search cancel.
+     */
+    public ImageView search_cancel, /**
+     * The Iv chip close.
+     */
+    iv_chip_close, /**
+     * The Icon search.
+     */
+    icon_search;
+    /**
+     * The Rv search chip.
+     */
+    public RelativeLayout rv_search_chip, /**
+     * The Rv bs bus stop ico.
+     */
+    rv_bsBusStopIco;
+    /**
+     * The Category.
+     */
     public String category;
+    /**
+     * The Expand toggle.
+     */
     public boolean expand_toggle = false;
     private ProgressBar etaProgress;
     private Auth auth;
     private int busStopIndex;
+    /**
+     * The Maps fragment.
+     */
     public MapsFragment mapsFragment;
+    /**
+     * The Search fragment.
+     */
     public SearchFragment searchFragment;
+    /**
+     * The Search card view.
+     */
     public CardView searchCardView;
     private static final int REQUEST_CODE_PERMISSION = 2;
 
@@ -440,6 +491,15 @@ public class MainActivity extends BaseActivity {
         fab_menu.setIconToggleAnimatorSet(set);
     }
 
+    /**
+     * Info bottom sheet call.
+     *
+     * @param lat   the lat
+     * @param lon   the lon
+     * @param code  the code
+     * @param type  the type
+     * @param focus the focus
+     */
     public void infoBottomSheetCall(Double lat, Double lon, String code, String type, Boolean focus) {
         closeBottomSheet();
         UserInstance.getInstance().getVolleyApp().getPoiBusStops(getString(R.string.url_poi_bus_stop_list), code, this);
@@ -464,6 +524,12 @@ public class MainActivity extends BaseActivity {
         imageLoaders(code);
     }
 
+    /**
+     * Bus bottom sheet call.
+     *
+     * @param title  the title
+     * @param marker the marker
+     */
     public void BusBottomSheetCall(String title, Marker marker) {
         closeBottomSheet();
         fab_menu.setVisibility(View.GONE);
@@ -476,6 +542,12 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /**
+     * Bus stop bottom sheet call.
+     *
+     * @param busStopIndex the bus stop index
+     * @param isNearest    the is nearest
+     */
     public void BusStopBottomSheetCall(final int busStopIndex, Boolean isNearest) {
         closeBottomSheet();{}
         fab_menu.setVisibility(View.GONE);
@@ -536,6 +608,13 @@ public class MainActivity extends BaseActivity {
         UserInstance.getInstance().getVolleyApp().getWalkingData(directionPath, this);
     }
 
+    /**
+     * Show get walk.
+     *
+     * @param distance the distance
+     * @param duration the duration
+     * @param polyline the polyline
+     */
     public void show_getWalk(String distance, String duration, String polyline){
         tvBusStopClick.setText(distance+"//"+duration);
         List<LatLng> decodedPoly = decodePoly(polyline);
@@ -570,6 +649,17 @@ public class MainActivity extends BaseActivity {
         }
         return poly;
     }
+
+    /**
+     * Get url string.
+     *
+     * @param originLat      the origin lat
+     * @param originLon      the origin lon
+     * @param destinationLat the destination lat
+     * @param destinationLon the destination lon
+     * @param mode           the mode
+     * @return the string
+     */
     public String getUrl(String originLat, String originLon, String destinationLat, String destinationLon, String mode){
         final String DIRECTION_API = getResources().getString(R.string.get_walking_url);
         final String API_KEY = getResources().getString(R.string.API_KEY_GET_WALK);
@@ -577,6 +667,15 @@ public class MainActivity extends BaseActivity {
 
         return DIRECTION_API + originLat+","+originLon+"&destination="+destinationLat+","+destinationLon+"&mode="+mode+"&key="+API_KEY;
     }
+
+    /**
+     * Eta bottom sheet call.
+     *
+     * @param bustop the bustop
+     * @param bus    the bus
+     * @param busLat the bus lat
+     * @param busLon the bus lon
+     */
     public void ETABottomSheetCall(String bustop, String bus, Double busLat, Double busLon) {
         closeBottomSheet();
         fab_menu.setVisibility(View.GONE);
@@ -675,6 +774,9 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /**
+     * The Double back to exit pressed once.
+     */
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -730,9 +832,15 @@ public class MainActivity extends BaseActivity {
         }
     }*/
     //long lastTimePressed=0L;
+
+    /**
+     * Load Images from the web
+     * @param string
+     */
+    //TODO: Add this to API to avoid future mismatch issues
     private void imageLoaders(String string) {
         ImageLoader imageLoader = UserInstance.getInstance().getVolleyApp().getInstance(context).getImageLoader();
-        ivInfoIMG.setImageUrl("http://bt.faizhasan.info/pages/img/poi/" + string+".jpg", imageLoader);
+        ivInfoIMG.setImageUrl("http://bt.myxlab.solutions/pages/img/poi/" + string+".jpg", imageLoader);
     }
 
     private void textWatcher() {
@@ -796,6 +904,11 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /**
+     * Chip search.
+     *
+     * @param view the view
+     */
     public void chipSearch(View view) {
 
         switch (view.getId()) {
@@ -856,6 +969,13 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    /**
+     * Search cat refresh list.
+     *
+     * @param category the category
+     * @param key      the key
+     * @param context  the context
+     */
     public void searchCatRefreshList(String category, String key, Context context) {
 
         if (key.length() == 0) {
@@ -883,7 +1003,25 @@ public class MainActivity extends BaseActivity {
 
 
     }
+
+    /**
+     * The Line.
+     */
     Polyline line = null ;
+
+    /**
+     * Sets eta.
+     *
+     * @param bus      the bus
+     * @param busETA   the bus eta
+     * @param busETAto the bus et ato
+     * @param lat      the lat
+     * @param lon      the lon
+     * @param polyline the polyline
+     * @param status   the status
+     * @param busLat   the bus lat
+     * @param busLon   the bus lon
+     */
     public void setETA(final String bus, String busETA, String busETAto, Double lat, Double lon, final String polyline, Boolean status, Double busLat, Double busLon) {
         etaText.setVisibility(View.VISIBLE);
         etaProgress.setVisibility(View.GONE);
@@ -991,6 +1129,12 @@ public class MainActivity extends BaseActivity {
         return  numberOfMinutes+"min";
     }
 
+    /**
+     * Is string int boolean.
+     *
+     * @param s the s
+     * @return the boolean
+     */
     public boolean isStringInt(String s)
     {
         try
@@ -1014,6 +1158,11 @@ public class MainActivity extends BaseActivity {
 //Remove the same line from map
             line.remove();*/
 
+    /**
+     * Sets poi bus stops.
+     *
+     * @param busStops the bus stops
+     */
     public void setPOIBusStops(List<String> busStops) {
 
         String s = "";
@@ -1067,6 +1216,11 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    /**
+     * Simple animationfadein.
+     *
+     * @param view the view
+     */
     protected void simpleAnimationfadein(View view) {
         ViewAnimator.animate(view)
                 .fadeIn()
@@ -1074,6 +1228,11 @@ public class MainActivity extends BaseActivity {
                 .start();
     }
 
+    /**
+     * Simple animationfadeout.
+     *
+     * @param view the view
+     */
     protected void simpleAnimationfadeout(View view) {
         ViewAnimator.animate(view)
                 .fadeOut()
@@ -1095,6 +1254,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private ArrayList<LatLng> followingPoints; //added
+    /**
+     * The Following polyline.
+     */
     Polyline followingPolyline; //added
 
 }

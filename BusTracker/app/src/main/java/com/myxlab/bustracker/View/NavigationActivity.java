@@ -20,10 +20,22 @@ import com.myxlab.bustracker.Controller.BusStopAdapter;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 
+/**
+ * The type Navigation activity.
+ */
 public class NavigationActivity extends BaseActivity {
 
+    /**
+     * The App bar layout.
+     */
     public AppBarLayout appBarLayout;
+    /**
+     * The Bus stop index.
+     */
     int busStopIndex;
+    /**
+     * The Button no available buses.
+     */
     Button buttonNoAvailableBuses;
 //    private List<Bus> bus = new ArrayList<>();
 //    private List<BusETA> busETAs = new ArrayList<>();
@@ -63,11 +75,23 @@ public class NavigationActivity extends BaseActivity {
 
     }
 
+    /**
+     * Back view.
+     *
+     * @param view the view
+     * @return the view
+     */
     public View back(View view){
         onBackPressed();
         return view;
     }
 
+    /**
+     * Search current view.
+     *
+     * @param view the view
+     * @return the view
+     */
     public View searchCurrent(View view){
 
 //        appBarLayout.setVisibility(View.GONE);
@@ -80,6 +104,12 @@ public class NavigationActivity extends BaseActivity {
         return view;
     }
 
+    /**
+     * Search destination view.
+     *
+     * @param view the view
+     * @return the view
+     */
     public View searchDestination(View view){
 
 //        appBarLayout.setVisibility(View.GONE);
@@ -90,6 +120,10 @@ public class NavigationActivity extends BaseActivity {
 
         return view;
     }
+
+    /**
+     * Hide button.
+     */
     public void hideButton(){
         buttonNoAvailableBuses.setVisibility(View.GONE);
     }

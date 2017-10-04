@@ -56,7 +56,7 @@
                 android:layout_alignParentBottom="true"
                 android:gravity="center"
                 android:padding="@dimen/medium_dp"
-                android:text="Report Problems"
+                android:text="@string/report_problems"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/white"
                 android:textStyle="bold" />

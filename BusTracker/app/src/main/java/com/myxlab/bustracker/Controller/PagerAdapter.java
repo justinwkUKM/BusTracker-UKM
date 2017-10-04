@@ -12,11 +12,20 @@ import com.myxlab.bustracker.View.MapsFragment;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+/**
+ * The type Pager adapter.
+ */
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private final SparseArray<WeakReference<Fragment>> instantiatedFragments = new SparseArray<>();
     private ArrayList<String> mTabHeader;
 
+    /**
+     * Instantiates a new Pager adapter.
+     *
+     * @param fm        the fm
+     * @param tabHeader the tab header
+     */
     public PagerAdapter(FragmentManager fm, ArrayList<String> tabHeader) {
         super(fm);
         this.mTabHeader = tabHeader;

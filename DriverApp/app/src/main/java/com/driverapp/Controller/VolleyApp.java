@@ -48,6 +48,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Adapter to call the LARAVEL Generated Web API using Volley Library. The methods name are self explanatory.
+ */
 public class VolleyApp {
 
     private static final String ROUTE_ID = "route_id";
@@ -66,6 +70,16 @@ public class VolleyApp {
     private static final String BUS_NEXT_BUS_STOP = "next_bus_stop";
     private int delay = 1200;
 
+    /**
+     * User login task.
+     *
+     * @param Url           the url
+     * @param username      the username
+     * @param password      the password
+     * @param context       the context
+     * @param view          the view
+     * @param loginActivity the login activity
+     */
     public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final LoginActivity loginActivity) {
 
         Map<String, String> params = new HashMap<>();
@@ -78,7 +92,7 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
-                        UserInstance.getInstance().getAuth().saveAuth(username, password);
+                        UserInstance.getInstance().getAuth().saveAuth(context, username, password);
                         UserInstance.getInstance().getDriver().saveDriverInfo(username, password);
                         Intent intent = new Intent(context, JourneyActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -110,6 +124,14 @@ public class VolleyApp {
         }
     }
 
+    /**
+     * Gets bus list.
+     *
+     * @param url            the url
+     * @param view           the view
+     * @param context        the context
+     * @param searchFragment the search fragment
+     */
     public void getBusList(final String url, final View view, final Context context, final SearchFragment searchFragment) {
 
         String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -169,6 +191,14 @@ public class VolleyApp {
         }
     }
 
+    /**
+     * Gets route list.
+     *
+     * @param url            the url
+     * @param view           the view
+     * @param context        the context
+     * @param searchFragment the search fragment
+     */
     public void getRouteList(final String url, final View view, final Context context, final SearchFragment searchFragment) {
 
         String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -178,21 +208,33 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         List<Route> routeList = new LinkedList<>();
-                        Log.e("RouteListResponse", response.toString());
+                        //Log.e("RouteListResponse", response.toString());
                         try {
                             JSONArray resultArray = response.getJSONArray("route");
+
+                            Log.e("resultlength",resultArray.length()+"");
 
                             if (resultArray.length() != 0) {
                                 for (int i = 0; i < resultArray.length(); i++) {
                                     JSONObject json = resultArray.getJSONObject(i);
-
                                     List<BusStop> busStopList = new LinkedList<>();
 
+                                        Log.e("routelength",json.getJSONArray("route").length()+"");
                                     for (int j = 0; j < json.getJSONArray("route").length(); j ++){
                                         BusStop busStop = new BusStop(0,json.getJSONArray("route").getString(j),0.00,0.00);
                                         busStopList.add(busStop);
                                     }
 
+
+                                   /* JSONArray insideroute = json.getJSONArray("route");
+                                    if (insideroute != null  ) {
+                                        Log.e("FROMINSIDE",json.getString("name"));
+                                    }else {
+                                        Log.e("FROMINSIDE","NULL");
+                                    }*/
+
+
+                                    Log.e(json.getInt("id")+"",json.getString("name"));
                                     Route route = new Route(String.valueOf(json.get("id")),String.valueOf(json.getString("name")), busStopList);
                                     routeList.add(route);
                                 }
@@ -236,6 +278,14 @@ public class VolleyApp {
         }
     }
 
+    /**
+     * Sets driver.
+     *
+     * @param url           the url
+     * @param context       the context
+     * @param statusText    the status text
+     * @param setupFragment the setup fragment
+     */
     public void setupDriver(final String url, final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -303,6 +353,14 @@ public class VolleyApp {
         return rand;
     }
 
+    /**
+     * Checking bus.
+     *
+     * @param url           the url
+     * @param context       the context
+     * @param statusText    the status text
+     * @param setupFragment the setup fragment
+     */
     public void checkingBus(final String url, final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
         String api = url + "/" + UserInstance.getInstance().getBus().getBusId() +"/?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -368,6 +426,14 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param url
+     * @param context
+     * @param status
+     * @param statusText
+     * @param setupFragment
+     */
     private void setBus(final String url, final Context context, boolean status, final TextView statusText, final SetupFragment setupFragment) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -427,6 +493,15 @@ public class VolleyApp {
         }
     }
 
+    /**
+     * Sets status bus.
+     *
+     * @param url     the url
+     * @param context the context
+     * @param status  the status
+     * @param lat     the lat
+     * @param lon     the lon
+     */
     public void setStatusBus(final String url, final Context context, final boolean status, final double lat, final double lon) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -480,6 +555,13 @@ public class VolleyApp {
         }
     }
 
+    /**
+     * Gets next bus stop.
+     *
+     * @param context       the context
+     * @param statusText    the status text
+     * @param setupFragment the setup fragment
+     */
     public void getNextBusStop(final Context context, final TextView statusText, final SetupFragment setupFragment) {
 
         final int nextBusStopIndex = UserInstance.getInstance().getBusLocation() + 1;
@@ -536,9 +618,19 @@ public class VolleyApp {
         }
     }
 
+    /**
+     * Gets all bus stop journey.
+     *
+     * @param context          the context
+     * @param nextBusStopIndex the next bus stop index
+     */
     public void getAllBusStopJourney(final Context context, final int nextBusStopIndex) {
-
-        String api = context.getResources().getString(R.string.url_bus_stop) + "/" + UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName()+"/?token=" + UserInstance.getInstance().getAuth().getAuth_token();
+        String api= "";
+        try {
+            api = context.getResources().getString(R.string.url_bus_stop) + "/" + UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName()+"/?token=" + UserInstance.getInstance().getAuth().getAuth_token();
+        }catch (Exception e){
+            Log.e("e", e.getMessage());
+        }
 
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
@@ -550,11 +642,17 @@ public class VolleyApp {
                             JSONObject jsonObject = response.getJSONObject("station");
                             double lat = Double.parseDouble(jsonObject.getString("lat"));
                             double lon = Double.parseDouble(jsonObject.getString("lon"));
-                            UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).setLat(lat);
-                            UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).setLon(lon);
-                            if (nextBusStopIndex+1 < UserInstance.getInstance().getRoute().getBusStopList().size()){
-                                getAllBusStopJourney(context, nextBusStopIndex+1);
+                            try {
+                                UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).setLat(lat);
+                                UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).setLon(lon);
+                                if (nextBusStopIndex + 1 < UserInstance.getInstance().getRoute().getBusStopList().size()) {
+                                    getAllBusStopJourney(context, nextBusStopIndex + 1);
+                                }
+                            }catch (Exception e){
+                                Log.e("e",e.getMessage());
                             }
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -591,7 +689,17 @@ public class VolleyApp {
         }
     }
 
-    public void submitAlert(final String url, final String subject, final String message, final String report_type, final int reporter_id, final AlertActivity alertActivity, final Context context) {
+    /**
+     * Submit alert.
+     *
+     * @param url         the url
+     * @param subject     the subject
+     * @param message     the message
+     * @param report_type the report type
+     * @param reporter_id the reporter id
+     * @param context     the context
+     */
+    public void submitAlert(final String url, final String subject, final String message, final String report_type, final int reporter_id, final Context context) {
 
         //String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
         String api = url ;
@@ -610,11 +718,14 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+
                             Toast.makeText(context, "Successfully Reported : " + response.getString("status"), Toast.LENGTH_SHORT).show();
-                            alertActivity.setEmpty();
+                            //alertActivity.setEmpty();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -649,6 +760,15 @@ public class VolleyApp {
     }
 
 
+    /**
+     * Track bus.
+     *
+     * @param url         the url
+     * @param context     the context
+     * @param lat         the lat
+     * @param lon         the lon
+     * @param nextBusStop the next bus stop
+     */
     public void trackBus(final String url, final Context context, double lat, double lon, int nextBusStop) {
 
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
@@ -700,6 +820,11 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param error
+     * @param context
+     */
     private void volleyErrorResponse(VolleyError error, Context context){
 
         try {
@@ -729,6 +854,11 @@ public class VolleyApp {
         }
     }
 
+    /**
+     *
+     * @param response
+     * @return
+     */
     private Response<JSONObject> volleyParseNetworkResponse(NetworkResponse response){
 
         try {
@@ -754,12 +884,21 @@ public class VolleyApp {
 
     }
 
+    /**
+     *
+     * @param jsonRequest
+     */
     private void addQueue(JsonRequest jsonRequest){
 
         UserInstance.getInstance().getQueue().add(jsonRequest);
         UserInstance.getInstance().setLastRequestTime(System.currentTimeMillis());
     }
 
+    /**
+     *
+     * @param Url
+     * @param context
+     */
     private void newToken(String Url, final Context context) {
 
         JSONObject parameters = new JSONObject(UserInstance.getInstance().getAuth().getCredential());
@@ -795,6 +934,11 @@ public class VolleyApp {
         return (status) ? 1 : 0;
     }
 
+    /**
+     * Gets unique phone identity.
+     *
+     * @return unique phone identity
+     */
     public String getUniquePhoneIdentity() {
         String m_szDevIDShort = "35" + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10) + (Build.PRODUCT.length() % 10);
 
