@@ -19,6 +19,7 @@ import com.myxlab.bustracker.Model.Auth;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.Utility;
+import com.myxlab.bustracker.View.Login.MainLoginActivity;
 
 public class SplashActivity extends BaseActivity {
 
@@ -50,7 +51,7 @@ public class SplashActivity extends BaseActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(SplashActivity.this, MaintainaceActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, MainLoginActivity.class);
                     startActivity(intent);
                     finish();
                 }
