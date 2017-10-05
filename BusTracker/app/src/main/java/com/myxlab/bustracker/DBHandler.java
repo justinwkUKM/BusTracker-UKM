@@ -15,6 +15,8 @@ import java.util.List;
 /**
  * The Db handler.
  */
+
+
 public class DBHandler extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION = 2;

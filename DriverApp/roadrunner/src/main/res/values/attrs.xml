@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="RoadRunner">
+
+    <!--DETERMINATE-->
+    <attr name="min" format="integer"/>
+    <attr name="max" format="integer"/>
+
+    <!--ANIMATION-->
+    <attr name="path_animation_type" format="enum">
+      <enum name="material" value="0"/>
+      <enum name="twoWay" value="1"/>
+    </attr>
+
+    <attr name="animate_on_start" format="boolean"/>
+
+    <!-- PATH -->
+    <attr name="path_data" format="string"/>
+    <attr name="path_original_width" format="integer"/>
+    <attr name="path_original_height" format="integer"/>
+
+
+    <attr name="path_color" format="color"/>
+    <attr name="movement_direction" format="enum">
+      <enum name="clockwise" value="0"/>
+      <enum name="counter_clockwise" value="1"/>
+    </attr>
+    <attr name="stroke_width" format="dimension"/>
+    <attr name="movement_loop_time" format="integer"/>
+    <attr name="line_size" format="float"/>
+
+    <!--TWO WAY-->
+    <attr name="right_line_animation_time" format="integer"/>
+    <attr name="right_line_max_size" format="float"/>
+    <attr name="right_line_animation_start_delay" format="integer"/>
+
+    <attr name="left_line_animation_time" format="integer"/>
+    <attr name="left_line_max_size" format="float"/>
+    <attr name="left_line_animation_start_delay" format="integer"/>
+
+  </declare-styleable>
+</resources>
