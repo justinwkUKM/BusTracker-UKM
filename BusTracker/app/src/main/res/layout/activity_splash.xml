@@ -78,6 +78,9 @@
          app:shake_max_duration="2000"
          app:shake_variance="500dp"
          />-->
+
+
+
     <com.github.glomadrian.grav.GravView
         android:id="@+id/grav"
         android:layout_centerInParent="true"
@@ -122,14 +125,15 @@
             app:shake_variance="3dp"
             app:single_color="#FFF"
             android:layout_alignParentTop="true" />-->
+
     <LinearLayout
         android:id="@+id/splash_logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:orientation="vertical">
-
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:layout_width="match_parent"
@@ -149,6 +153,16 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/logoText"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+
+        app:srcCompat="@drawable/logo_font_user"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
 

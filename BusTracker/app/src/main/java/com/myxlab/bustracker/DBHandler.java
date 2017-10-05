@@ -12,6 +12,9 @@ import com.myxlab.bustracker.Model.POI;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The Db handler.
+ */
 public class DBHandler extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION = 2;
@@ -34,6 +37,12 @@ public class DBHandler extends SQLiteOpenHelper{
     private static final String CREATE_TABLE_BS = "CREATE TABLE "+ TABLE_NAME_BUS_STOPS +" (" + COLUMN_ID + " INTEGER PRIMARY KEY, " + COLUMN_NAME + " TEXT, "+ COLUMN_LAT + " TEXT, "+ COLUMN_LON + " TEXT, "+ COLUMN_CODE + " TEXT "+  ")";
 
 
+    /**
+     * Instantiates a new Db handler.
+     *
+     * @param context the context
+     * @param factory the factory
+     */
     public DBHandler(Context context, SQLiteDatabase.CursorFactory factory) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
@@ -51,6 +60,11 @@ public class DBHandler extends SQLiteOpenHelper{
         onCreate(sqLiteDatabase);
     }
 
+    /**
+     * Get pois list.
+     *
+     * @return the list
+     */
     public List<POI> getPOIs(){
         List<POI> POIList = new LinkedList<>();
         String query = "Select * From " + TABLE_NAME_POI;
@@ -77,6 +91,11 @@ public class DBHandler extends SQLiteOpenHelper{
         return POIList;
     }
 
+    /**
+     * Add poi.
+     *
+     * @param poiData the poi data
+     */
     public void addPOI(POI poiData){
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME,poiData.getName());
@@ -93,6 +112,12 @@ public class DBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
+    /**
+     * Get po is poi.
+     *
+     * @param code the code
+     * @return the poi
+     */
     public POI getPOIs(String code){
         String query = "SELECT * FROM " + TABLE_NAME_POI + " WHERE "+ COLUMN_CODE + " LIKE \'" + code + "\' ORDER BY " + COLUMN_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -114,6 +139,12 @@ public class DBHandler extends SQLiteOpenHelper{
         return poi;
     }
 
+    /**
+     * Search pois list.
+     *
+     * @param key the key
+     * @return the list
+     */
     public List<POI> searchPOIs(String key){
         List<POI> POIList = new LinkedList<>();
         String query = "SELECT * FROM " + TABLE_NAME_POI + " WHERE "+ COLUMN_NAME + " LIKE \'%" + key + "%\' ORDER BY " + COLUMN_NAME;
@@ -137,6 +168,13 @@ public class DBHandler extends SQLiteOpenHelper{
         return POIList;
     }
 
+    /**
+     * Search poi cat list.
+     *
+     * @param key  the key
+     * @param type the type
+     * @return the list
+     */
     public List<POI> searchPOICat(String key, String type){
         List<POI> POIList = new LinkedList<>();
         String query;
@@ -167,6 +205,9 @@ public class DBHandler extends SQLiteOpenHelper{
         return POIList;
     }
 
+    /**
+     * Del all data.
+     */
     public void delAllData(){
         String query = "DROP TABLE IF EXISTS " + TABLE_NAME_POI ;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -175,6 +216,11 @@ public class DBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
+    /**
+     * Get bus stop list list.
+     *
+     * @return the list
+     */
     public List<BusStop> getBusStopList(){
         List<BusStop> BusStopList = new LinkedList<>();
         String query = "Select * From " + TABLE_NAME_BUS_STOPS;
@@ -197,6 +243,11 @@ public class DBHandler extends SQLiteOpenHelper{
         return BusStopList;
     }
 
+    /**
+     * Add bus stop.
+     *
+     * @param poiData the poi data
+     */
     public void addBusStop(BusStop poiData){
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME,poiData.getName());
@@ -208,6 +259,12 @@ public class DBHandler extends SQLiteOpenHelper{
         db.close();
     }
 
+    /**
+     * Get bus stops bus stop.
+     *
+     * @param code the code
+     * @return the bus stop
+     */
     public BusStop getBusStops(String code){
         String query = "SELECT * FROM " + TABLE_NAME_BUS_STOPS + " WHERE "+ COLUMN_CODE + " LIKE \'" + code + "\' ORDER BY " + COLUMN_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -226,6 +283,12 @@ public class DBHandler extends SQLiteOpenHelper{
         return poi;
     }
 
+    /**
+     * Search bus stops list.
+     *
+     * @param key the key
+     * @return the list
+     */
     public List<BusStop> searchBusStops(String key){
         List<BusStop> BusStopList = new LinkedList<>();
         String query = "SELECT * FROM " + TABLE_NAME_BUS_STOPS + " WHERE "+ COLUMN_NAME + " LIKE \'%" + key + "%\' ORDER BY " + COLUMN_NAME;
@@ -249,6 +312,13 @@ public class DBHandler extends SQLiteOpenHelper{
         return BusStopList;
     }
 
+    /**
+     * Search bus stop cat list.
+     *
+     * @param key  the key
+     * @param code the code
+     * @return the list
+     */
     public List<BusStop> searchBusStopCat(String key, String code){
         List<BusStop> BusStopList = new LinkedList<>();
         String query;
@@ -279,6 +349,9 @@ public class DBHandler extends SQLiteOpenHelper{
         return BusStopList;
     }
 
+    /**
+     * Delete all bus stops data.
+     */
     public void delAllBusStopsData(){
 
         String query = "DROP TABLE IF EXISTS " + TABLE_NAME_BUS_STOPS ;;

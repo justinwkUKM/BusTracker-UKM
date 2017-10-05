@@ -25,18 +25,42 @@ import com.myxlab.bustracker.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Search fragment.
+ */
 public class SearchFragment extends Fragment{
 
+    /**
+     * The Recycler view poi.
+     */
     public RecyclerView recyclerViewPOI;
     private List<POI> poiArrayList = new ArrayList<>();
     private POIAdapter poiAdapter;
+    /**
+     * The Search layout.
+     */
     public LinearLayout searchLayout;
     private TextView tvSearchNotFound;
+    /**
+     * The Ll expand layout category.
+     */
     public LinearLayout ll_expand_layout_category;
+    /**
+     * The Iv library expand ico.
+     */
     public ImageView iv_library_expand_ico;
+    /**
+     * The Tv library expand text.
+     */
     public TextView tv_library_expand_text;
+    /**
+     * The Fragment manager.
+     */
     public FragmentManager fragmentManager;
 
+    /**
+     * Instantiates a new Search fragment.
+     */
     public SearchFragment() {}
 
 
@@ -88,6 +112,12 @@ public class SearchFragment extends Fragment{
 
     }
 
+    /**
+     * Refresh list.
+     *
+     * @param poiList the poi list
+     * @param key     the key
+     */
     public void refreshList(List<POI> poiList, String key) {
 
         poiArrayList.clear();
@@ -135,6 +165,9 @@ public class SearchFragment extends Fragment{
         recyclerViewPOI.setAdapter(poiAdapter);
     }
 
+    /**
+     * Populate data.
+     */
     public void populateData() {
 
         try {

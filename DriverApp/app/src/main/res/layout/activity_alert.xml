@@ -10,7 +10,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:id="@+id/topCardView"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         app:cardCornerRadius="2dp"
         app:cardElevation="10dp"
         >
@@ -30,7 +30,7 @@
             <com.github.glomadrian.grav.GravView
                 android:id="@+id/grav"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerInParent="true"
                 app:alpha_from="100"
@@ -56,7 +56,7 @@
                 android:layout_alignParentBottom="true"
                 android:gravity="center"
                 android:padding="@dimen/medium_dp"
-                android:text="Report Problems"
+                android:text="@string/report_problems"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
@@ -84,7 +84,6 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingRight="@dimen/activity_horizontal_margin"
-
                         android:paddingTop="@dimen/activity_horizontal_margin">
 
                         <EditText
@@ -97,8 +96,6 @@
                             android:scrollbars="vertical"
                             android:hint="@string/prompt_subject"
                             android:inputType="textMultiLine"
-
-
                             />
 
                     </android.support.design.widget.TextInputLayout>
@@ -120,9 +117,7 @@
                             android:lines="4"
                             android:hint="@string/prompt_message"
                             android:inputType="text"
-
                           />
-
                     </android.support.design.widget.TextInputLayout>
                     <!--android:hint="@string/prompt_password"-->
 
@@ -137,9 +132,6 @@
                         android:onClick="submitAlertButton"
                         android:textColor="@color/white"
                         android:textStyle="bold" />
-
-
-
                 </LinearLayout>
 
 

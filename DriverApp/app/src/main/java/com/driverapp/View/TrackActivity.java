@@ -13,14 +13,13 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,15 +30,26 @@ import com.driverapp.R;
 import com.driverapp.Service.LocationListenerService;
 import com.driverapp.ServiceCallbacks;
 import com.github.florent37.viewanimator.ViewAnimator;
+import com.github.glomadrian.grav.GravView;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.Random;
 
 import tyrantgit.explosionfield.ExplosionField;
+
+/**
+ * Created by MyXLab on 30/1/2017.
+ * Activity for Tracking the bus locations.
+ */
+
+// TODO: Improve the tick tock timer design and functionality
 
 public class TrackActivity extends BaseActivity implements ServiceCallbacks{
 
     public static final String SETUP_FRAGMENT = "Setup Fragment";
     private boolean status = true;
+    private boolean isJourneyCompleted = false;
     public LocationManager locationManager;
     private TickTockView tickTockView;
     boolean startup = false;
@@ -54,6 +64,8 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
     private LocationListenerService locationListenerService;
     private boolean bound = false;
     private ExplosionField mExplosionField;
+    //LinearLayout gravView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +88,8 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
         startJourneyButton = (Button) findViewById(R.id.start_track_journey_btn);
         trackerIcon = (ImageView) findViewById(R.id.tracker_icon);
         tvNextBusStop = (TextView) findViewById(R.id.track_next_bus);
-
+        //gravView = (LinearLayout) findViewById(R.id.gravLinearLayout);
+        //gravView.setVisibility(View.GONE);
         tickTockView = (TickTockView) findViewById(R.id.count);
         if (tickTockView != null) {
             tickTockView.setOnTickListener(new TickTockView.OnTickListener() {
@@ -120,15 +133,12 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
                 startJourneyButton.setText(R.string.resume_journey);
                 dialog.dismiss();
                 startJourneyButton.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
-                if (bound) {
-                    locationListenerService.setCallbacks(null);
-                    unbindService(serviceConnection);
-                    bound = false;
-                }
+                unbounding();
                 tickTockView.stop();
+                finishJourney(new Location(""));
             }
         });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
             }
@@ -141,7 +151,8 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
     public void onBackPressed() {
 
         if (!settingUP) {
-            Toast.makeText(this, R.string.please_wait, Toast.LENGTH_SHORT).show();
+            finish();
+            //Toast.makeText(this, R.string.please_wait, Toast.LENGTH_SHORT).show();
         } else {
 
             if (status) {
@@ -156,6 +167,10 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
                 Toast.makeText(this, R.string.please_stop_journey, Toast.LENGTH_SHORT).show();
             }
         }
+        if (isJourneyCompleted){
+            finish();
+        }
+
     }
 
     public void startUpTimer() {
@@ -238,10 +253,15 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 minutesResume = 0;
+
+
+                unbounding();
+                finishJourney(new Location(""));
                 onBackPressed();
+
             }
         });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
             }
@@ -252,7 +272,7 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
 
     public void showDetailsJourney(View view) {
 
-        String[] list = new String[]{"Driver ID : " + UserInstance.getInstance().getDriver().getDriver_id().toUpperCase(), "Bus Plate : " + UserInstance.getInstance().getBus().getBusPlate(), "Route : " + UserInstance.getInstance().getRoute().getRouteName()};
+        String[] list = new String[]{"ID Pemandu : " + UserInstance.getInstance().getDriver().getDriver_id().toUpperCase(), "Plat Bas : " + UserInstance.getInstance().getBus().getBusPlate(), "Laluan : " + UserInstance.getInstance().getRoute().getRouteName()};
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this);
         builder.setTitle(R.string.journey_detail);
@@ -273,14 +293,14 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
     }
 
     public void trackBus() {
-
+        //gravView.setVisibility(View.VISIBLE);
         if (status) {
             status = false;
             toggleTimer();
             simpleAnimation();
             startJourneyButton.setText(R.string.stop_journey);
             trackerIcon.setVisibility(View.GONE);
-            startJourneyButton.setBackground(getResources().getDrawable(R.drawable.cardlayout_coloraccent));
+            startJourneyButton.setBackground(getResources().getDrawable(R.drawable.cardlayout_color_accent));
             Intent intent = new Intent(this, LocationListenerService.class);
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
         } else {
@@ -293,30 +313,61 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
         ViewAnimator.animate(tvNextBusStop)
                 .flash().pulse()
                 .start();
-        tvNextBusStop.setText("Next Bus Stop " + string.toUpperCase());
+        tvNextBusStop.setText("Hentian Bas Seterusnya " + string.toUpperCase());
+
+        tvNextBusStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextBusStop();
+            }
+        });
 
     }
-
+int counter = 0;
     @Override
     public void nextBusStop() {
-        int nextBusStopIndex = UserInstance.getInstance().getBusLocation() + 1;
-        UserInstance.getInstance().setBusLocation(nextBusStopIndex);
-        nextBusStopLabel(UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName());
-    }
+        counter++;
+        int routeList = UserInstance.getInstance().getRoute().getBusStopList().size();
+        if (routeList - 1 != counter){
+            int nextBusStopIndex = UserInstance.getInstance().getBusLocation() + 1;
+            UserInstance.getInstance().setBusLocation(nextBusStopIndex);
+            if (UserInstance.getInstance().getRoute().getBusStopList().size() != nextBusStopIndex){
+
+                nextBusStopLabel(UserInstance.getInstance().getRoute().getBusStopList().get(nextBusStopIndex).getName());
+               // Log.e(""+UserInstance.getInstance().getRoute().getBusStopList().size(),""+nextBusStopIndex);
+            }
+
+        }else{
+            finishJourney(new Location(""));
+        }
+          }
 
     @Override
     public void finishJourney(Location location) {
+        isJourneyCompleted =true;
         status = true;
         startJourneyButton.setVisibility(View.GONE);
-        trackBus();
+        //trackBus();
         tvNextBusStop.setText(R.string.finish_journey);
+        tickTockView.stop();
+        UserInstance.getInstance().setBusLocation(0);
+//
+        if (location.equals("")){
+            unbounding();
+        }else{
+            unbounding();
+            UserInstance.getInstance().getVolleyApp().setStatusBus(getString(R.string.url_bus_status),getApplicationContext(),false,location.getLatitude(),location.getLongitude());
+        }
+
+        finish();
+    }
+
+    private void unbounding() {
         if (bound) {
             locationListenerService.setCallbacks(null);
             unbindService(serviceConnection);
             bound = false;
         }
-        tickTockView.stop();
-        UserInstance.getInstance().getVolleyApp().setStatusBus(getString(R.string.url_bus_status),getApplicationContext(),false,location.getLatitude(),location.getLongitude());
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -338,5 +389,6 @@ public class TrackActivity extends BaseActivity implements ServiceCallbacks{
     protected void simpleAnimation() {
         ViewAnimator.animate(tickTockView)
                .rubber().duration(1500).start();
+
     }
 }

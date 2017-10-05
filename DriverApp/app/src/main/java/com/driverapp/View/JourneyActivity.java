@@ -14,12 +14,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.driverapp.BaseActivity;
 import com.driverapp.Controller.BusStopAdapter;
+import com.driverapp.Model.Auth;
 import com.driverapp.Model.Bus;
 import com.driverapp.Model.BusStop;
 import com.driverapp.Model.Route;
@@ -40,6 +42,8 @@ public class JourneyActivity extends BaseActivity{
     RecyclerView routeRecyclerView;
     List<BusStop> busStopList;
     BusStopAdapter busStopAdapter;
+    Button btnLogout;
+    Auth auth;
     private ConnectivityManager connectivityManager;
 
     @Override
@@ -57,12 +61,16 @@ public class JourneyActivity extends BaseActivity{
 
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        auth = new Auth();
         greed = (TextView) findViewById(R.id.greed_journey);
-
+        String iniGreed = "Hi Driver";
         //usually error below line
-        String iniGreed = "Hai, " + UserInstance.getInstance().getDriver().getDriver_id();
+        if (UserInstance.getInstance().getDriver().getDriver_id() != null){
+            iniGreed = "Hi, " + UserInstance.getInstance().getDriver().getDriver_id();
+        }
         greed.setText(iniGreed);
 
+        btnLogout = (Button) findViewById(R.id.btnLogout);
         selectBus = (TextView) findViewById(R.id.tv_select_bus);
         selectRoute = (TextView) findViewById(R.id.tv_select_route);
 
@@ -74,11 +82,22 @@ public class JourneyActivity extends BaseActivity{
         routeRecyclerView.setLayoutManager(mLayoutManager);
         routeRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(JourneyActivity.this, LoginActivity.class);
+                startActivity(intent);
+                auth.checkOutAuth(getApplicationContext());
+                finish();
+            }
+        });
     }
+
+
 
     public void nextButton(View view) {
 
-        if (UserInstance.getInstance().getBus().getBusId() == null && UserInstance.getInstance().getRoute().getRouteId() == null){
+        if (UserInstance.getInstance().getBus().getBusId() == null || UserInstance.getInstance().getRoute().getRouteId() == null){
             Toast.makeText(this, R.string.select_bus_n_route, Toast.LENGTH_SHORT).show();
         } else if (UserInstance.getInstance().getBus() == null){
             Toast.makeText(this, R.string.select_bus, Toast.LENGTH_SHORT).show();
@@ -93,13 +112,13 @@ public class JourneyActivity extends BaseActivity{
     @Override
     public void onBackPressed() {
 
-        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fragment_layout);
+        /*Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fragment_layout);
 
         if (currentFragment instanceof SearchFragment) {
             super.onBackPressed();
         } else {
             moveTaskToBack(true);
-        }
+        }*/
     }
 
     public void setBus(Bus busInfo){
