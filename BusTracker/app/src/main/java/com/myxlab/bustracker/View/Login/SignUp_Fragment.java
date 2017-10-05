@@ -114,6 +114,8 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 		Pattern p = Pattern.compile(Utils.regEx);
 		Matcher m = p.matcher(getEmailId);
 
+
+
 		// Check if all strings are null or not
 		if (getFullName.equals("") || getFullName.length() == 0
 				|| getEmailId.equals("") || getEmailId.length() == 0
@@ -124,15 +126,16 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 			new CustomToast().Show_Toast(getActivity(), view,
 					"All fields are required.");
 
+
 		else if (!(getEmailId.contains("gmail") || getEmailId.contains("siswa.ukm.edu.my") || getEmailId.contains("ukm.edu.my"))) {
 			new CustomToast().Show_Toast(getActivity(), view,
 					"Please use a Gmail or UKM email");
             emailId.startAnimation(shakeAnimation);
 		}
 		// Check if email id valid or not
-		else if (!m.find()) {
+		else if (!m.find() ) {
             new CustomToast().Show_Toast(getActivity(), view,
-                    "Your Email Id is Invalid.");
+                    "You're already a member of BasKita");
             emailId.startAnimation(shakeAnimation);
         }
 		// Check if both password should be equal
@@ -142,6 +145,14 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
             password.startAnimation(shakeAnimation);
             confirmPassword.startAnimation(shakeAnimation);
         }
+
+		else if (getPassword.length()<4) {
+			new CustomToast().Show_Toast(getActivity(), view,
+					"Password must at least 4 character.");
+			password.startAnimation(shakeAnimation);
+			confirmPassword.startAnimation(shakeAnimation);
+		}
+
 		// Make sure user should check Terms and Conditions checkbox
 		else if (!terms_conditions.isChecked()) {
             new CustomToast().Show_Toast(getActivity(), view,

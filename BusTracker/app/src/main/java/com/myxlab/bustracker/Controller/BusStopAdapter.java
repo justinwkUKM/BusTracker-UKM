@@ -147,21 +147,46 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         //Log.e(TAG, "rand:"+rand +" nearest:"+ nearest +" current:"+ currentBusStopp + " Name:"+busStopName);
         //holder.tvSchedule.setAlpha(0.2);
 
+
+
+
         switch (busName){
+
+
             case "Bus Zone 6":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
-            case "Bus Zone 2" :
+
+            case "Bus Zone 6 (Malam)":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
+            case "Bus Zone 2":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
+
+            case "Bus Zone 2 (Rabu)":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
             case "Bus Zone 3U":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
+
+            case "Bus Zone 3U (Rabu)":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
             default:  holder.imageViewBusIcon.setImageResource(R.drawable.ic_directions);
         }
+
+        Log.d ("BusStop" , busName);
 
         simpleAnim(holder.imageViewBusIcon);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +199,8 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
 
             }
         });
+
+        // comment
 
         holder.tvSchedule.setOnClickListener(new View.OnClickListener() {
             @Override

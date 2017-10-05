@@ -219,7 +219,7 @@ public class MapsFragmentOri extends Fragment implements OnMapReadyCallback, Goo
                     .tilt(0.0f)
                     .build();
         } else {
-            Toast.makeText(context, "mCurrentLoc is Null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Please check your GPS", Toast.LENGTH_SHORT).show();
             position = CameraPosition.builder()
                     .target(new LatLng(2.930107,
                             101.777434))

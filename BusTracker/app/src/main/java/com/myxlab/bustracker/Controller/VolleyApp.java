@@ -188,6 +188,9 @@ public class VolleyApp {
                         UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
                         UserInstance.getInstance().getAuth().saveAuth(context, username, password);
 
+                        UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                        UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );
+
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         loginActivity.finish();
@@ -529,7 +532,7 @@ public class VolleyApp {
                     @Override
                     public void onResponse(JSONObject response) {
                  //       Log.e("ResponseETA", response.toString());
-                        Toast.makeText(mainActivity, response.toString() , Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(mainActivity, response.toString() , Toast.LENGTH_SHORT).show();
                         String eta = null;
                         String etaTo = null;
                         Double lat = null;
