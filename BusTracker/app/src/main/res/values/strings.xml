@@ -409,7 +409,8 @@ C68.5809,277.075,273.832,71.8233,527.023,71.8233 Z
     <string name="skip_button">SKIP</string>
 
     <!--Login String-->
-    <string name="email">Email Id</string>
+    <string name="email">A123456</string>
+    <string name="email_add">A123456@siswa.ukm.edu.my</string>
     <string name="passowrd">Password</string>
     <string name="login">LOGIN</string>
     <string name="show_pwd">Show Password</string>

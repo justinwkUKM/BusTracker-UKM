@@ -377,8 +377,8 @@ public class TestMapsActivity extends FragmentActivity implements OnMapReadyCall
             polyline.setPattern(null);
         }
 
-        Toast.makeText(this, "Route type " + polyline.getTag().toString(),
-                Toast.LENGTH_SHORT).show();
+  /*      Toast.makeText(this, "Route type " + polyline.getTag().toString(),
+                Toast.LENGTH_SHORT).show();*/
     }
 
 

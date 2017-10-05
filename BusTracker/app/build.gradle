@@ -48,3 +48,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.1'
 
 }
+android {
+    lintOptions {
+        disable "ResourceType"
+    }
+}
