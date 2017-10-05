@@ -147,9 +147,43 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         //Log.e(TAG, "rand:"+rand +" nearest:"+ nearest +" current:"+ currentBusStopp + " Name:"+busStopName);
         //holder.tvSchedule.setAlpha(0.2);
 
+        switch (busName){
 
 
+            case "Bus Zone 6":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
 
+            case "Bus Zone 6 (Malam)":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
+            case "Bus Zone 2:":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
+            case "Bus Zone 2 (Rabu)":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
+            case "Bus Zone 3U":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
+            case "Bus Zon 3u (Rabu)":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
+            default:  holder.imageViewBusIcon.setImageResource(R.drawable.ic_directions);
+        }
+
+/*
         switch ("" + busName.charAt(9)){
 
 
@@ -158,33 +192,33 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
 
-           /* case "Bus Zone 6 (Malam)":
+           *//* case "Bus Zone 6 (Malam)":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
-                break;*/
+                break;*//*
 
             case "2":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
 
-           /* case "Bus Zone 2 (Rabu)":
+           *//* case "Bus Zone 2 (Rabu)":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
-                break;*/
+                break;*//*
 
             case "3":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
 
-            /*case "Bus Zone 3U (Rabu)":
+            *//*case "Bus Zone 3U (Rabu)":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
-                break;*/
+                break;*//*
 
             default:  holder.imageViewBusIcon.setImageResource(R.drawable.ic_directions);
-        }
+        }*/
 
         Log.d ("BusStop" , busName);
 

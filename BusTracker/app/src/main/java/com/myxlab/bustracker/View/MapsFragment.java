@@ -486,7 +486,39 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         int markerIcon;
 
-        switch ("" + name.charAt(9)) {
+        switch (name) {
+            //Bus Zone 3 or Bus Zone 3 (Rabu)
+            case "Bus Zone 3U":
+                markerIcon = R.drawable.ic_bus_3u;
+                break;
+
+            case "Bus Zon 3u (Rabu)":
+                markerIcon = R.drawable.ic_bus_3u;
+                break;
+
+            //Bus Zone 2 or Bus Zone 2 (Rabu)
+            case "Bus Zone 2":
+                markerIcon = R.drawable.ic_bus_2;
+                break;
+
+            case "Bus Zone 2 (Rabu)":
+                markerIcon = R.drawable.ic_bus_2;
+                break;
+
+            //Bus Zone 6 or Bus Zone 6 (Malam)
+            case "Bus Zone 6":
+                markerIcon = R.drawable.ic_bus_6;
+                break;
+
+            case "Bus Zone 6 (Malam)":
+                markerIcon = R.drawable.ic_bus_6;
+                break;
+            default:
+                markerIcon = R.drawable.ic_directions;
+                break;
+        }
+
+      /*  switch ("" + name.charAt(9)) {
             //Bus Zone 3 or Bus Zone 3 (Rabu)
             case "3":
                 markerIcon = R.drawable.ic_bus_3u;
@@ -504,7 +536,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             default:
                 markerIcon = R.drawable.ic_directions;
                 break;
-        }
+        }*/
 
         marker.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(markerIcon)));
         return marker;
