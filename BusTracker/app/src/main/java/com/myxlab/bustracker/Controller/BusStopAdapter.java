@@ -150,38 +150,38 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
 
 
 
-        switch (busName){
+        switch ("" + busName.charAt(9)){
 
 
-            case "Bus Zone 6":
+            case "6":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
 
-            case "Bus Zone 6 (Malam)":
+           /* case "Bus Zone 6 (Malam)":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
-                break;
+                break;*/
 
-            case "Bus Zone 2":
+            case "2":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
 
-            case "Bus Zone 2 (Rabu)":
+           /* case "Bus Zone 2 (Rabu)":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
-                break;
+                break;*/
 
-            case "Bus Zone 3U":
+            case "3":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
 
-            case "Bus Zone 3U (Rabu)":
+            /*case "Bus Zone 3U (Rabu)":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
-                break;
+                break;*/
 
             default:  holder.imageViewBusIcon.setImageResource(R.drawable.ic_directions);
         }

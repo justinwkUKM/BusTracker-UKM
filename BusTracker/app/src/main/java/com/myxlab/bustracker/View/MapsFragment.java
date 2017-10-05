@@ -483,16 +483,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private MarkerOptions busMarkerOptions(String name, String title, LatLng latLng) {
         MarkerOptions marker = new MarkerOptions().position(latLng).title(title);
 
+
         int markerIcon;
 
-        switch (name) {
-            case "Bus Zone 3U":
+        switch ("" + name.charAt(9)) {
+            //Bus Zone 3 or Bus Zone 3 (Rabu)
+            case "3":
                 markerIcon = R.drawable.ic_bus_3u;
                 break;
-            case "Bus Zone 2":
+
+            //Bus Zone 2 or Bus Zone 2 (Rabu)
+            case "2":
                 markerIcon = R.drawable.ic_bus_2;
                 break;
-            case "Bus Zone 6":
+
+            //Bus Zone 6 or Bus Zone 6 (Malam)
+            case "6":
                 markerIcon = R.drawable.ic_bus_6;
                 break;
             default:
