@@ -247,6 +247,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
         }
     }
 
+    //
     private boolean isUsernameValid(String email) {
         return email.length() > 0;
     }
