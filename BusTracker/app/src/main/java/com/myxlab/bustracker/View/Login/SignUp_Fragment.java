@@ -4,7 +4,9 @@ import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +31,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 	private static View view;
 	private static EditText fullName, emailId, mobileNumber, location,
 			password, confirmPassword;
-	private static TextView login;
+	private static TextView login, terms_and_conditions;
 	private static Button signUpButton;
 	private static CheckBox terms_conditions;
 	private View mProgressView;
@@ -59,10 +61,17 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 		signUpButton = (Button) view.findViewById(R.id.signUpBtn);
 		login = (TextView) view.findViewById(R.id.already_user);
 		terms_conditions = (CheckBox) view.findViewById(R.id.terms_conditions);
+		terms_and_conditions = (TextView) view.findViewById(R.id.termCondition);
 		mProgressView = view.findViewById(R.id.login_progress);
 		// Load ShakeAnimation
 		shakeAnimation = AnimationUtils.loadAnimation(getActivity(),
 				R.anim.shake);
+
+
+		terms_and_conditions.setClickable(true);
+		terms_and_conditions.setMovementMethod(LinkMovementMethod.getInstance());
+		String text = "<a href = 'http://bt.myxlab.solutions/BasKita-privacy-policy.html'> Terms and Conditions </a>";
+		terms_and_conditions.setText(Html.fromHtml(text));
 
 		// Setting text selector over textviews
 		XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);

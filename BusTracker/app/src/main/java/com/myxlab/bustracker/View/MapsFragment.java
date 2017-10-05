@@ -306,6 +306,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         if (!UserInstance.getInstance().getBuses().isEmpty()) {
             /*Checking Bus Marker is empty*/
             if (busesMarker.isEmpty()) {
+
                 /*Loop the bus list*/
                 for (int i = 0; UserInstance.getInstance().getBuses().size() > i; i++) {
                     /*String for bus maker title*/

@@ -422,7 +422,8 @@ C68.5809,277.075,273.832,71.8233,527.023,71.8233 Z
     <string name="mobileNumber">Mobile Number</string>
     <string name="location">Location</string>
     <string name="confirmPassword">Confirm Password</string>
-    <string name="terms_conditions">By clicking SignUp you agree all the Terms and Conditions.</string>
+    <string name="click_terms_conditions">By clicking Sign Up you agree all the </string>
+    <string name="terms_conditions">Terms and Conditions</string>
     <string name="signUp">Sign Up in Seconds</string>
     <string name="already_user">Already have Account? Login here.</string>
     <string name="registered_emailid">Please enter your Registered Email Id below:</string>
