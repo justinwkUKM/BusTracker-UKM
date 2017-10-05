@@ -995,7 +995,8 @@ public class VolleyApp {
                 Toast.makeText(context, R.string.error_credential, Toast.LENGTH_LONG).show();
             } else if (error instanceof ServerError) {
                 Log.e("server_error", "VolleyApp.java");
-              //  Toast.makeText(context, R.string.error_server, Toast.LENGTH_LONG).show();
+                //remove error toast after select Buses
+                //  Toast.makeText(context, R.string.error_server, Toast.LENGTH_LONG).show();
             } else if (error instanceof NetworkError) {
                 Toast.makeText(context, R.string.error_connectivity, Toast.LENGTH_LONG).show();
             } else if (error instanceof ParseError) {
