@@ -218,12 +218,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             Toast.makeText(context, "Please wait the buses to load", Toast.LENGTH_SHORT).show();
         }
 
-       /* else if (mCurrentLocation == null){
+        else if (mCurrentLocation == null){
 
             Toast.makeText(context, "Checking current location", Toast.LENGTH_SHORT).show();
 
-
-        }*/
+        }
         else {
 
             busStopGreenIndex = 0;
@@ -754,7 +753,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
             MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(UserInstance.getInstance().getBusStopList().get(i).getLat(), UserInstance.getInstance().getBusStopList().get(i).getLon()));
             markerOptions.title(UserInstance.getInstance().getBusStopList().get(i).getName());
-            //markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red)));
+            //markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.dra`ble.ic_bus_stops_red)));
             //markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_busstop",10,10)));
             Bitmap smallStartMarker = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red),200, 200, false);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallStartMarker));
