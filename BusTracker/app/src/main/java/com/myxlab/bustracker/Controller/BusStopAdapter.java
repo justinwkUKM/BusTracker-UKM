@@ -268,7 +268,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
 
 
         }
-        busStopJustPssed  = "Just Passed "+ buscurrentBSName +"\nBus Stops Remaining "+ remainingBusStops;
+        busStopJustPssed  = "Reaching "+ buscurrentBSName +"\nBus Stops Remaining "+ remainingBusStops;
         tvSchedule.setText(busStopJustPssed);
         return remainingBusStops;
     }

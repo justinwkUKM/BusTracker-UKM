@@ -7,7 +7,7 @@
     <string name="loading">Loading...</string>
     <string name="locate">Locate</string>
     <string name="bus_id"> Bus ID </string>
-    <string name="last_bus_stop"> Just Passed.. </string>
+    <string name="last_bus_stop"> Reaching.. </string>
     <string name="my_location">My Location</string>
     <string name="hint_search_text">Search Places..</string>
     <string name="hint_current_lcoation">Current Location</string>
