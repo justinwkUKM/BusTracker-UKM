@@ -18,6 +18,7 @@ import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.Route;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
+import com.myxlab.bustracker.View.Login.ForgotPassword_Fragment;
 import com.myxlab.bustracker.View.MapsFragment;
 import com.myxlab.bustracker.View.NavigationActivity;
 
@@ -246,33 +247,44 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
             String routeName = routeList.get(h).getRouteName();
 
 
-                if (zonName.equals(routeName)){
-                    List<BusStop> newBusStopList = routeList.get(h).getBusStopList();
-                    Log.e(TAG, routeName);
-                    buscurrentBSName =  newBusStopList.get(currentBusStop).getName();
+            if (zonName.equals(routeName)) {
+                List<BusStop> newBusStopList = routeList.get(h).getBusStopList();
+                Log.e(TAG, routeName);
+                buscurrentBSName = newBusStopList.get(currentBusStop).getName();
 
-                    for (int g = 0; g < newBusStopList.size(); g++) {
-                        if(newBusStopList.get(g).getName().equals(nearestStopInCurrentRoute)){
-                            remainingBusStops = (g + 1)  - (currentBusStop+1) ;
-                            if (remainingBusStops<0){
-                                remainingBusStops = 0;
-                            }
-                            Log.e(TAG," N:"+ (g+1) +"-" + nearestStopInCurrentRoute +" C:"+ (currentBusStop+1) +"-" +newBusStopList.get(currentBusStop).getName()+ " R"+remainingBusStops+"");
+                for (int g = 0; g < newBusStopList.size(); g++) {
+                    if (newBusStopList.get(g).getName().equals(nearestStopInCurrentRoute)) {
+                        remainingBusStops = (g + 1) - (currentBusStop + 1);
+                        if (remainingBusStops < 0) {
+                            remainingBusStops = 0;
                         }
+                        Log.e(TAG, " N:" + (g + 1) + "-" + nearestStopInCurrentRoute + " C:" + (currentBusStop + 1) + "-" + newBusStopList.get(currentBusStop).getName() + " R" + remainingBusStops + "");
                     }
-
-
-
                 }
 
 
+            }
 
 
         }
-        busStopJustPssed  = "Reaching "+ buscurrentBSName +"\nBus Stops Remaining "+ remainingBusStops;
+
+        if (remainingBusStops > 0)
+            busStopJustPssed = "Reaching " + buscurrentBSName + " (Bus Stops Remaining to Your Nearest Bus Stop " + remainingBusStops + ")";
+            //TODO: Esther -> if bus stop remaining 0, then dont show the
+
+
+         else
+            busStopJustPssed = "Bus had Passed";
+
+
         tvSchedule.setText(busStopJustPssed);
         return remainingBusStops;
     }
+
+      /*  busStopJustPssed = "Reaching " + buscurrentBSName + "\nBus Stops Remaining " + remainingBusStops;
+        tvSchedule.setText(busStopJustPssed);
+        return remainingBusStops;
+    }*/
 
     private void simpleAnim(View itemView) {
         ViewAnimator.animate(itemView)
