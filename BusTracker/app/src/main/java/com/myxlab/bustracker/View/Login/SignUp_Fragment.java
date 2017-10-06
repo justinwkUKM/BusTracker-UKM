@@ -155,9 +155,9 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
             confirmPassword.startAnimation(shakeAnimation);
         }
 
-		else if (getPassword.length()<4) {
+		else if (getPassword.length()< 3) {
 			new CustomToast().Show_Toast(getActivity(), view,
-					"Password must at least 4 character.");
+					"Password must at least 3 character.");
 			password.startAnimation(shakeAnimation);
 			confirmPassword.startAnimation(shakeAnimation);
 		}

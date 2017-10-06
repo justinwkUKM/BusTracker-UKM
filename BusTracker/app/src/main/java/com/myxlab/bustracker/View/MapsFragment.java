@@ -213,16 +213,28 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
      */
     public void getData() {
 
+        if (busesMarker.isEmpty()){
+
+            Toast.makeText(context, "Please wait the buses to load", Toast.LENGTH_SHORT).show();
+        }
+
+       /* else if (mCurrentLocation == null){
+
+            Toast.makeText(context, "Checking current location", Toast.LENGTH_SHORT).show();
 
 
-        busStopGreenIndex=0;
-        clearAllMapMarkers();
+        }*/
+        else {
 
-        onResume();
-        onMapReady(map);
-        if (greenMarker!=null)
-            greenMarker=null;
-       setBus();
+            busStopGreenIndex = 0;
+            clearAllMapMarkers();
+
+            onResume();
+            onMapReady(map);
+            if (greenMarker != null)
+                greenMarker = null;
+            setBus();
+        }
     }
 
     /**
