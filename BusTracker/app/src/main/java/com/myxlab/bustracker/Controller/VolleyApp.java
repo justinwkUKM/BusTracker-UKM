@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.View;
@@ -54,6 +56,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -143,16 +147,21 @@ public class  VolleyApp {
      * @param loginActivity the login activity
      * @param signUp_fragment
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void UserRegistrationTask(final String Url, final String username, final String password, final String name, final String email, final Context context, final View view, final MainLoginActivity loginActivity, final SignUp_Fragment signUp_fragment) {
+
+        SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat("yyyy-MM-dd  hh-mm-ss");
+        String format = simpleDateFormat.format(new Date());
 
         Map<String, String> params = new HashMap<>();
         params.put("U_Name", name);
         params.put("U_Username", username);
         params.put("U_Password", password);
         params.put("U_Email", email);
-        params.put("U_Created", "2016-10-12 00:00:00");
+        params.put("U_Created", format);
         params.put("U_Active", "1");
-        params.put("U_Last_Login", "2016-10-12 00:00:00");
+        params.put("U_Last_Login", format);
         params.put("U_Last_Password", "");
         params.put("U_Address", "");
         params.put("U_Phone", "");
@@ -162,7 +171,7 @@ public class  VolleyApp {
         params.put("U_Last_Longitud", "");
         params.put("U_Last_Origin", "");
         params.put("U_Last_Destination", "");
-        params.put("U_Update", "2016-10-12 00:00:00");
+        params.put("U_Update", format);
         params.put("U_Updated_By", "1");
         params.put("U_Point", "1");
         params.put("U_Refer_Id", "1");
@@ -221,7 +230,7 @@ public class  VolleyApp {
                         try {
                             String token = response.getString("token");
 
-                            if(token.startsWith("e")){
+                         /*   if(token.startsWith("e")){
                                 Log.e("token", response.toString());
 
                                 UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
@@ -235,7 +244,24 @@ public class  VolleyApp {
                                 loginActivity.finish();
                                 context.startActivity(intent);
                                 view.setVisibility(View.GONE);
-                            }
+                            }*/
+
+                         if(token.isEmpty()){
+
+                         }
+                         else {
+                             UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
+                             UserInstance.getInstance().getAuth().saveAuth(context, username, password);
+
+                             UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                             UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext());
+
+                             Intent intent = new Intent(context, MainActivity.class);
+                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                             loginActivity.finish();
+                             context.startActivity(intent);
+                             view.setVisibility(View.GONE);
+                         }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -281,10 +307,13 @@ public class  VolleyApp {
      * @param login_fragment the login fragment
      */
     public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final MainLoginActivity loginActivity, final Login_Fragment login_fragment) {
-
+        /*SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat("yyyy-MM-dd  hh-mm-ss");
+        String format = simpleDateFormat.format(new Date());*/
         Map<String, String> params = new HashMap<>();
         params.put(Auth.KEY_USERNAME, username);
         params.put(Auth.KEY_PASSWORD, password);
+       // params.put("U_Last_Login", format);
         JSONObject parameters = new JSONObject(params);
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
