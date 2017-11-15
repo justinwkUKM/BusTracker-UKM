@@ -394,6 +394,19 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        FloatingActionButton routeList = (FloatingActionButton) findViewById(R.id.fab_route_list);
+        routeList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, RouteList.class);
+                startActivity(intent);
+
+
+
+            }
+        });
+
         FloatingActionButton logoutFab = (FloatingActionButton) findViewById(R.id.fab_report);
         logoutFab.setOnClickListener(new View.OnClickListener() {
             @Override

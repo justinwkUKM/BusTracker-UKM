@@ -17,11 +17,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/googlemapsimapsi_api_key" />
@@ -57,13 +55,14 @@
             android:label="@string/title_activity_test_maps" />
         <activity
             android:name=".View.RouteMapsActivity"
-            android:label="@string/title_activity_route_maps"></activity>
-        <activity android:name=".View.MaintainaceActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
-        <activity android:name=".View.Login.MainLoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+            android:label="@string/title_activity_route_maps" />
+        <activity
+            android:name=".View.MaintainaceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".View.Login.MainLoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".View.RouteList"></activity>
     </application>
 
 </manifest>
