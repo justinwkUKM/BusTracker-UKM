@@ -45,5 +45,4 @@ public class BaseActivity extends AppCompatActivity {
         FontChangeCrawler fontChanger = new FontChangeCrawler(getAssets(), "fonts/sensation.ttf");
         fontChanger.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
     }
-
 }

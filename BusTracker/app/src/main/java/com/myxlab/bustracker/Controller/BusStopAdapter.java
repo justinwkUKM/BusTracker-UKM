@@ -269,15 +269,14 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         }
 
         if (remainingBusStops > 0)
-            busStopJustPssed = "Reaching " + buscurrentBSName + " (Bus Stops Remaining to Your Nearest Bus Stop " + remainingBusStops + ")";
-            //TODO: Esther -> if bus stop remaining 0, then dont show the
+            busStopJustPssed = "Reaching " + buscurrentBSName + " (Bus Stops Remaining to Your Nearest Bus Stop: " + remainingBusStops + ")";
 
-
-         else
+        else
             busStopJustPssed = "Bus had Passed";
 
 
         tvSchedule.setText(busStopJustPssed);
+        tvSchedule.setTextSize(13);
         return remainingBusStops;
     }
 

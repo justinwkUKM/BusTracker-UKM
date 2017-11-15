@@ -43,6 +43,7 @@ import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.View.AlertsFragment;
 import com.myxlab.bustracker.View.Login.Login_Fragment;
 import com.myxlab.bustracker.View.Login.MainLoginActivity;
+import com.myxlab.bustracker.View.Login.SignUp_Fragment;
 import com.myxlab.bustracker.View.LoginActivity;
 import com.myxlab.bustracker.View.MainActivity;
 import com.myxlab.bustracker.View.MapsFragment;
@@ -64,12 +65,13 @@ import static com.myxlab.bustracker.View.MainActivity.BUS_STOP;
 /**
  * The type Volley app.
  */
-public class VolleyApp {
+public class  VolleyApp {
     private VolleyApp volleyApp;
     private Context context;
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
     private int delay = 1200;
+    private String status;
 
     /**
      * Instantiates a new Volley app.
@@ -131,8 +133,7 @@ public class VolleyApp {
 
     /**
      * User registration task.
-     *
-     * @param Url           the url
+     *  @param Url           the url
      * @param username      the username
      * @param password      the password
      * @param name          the name
@@ -140,8 +141,9 @@ public class VolleyApp {
      * @param context       the context
      * @param view          the view
      * @param loginActivity the login activity
+     * @param signUp_fragment
      */
-    public void UserRegistrationTask(final String Url, final String username, final String password, final String name, final String email, final Context context, final View view, final MainLoginActivity loginActivity) {
+    public void UserRegistrationTask(final String Url, final String username, final String password, final String name, final String email, final Context context, final View view, final MainLoginActivity loginActivity, final SignUp_Fragment signUp_fragment) {
 
         Map<String, String> params = new HashMap<>();
         params.put("U_Name", name);
@@ -175,6 +177,8 @@ public class VolleyApp {
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
                 new Response.Listener<JSONObject>() {
+
+
                     @Override
                     public void onResponse(JSONObject response) {
                 /*      UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
@@ -185,23 +189,66 @@ public class VolleyApp {
                         UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
                         UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );*/
                         Log.e("Res",response.toString());
-                        UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
-                        UserInstance.getInstance().getAuth().saveAuth(context, username, password);
 
-                        UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
-                        UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );
+                        try {
+                            status = response.getString("status");
+                            // token= response.getString("token");
 
-                        Intent intent = new Intent(context, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        loginActivity.finish();
-                        context.startActivity(intent);
-                        view.setVisibility(View.GONE);
+                            Log.e("status",status);
+
+                            if (status.equals("username is taken")){
+
+                                signUp_fragment.createCustomToast("Email address is already taken, please login");
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                }, 1000);
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            String token = response.getString("token");
+
+                            if(token.startsWith("e")){
+                                Log.e("token", response.toString());
+
+                                UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
+                                UserInstance.getInstance().getAuth().saveAuth(context, username, password);
+
+                                UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                                UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext());
+
+                                Intent intent = new Intent(context, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                loginActivity.finish();
+                                context.startActivity(intent);
+                                view.setVisibility(View.GONE);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 },
+
 
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
                         view.setVisibility(View.GONE);
                         volleyErrorResponse(error, context);
                     }
@@ -264,10 +311,13 @@ public class VolleyApp {
                         view.setVisibility(View.GONE);
                         if (error instanceof AuthFailureError) {
                             login_fragment.createCustomToast("Invalid Username and Password");
+
                         }
                         //volleyErrorResponse(error, context);
                     }
                 });
+
+
 
         if (!checkQueueServeTime()) {
             new Handler().postDelayed(new Runnable() {

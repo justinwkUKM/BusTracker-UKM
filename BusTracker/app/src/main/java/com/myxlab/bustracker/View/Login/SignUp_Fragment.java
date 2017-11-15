@@ -168,11 +168,13 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
                     "Please select Terms and Conditions.");
             terms_conditions.startAnimation(shakeAnimation);
         }
+
+
 		// Else do signup or do your stuff
 		else {
 			String username  = getEmailId.substring(0, getEmailId.indexOf("@"));
 			mProgressView.setVisibility(View.VISIBLE);
-			UserInstance.getInstance().getVolleyApp().UserRegistrationTask(getString(R.string.url_signup), username, getPassword,getFullName,getEmailId, getActivity(), mProgressView, mainLoginActivity);
+			UserInstance.getInstance().getVolleyApp().UserRegistrationTask(getString(R.string.url_signup), username, getPassword,getFullName,getEmailId, getActivity(), mProgressView, mainLoginActivity, this);
 		}
 
 
@@ -223,4 +225,9 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 	private boolean isPasswordValid(String password) {
 		return password.length() > 3;
 	}*/
+
+	public void createCustomToast(String s){
+		new CustomToast().Show_Toast(getActivity(), view,
+				s);
+	}
 }
