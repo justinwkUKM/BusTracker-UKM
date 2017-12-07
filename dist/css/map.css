@@ -1,0 +1,19 @@
+h1.heading{padding:0px;margin: 0px 0px 10px 0px;text-align:center;font: 13px Georgia, "Times New Roman", Times, serif;}
+
+/* width and height of google map */
+#google_map {width: 97%; height: 500px;margin-top:auto;margin-bottom: auto; margin-left:auto;margin-right:auto;}
+
+/* Marker Edit form */
+.marker-edit label{display:block;margin-bottom: 5px;}
+.marker-edit label span {width: 100px;float: left;}
+.marker-edit label input, .marker-edit label select{height: 20px;}
+.marker-edit label textarea{height: 50px;}
+.marker-edit label input, .marker-edit label select, .marker-edit label textarea {width: 54%;margin:0px;padding-left: 3px;border: 1px solid #DDD;border-radius: 3px;}
+
+/* Marker Info Window */
+h1.marker-heading{color: #585858;margin: 0px;padding: 0px;font: 18px "Trebuchet MS", Arial;border-bottom: 1px dotted #D8D8D8;}
+div.marker-info-win {max-width: 400px;margin-right: -20px;}
+div.marker-info-win p{padding: 0px;margin: 10px 0px 10px 0;}
+div.marker-inner-win{padding: 5px;}
+button.save-marker, button.remove-marker{border: none;background: rgba(0, 0, 0, 0);color: #00F;padding: 0px;text-decoration: underline;margin-right: 10px;cursor: pointer;
+}

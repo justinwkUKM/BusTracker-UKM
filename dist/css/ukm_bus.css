@@ -1,0 +1,296 @@
+/*CUSTOM CSS UKM */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f2f2f2;
+    overflow: hidden;
+}
+h1,h2,h3,h4,h5{
+    font-weight: 200;
+}
+.heading{
+    color: #d70000;
+}
+.page-header {
+    /*padding-top: 10px;*/
+    /*padding: 10px 16px 0 16px;*/
+    color: #d70000;
+    border: none;
+}
+
+#dataTables-busSchedule_wrapper {
+    padding: 10px;
+}
+
+#dataTables-reports_wrapper {
+    padding: 10px;
+}
+
+.nav>li>a {
+    padding: 20px 16px;
+}
+
+i {
+    margin-right: 8px;
+}
+
+.breadcrumb {
+    border-radius: 24px;
+    padding: 16px 24px;
+    background: #fff;
+}
+
+.breadcrumb>li+li:before {
+    color: #d70000;
+}
+
+a {
+    color: #333;
+    transition: 500ms color ease;
+}
+
+a:focus,
+a:hover {
+    color: #E91E63;
+}
+
+.sidebar .nav-second-level li a {
+    background: #f4f4f4;
+}
+
+.sidebar i {
+    color: #d70000;
+}
+
+.navbar-default {
+    background: #fff;
+}
+
+.sidebar ul li a.active,
+.active> i {
+    background: #d70000;
+    color: white;
+}
+
+#gmap-container {
+    border-radius: 0;
+}
+
+#gmap-container .panel-body {
+    padding: 0
+}
+
+.avatar-cms {
+    padding: 8px 15px;
+    border-radius: 50%;
+    max-width: 120px;
+    margin: 0 auto;
+    display: block;
+}
+
+.navbar-top-links{
+    display: none;
+}
+#google_map{
+    width: 96%;
+}
+.panel-default>.panel-heading{
+    background-color: #d70000;
+    border-color: #ddd;
+    padding: 16px;
+    color: white;
+    border-radius: 0;
+}
+.panel-heading h3{
+    margin: 0;
+}
+.panel{
+    box-shadow: none;
+    -webkit-box-shadow:none;
+    border-radius: 0;
+}
+@media (min-width: 768px) {
+    .sidebar {
+        margin-top: 0px;
+        /*margin-left: -250px;*/
+        transition: 500ms margin-left ease;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        overflow-y: auto;
+    }
+    .navbar {
+        margin-left: 250px;
+    }
+    .navbar-brand {
+        margin-top: 4px;
+    }
+    #page-wrapper {
+        background: #f2f2f2;
+        overflow-y: auto;
+        max-height: 56em;
+    }
+}
+
+.timeline {
+    margin: 20px 0;
+    padding: 0;
+    border-top: 2px solid #eee;
+    list-style: none;
+}
+
+.timeline__step {
+    float: left;
+    width: 25%;
+    padding-top: 30px;
+    position: relative;
+}
+
+.timeline__step:first-of-type:before,
+.timeline__step:last-of-type:before {
+    content: "";
+    width: 50%;
+    height: 100%;
+    background: #fff;
+    position: absolute;
+    top: -2px;
+    left: 0;
+}
+
+.timeline__step:last-of-type:before {
+    left: 50%;
+}
+
+.timeline__step:hover .timeline__step-label {
+    opacity: 1;
+    -webkit-transform: rotate(0deg);
+    height: auto;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-width: 1px;
+    bottom: 100%;
+}
+
+.timeline__step:hover .timeline__step-label:before,
+.timeline__step:hover .timeline__step-label:after {
+    display: block;
+}
+
+.timeline__step-label {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    font-size: 0;
+    border-width: 0;
+    -webkit-transform: rotate(30deg);
+    width: 110px;
+    margin: 0 0 45px -55px;
+    border-style: solid;
+    border-color: #428bca;
+    background: #fff;
+    font-weight: normal;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transition: bottom 0.1s ease-in-out, opacity 0.1s ease-in-out, -webkit-transform 0.1s ease-in-out;
+}
+
+.timeline__step-label:before,
+.timeline__step-label:after {
+    display: none;
+    content: "";
+    width: 0;
+    height: 0;
+    border: solid transparent;
+    pointer-events: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+}
+
+.timeline__step-label:before {
+    border-top-color: #428bca;
+    border-width: 8px;
+    margin-left: -8px;
+}
+
+.timeline__step-label:after {
+    border-top-color: #fff;
+    border-width: 6px;
+    margin-left: -6px;
+}
+
+.timeline__step-content {
+    display: block;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.timeline__step-title {
+    display: block;
+    width: 100%;
+    padding: 30px 0 0;
+    font-size: 12px;
+    text-align: center;
+    position: absolute;
+    top: 0;
+}
+
+.timeline__step-marker {
+    width: 50px;
+    height: 50px;
+    margin-left: -25px;
+    background: #d70000;
+    border: 4px solid #d70000;
+    border-radius: 50%;
+    box-shadow: 0 0 0 10px #fff;
+    text-align: center;
+    line-height: 50px -10;
+    color: #428bca;
+    font-size: 2em;
+    font-style: normal;
+    position: absolute;
+    top: -26px;
+    left: 50%;
+}
+
+.done .timeline__step-marker {
+    background: #4CAF50;
+    color: #fff;
+    border-color: #4CAF50 !important;
+}
+
+.timeline__step-radio {
+    display: none;
+    /**
+   * not needed for now,
+   * because markers won't be clicked in horz version
+   */
+}
+
+.timeline--summary {
+    width: 100%;
+    border-width: 2px;
+}
+
+.timeline--summary .timeline__step-label {
+    margin-bottom: 19px;
+}
+
+.timeline--summary .timeline__step-title {
+    padding: 10px 0 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.timeline--summary .timeline__step-marker {
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    border-width: 2px;
+    text-indent: -999em;
+    box-shadow: 0 0 0 3px #fff;
+    top: -7px;
+}
