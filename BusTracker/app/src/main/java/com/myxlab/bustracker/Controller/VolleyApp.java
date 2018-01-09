@@ -155,10 +155,10 @@ public class  VolleyApp {
         String format = simpleDateFormat.format(new Date());
 
         Map<String, String> params = new HashMap<>();
-        params.put("U_Name", name);
-        params.put("U_Username", username);
-        params.put("U_Password", password);
-        params.put("U_Email", email);
+        params.put("name", name);
+        params.put("username", username);
+        params.put("password", password);
+        params.put("email", email);
       /*  params.put("U_Created", format);
         params.put("U_Active", "1");
         params.put("U_Last_Login", format);
