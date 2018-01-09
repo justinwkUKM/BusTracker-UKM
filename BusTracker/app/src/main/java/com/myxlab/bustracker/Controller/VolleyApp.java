@@ -159,7 +159,7 @@ public class  VolleyApp {
         params.put("U_Username", username);
         params.put("U_Password", password);
         params.put("U_Email", email);
-        params.put("U_Created", format);
+      /*  params.put("U_Created", format);
         params.put("U_Active", "1");
         params.put("U_Last_Login", format);
         params.put("U_Last_Password", "");
@@ -180,8 +180,7 @@ public class  VolleyApp {
         params.put("U_Fav_Destination", "");
         params.put("U_Gender", "1");
         params.put("U_Nationality", "");
-        params.put("U_Avatar", "");
-
+        params.put("U_Avatar", "");*/
         JSONObject parameters = new JSONObject(params);
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
