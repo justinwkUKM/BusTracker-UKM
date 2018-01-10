@@ -30,11 +30,11 @@
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_route_list"
+            style="@style/MenuButtonsSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_search"
-            app:fab_label="Route"
-            style="@style/MenuButtonsSmall"/>
+            app:fab_label="Route" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_schedule"

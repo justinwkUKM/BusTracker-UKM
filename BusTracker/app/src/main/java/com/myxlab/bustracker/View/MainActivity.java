@@ -437,6 +437,7 @@ public class MainActivity extends BaseActivity {
         tabs = new ArrayList<>();
         tabs.add("Map");
         tabs.add("Issue");
+        tabs.add("Route");
         tabLayout = (TabLayout) findViewById(R.id.tabs);
     }
 
@@ -450,8 +451,10 @@ public class MainActivity extends BaseActivity {
         Drawable mapIcon = ContextCompat.getDrawable(context, R.drawable.ic_map);
         tabLayout.getTabAt(0).setIcon(mapIcon);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_priority_high);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_priority_high);
         tabLayout.getTabAt(0).getIcon().setColorFilter(Color.parseColor("#F44336"), PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(1).getIcon().setColorFilter(Color.parseColor("#666666"), PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(2).getIcon().setColorFilter(Color.parseColor("#666666"), PorterDuff.Mode.SRC_IN);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -473,6 +476,8 @@ public class MainActivity extends BaseActivity {
                     alertsFragment.callUrl();
                 }
             }
+
+
         });
     }
 
