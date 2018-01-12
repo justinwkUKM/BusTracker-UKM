@@ -62,7 +62,8 @@
         <activity
             android:name=".View.Login.MainLoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".View.RouteList"></activity>
+        <activity android:name=".View.RouteList"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
