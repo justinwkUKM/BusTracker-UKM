@@ -10,6 +10,6 @@ public class RouteList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_journey);
+        setContentView(R.layout.activity_route_list);
     }
 }
