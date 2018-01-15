@@ -33,6 +33,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerInParent="true"
+                android:visibility="invisible"
                 app:alpha_from="100"
                 app:alpha_max_duration="3000"
                 app:alpha_min_duration="1600"
@@ -215,7 +216,7 @@
     </ScrollView>
 
     <FrameLayout
-        android:id="@+id/fragment_layout"
+        android:id="@+id/fragment_layout_journey"
         android:layout_below="@id/topCardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

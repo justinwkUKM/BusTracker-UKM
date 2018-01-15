@@ -64,6 +64,14 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     private CurrentBusesAdapter currentBusesAdapter;
     private RecyclerView recyclerView;
 
+    /**
+     * Instantiates a new Bus stop adapter.
+     *
+     * @param busStopList the bus stop list
+     */
+    public BusStopAdapter(List<BusStop> busStopList) {
+        this.busStopList = busStopList;
+    }
 
     /**
      * Instantiates a new Bus stop adapter.

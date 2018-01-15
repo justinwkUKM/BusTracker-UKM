@@ -49,6 +49,7 @@ import com.myxlab.bustracker.View.Login.SignUp_Fragment;
 import com.myxlab.bustracker.View.LoginActivity;
 import com.myxlab.bustracker.View.MainActivity;
 import com.myxlab.bustracker.View.MapsFragment;
+import com.myxlab.bustracker.View.SearchFragmentRoute;
 import com.myxlab.bustracker.View.SplashActivity;
 
 import org.json.JSONArray;
@@ -1280,7 +1281,92 @@ public class  VolleyApp {
         }
 
     }
+    /**
+     * Gets route list.
+     *
+     * @param url            the url
+     * @param view           the view
+     * @param context        the context
+     * @param searchFragmentRoute the search fragment route
+     */
+    public void getRouteListJoruney(final String url, final View view, final Context context, final SearchFragmentRoute searchFragmentRoute) {
 
+        String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        List<Route> routeList = new LinkedList<>();
+                        //Log.e("RouteListResponse", response.toString());
+                        try {
+                            JSONArray resultArray = response.getJSONArray("route");
+
+                            Log.e("resultlength",resultArray.length()+"");
+
+                            if (resultArray.length() != 0) {
+                                for (int i = 0; i < resultArray.length(); i++) {
+                                    JSONObject json = resultArray.getJSONObject(i);
+                                    List<BusStop> busStopList = new LinkedList<>();
+
+                                    Log.e("routelength",json.getJSONArray("route").length()+"");
+                                    for (int j = 0; j < json.getJSONArray("route").length(); j ++){
+                                        BusStop busStop = new BusStop(0,json.getJSONArray("route").getString(j),0.00,0.00);
+                                        busStopList.add(busStop);
+                                    }
+
+
+                                   /* JSONArray insideroute = json.getJSONArray("route");
+                                    if (insideroute != null  ) {
+                                        Log.e("FROMINSIDE",json.getString("name"));
+                                    }else {
+                                        Log.e("FROMINSIDE","NULL");
+                                    }*/
+
+
+                                    Log.e(json.getInt("id")+"",json.getString("name"));
+                                    Route route = new Route(String.valueOf(json.get("id")),String.valueOf(json.getString("name")), busStopList);
+                                    routeList.add(route);
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        searchFragmentRoute.populateRoute(routeList);
+                        view.setVisibility(View.GONE);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        volleyErrorResponse(error, context);
+                    }
+                }) {
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response){
+
+                return volleyParseNetworkResponse(response);
+            }
+
+        };
+
+        if (!checkQueueServeTime()){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (searchFragmentRoute.getActivity() != null){
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
     /**
      * Gets route list.
      *
