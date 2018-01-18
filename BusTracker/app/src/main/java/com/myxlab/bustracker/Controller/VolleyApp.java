@@ -43,6 +43,8 @@ import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.Model.maps.Helper;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.View.AlertsFragment;
+import com.myxlab.bustracker.View.Login.CustomToast;
+import com.myxlab.bustracker.View.Login.ForgotPassword_Fragment;
 import com.myxlab.bustracker.View.Login.Login_Fragment;
 import com.myxlab.bustracker.View.Login.MainLoginActivity;
 import com.myxlab.bustracker.View.Login.SignUp_Fragment;
@@ -207,6 +209,7 @@ public class  VolleyApp {
 
                             if (status.equals("username is taken")){
 
+
                                 signUp_fragment.createCustomToast("Email address is already taken, please login");
 
                                 new Handler().postDelayed(new Runnable() {
@@ -347,6 +350,125 @@ public class  VolleyApp {
                 });
 
 
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (loginActivity.getApplication() != null) {
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+
+    /**
+     * Forgot Password.
+     * @param email         the email
+     */
+
+    public void Forgot(final String Url,  final String email, final Context context, final View view, final MainLoginActivity loginActivity, final ForgotPassword_Fragment forgotPassword_fragment) {
+
+
+        Map<String, String> params = new HashMap<>();
+
+        params.put("email", email);
+
+        JSONObject parameters = new JSONObject(params);
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
+                new Response.Listener<JSONObject>() {
+
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("Res",response.toString());
+
+                        String  message = "";
+                        try {
+
+                            message = response.getString("message");
+                            // token= response.getString("token");
+
+                            Log.e("message", message);
+
+
+
+                            if (message.equals("Request change password limit")){
+
+
+                                forgotPassword_fragment.createCustomToast("Password request more than 10 times, please check your email");
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                },1100);
+
+
+
+                            }
+
+                            else if (message.equals("We can't find a user with that e-mail address.")){
+
+                                forgotPassword_fragment.createCustomToast("We can't find a user with that e-mail address, Please Register");
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                }, 1100);
+
+                            }
+
+                            else if (message.equals("Request Complete")){
+                                forgotPassword_fragment.createCustomToast("Please check your email to reset Password");
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                },1100);
+
+                            }
+
+                            else{
+                                forgotPassword_fragment.createCustomToast("Check your internet connection");
+                            }
+
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        view.setVisibility(View.GONE);
+                        volleyErrorResponse(error, context);
+                    }
+                });
 
         if (!checkQueueServeTime()) {
             new Handler().postDelayed(new Runnable() {

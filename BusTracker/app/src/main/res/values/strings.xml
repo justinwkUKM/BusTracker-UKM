@@ -144,6 +144,7 @@
     <string name="error_opss">Opss something wrong</string>
 
     <string name="url_signup">http://api.myxlab.solutions/api/v1/register</string>
+    <string name="url_forgot_password">http://api.myxlab.solutions/api/v1/password/forgot</string>
    <!-- <string name="url_login">http://api.myxlab.solutions/api/v1/came_in</string>-->
     <string name="url_login">http://api.myxlab.solutions/api/v1/authenticate</string>
     <string name="url_poi_list">http://api.myxlab.solutions/api/v1/attractpoint</string>
