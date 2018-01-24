@@ -18,6 +18,7 @@ import com.myxlab.bustracker.Model.BusStop;
 import com.myxlab.bustracker.Model.Route;
 import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
+import com.myxlab.bustracker.View.Login.ForgotPassword_Fragment;
 import com.myxlab.bustracker.View.MapsFragment;
 import com.myxlab.bustracker.View.NavigationActivity;
 
@@ -63,6 +64,14 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     private CurrentBusesAdapter currentBusesAdapter;
     private RecyclerView recyclerView;
 
+    /**
+     * Instantiates a new Bus stop adapter.
+     *
+     * @param busStopList the bus stop list
+     */
+    public BusStopAdapter(List<BusStop> busStopList) {
+        this.busStopList = busStopList;
+    }
 
     /**
      * Instantiates a new Bus stop adapter.
@@ -147,10 +156,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         //Log.e(TAG, "rand:"+rand +" nearest:"+ nearest +" current:"+ currentBusStopp + " Name:"+busStopName);
         //holder.tvSchedule.setAlpha(0.2);
 
-
-
-
-        switch (busName){
+     /*   switch (busName){
 
 
             case "Bus Zone 6":
@@ -163,7 +169,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
 
-            case "Bus Zone 2":
+            case "Bus Zone 2:":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
@@ -178,7 +184,28 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
 
-            case "Bus Zone 3U (Rabu)":
+            case "Bus Zon 3u (Rabu)":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
+            default:  holder.imageViewBusIcon.setImageResource(R.drawable.ic_directions);
+        }*/
+
+        switch ("" + busName.charAt(9)){
+
+
+            case "6":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_6);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
+            case "2":
+                holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_2);
+                calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
+                break;
+
+            case "3":
                 holder.imageViewBusIcon.setImageResource(R.drawable.ic_bus_3u);
                 calculateRemainingBusStops(busName, currentBusStop, holder.tvSchedule);
                 break;
@@ -205,7 +232,8 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         holder.tvSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, R.string.under_development, Toast.LENGTH_SHORT).show();
+                UserInstance.getInstance().getMainActivity().ETABottomSheetCall(busStop.getName(),busListCurrentAll.get(holder.getAdapterPosition()).getName(),busListCurrentAll.get(holder.getAdapterPosition()).getLat(),busListCurrentAll.get(holder.getAdapterPosition()).getLon());
+                navigationActivity.finish();
             }
         });
 
@@ -227,33 +255,43 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
             String routeName = routeList.get(h).getRouteName();
 
 
-                if (zonName.equals(routeName)){
-                    List<BusStop> newBusStopList = routeList.get(h).getBusStopList();
-                    Log.e(TAG, routeName);
-                    buscurrentBSName =  newBusStopList.get(currentBusStop).getName();
+            if (zonName.equals(routeName)) {
+                List<BusStop> newBusStopList = routeList.get(h).getBusStopList();
+                Log.e(TAG, routeName);
+                buscurrentBSName = newBusStopList.get(currentBusStop).getName();
 
-                    for (int g = 0; g < newBusStopList.size(); g++) {
-                        if(newBusStopList.get(g).getName().equals(nearestStopInCurrentRoute)){
-                            remainingBusStops = (g + 1)  - (currentBusStop+1) ;
-                            if (remainingBusStops<0){
-                                remainingBusStops = 0;
-                            }
-                            Log.e(TAG," N:"+ (g+1) +"-" + nearestStopInCurrentRoute +" C:"+ (currentBusStop+1) +"-" +newBusStopList.get(currentBusStop).getName()+ " R"+remainingBusStops+"");
+                for (int g = 0; g < newBusStopList.size(); g++) {
+                    if (newBusStopList.get(g).getName().equals(nearestStopInCurrentRoute)) {
+                        remainingBusStops = (g + 1) - (currentBusStop + 1);
+                        if (remainingBusStops < 0) {
+                            remainingBusStops = 0;
                         }
+                        Log.e(TAG, " N:" + (g + 1) + "-" + nearestStopInCurrentRoute + " C:" + (currentBusStop + 1) + "-" + newBusStopList.get(currentBusStop).getName() + " R" + remainingBusStops + "");
                     }
-
-
-
                 }
 
 
+            }
 
 
         }
-        busStopJustPssed  = "Just Passed "+ buscurrentBSName +"\nBus Stops Remaining "+ remainingBusStops;
+
+        if (remainingBusStops > 0)
+            busStopJustPssed = "Reaching " + buscurrentBSName + " (Bus Stops Remaining to Your Nearest Bus Stop: " + remainingBusStops + ")";
+
+        else
+            busStopJustPssed = "Bus had Passed";
+
+
         tvSchedule.setText(busStopJustPssed);
+        tvSchedule.setTextSize(13);
         return remainingBusStops;
     }
+
+      /*  busStopJustPssed = "Reaching " + buscurrentBSName + "\nBus Stops Remaining " + remainingBusStops;
+        tvSchedule.setText(busStopJustPssed);
+        return remainingBusStops;
+    }*/
 
     private void simpleAnim(View itemView) {
         ViewAnimator.animate(itemView)

@@ -35,6 +35,7 @@ public class UserInstance {
     private List<BusStop> busStopList;
     private List<AlertsData> alertsDataList;
     private List<Bus> buses;
+    private Route route;
     /**
      * The Route list.
      */
@@ -215,7 +216,29 @@ public class UserInstance {
     public void setBuses(List<Bus> buses) {
         this.buses = buses;
     }
+    /**
+     * Gets route.
+     *
+     * @return the route
+     */
+    public Route getRoute() {
+        return route;
+    }
 
+    /**
+     * Sets route.
+     *
+     * @param route the route
+     */
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    /**
+     * Gets driver.
+     *
+     * @return the driver
+     */
     /**
      * Gets nearest bus stop index.
      *

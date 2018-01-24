@@ -39,6 +39,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 return new MapsFragment();
             case 1:
                 return new AlertsFragment();
+            case 2:
+                return new AlertsFragment();
             default:
                 return null;
         }

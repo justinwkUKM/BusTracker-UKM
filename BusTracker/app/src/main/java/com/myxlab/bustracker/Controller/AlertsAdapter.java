@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.ViewHolder> {
 
+
     private List<AlertsData> alertsData;
     private View view;
     private FontChangeCrawler fontChanger;

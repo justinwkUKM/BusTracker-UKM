@@ -58,8 +58,8 @@ public class VolleyApp {
     private static final String REGISTERED_BUS_ID = "registered_bus_id";
     private static final String DEVICE_ID = "device_id";
     private static final String DRIVER_ID = "driver_id";
-    private static final String LONGITUDE = "bl_long";
-    private static final String LATITUDE = "bl_lat";
+    private static final String LONGITUDE = "longitud";
+    private static final String LATITUDE = "latitud";
     private static final String BUS_ID = "bus_id";
     private static final String ACTIVE = "active";
     private static final String BUS_LOCATION_DOES_NOT_EXIST = "Bus_Location does not exist.";
@@ -67,6 +67,7 @@ public class VolleyApp {
     private static final String BUS_POSITION = "position";
     private static final String BUS_PLATE = "plate";
     private static final String BUS_DRIVER = "driver";
+    private static final String BUS_STOP = "bus_stop";
     private static final String BUS_NEXT_BUS_STOP = "next_bus_stop";
     private int delay = 1200;
 
@@ -443,11 +444,12 @@ public class VolleyApp {
         params.put(ACTIVE, String.valueOf(statusValue(status)));
         params.put(LATITUDE, "0");
         params.put(LONGITUDE, "0");
+        params.put(BUS_STOP, "2");
         params.put(BUS_ROUTE,UserInstance.getInstance().getRoute().getRouteId());
         params.put(BUS_POSITION, String.valueOf(UserInstance.getInstance().getBusLocation()));
         params.put(BUS_PLATE, String.valueOf(UserInstance.getInstance().getBus().getBusPlate()));
         params.put(BUS_DRIVER, String.valueOf(UserInstance.getInstance().getDriver().getDriver_id()));
-        params.put(BUS_NEXT_BUS_STOP, String.valueOf(UserInstance.getInstance().getRoute().getBusStopList().get(1).getName()));
+        params.put("next_bus_stop", String.valueOf(UserInstance.getInstance().getRoute().getBusStopList().get(1).getName()));
 
         JSONObject parameters = new JSONObject(params);
 
@@ -774,14 +776,14 @@ public class VolleyApp {
         String api = url + "?token=" + UserInstance.getInstance().getAuth().getAuth_token();
 
         Map<String, String> params = new HashMap<>();
-        params.put("bus_id", UserInstance.getInstance().getBus().getBusId());
+        params.put(BUS_ID, UserInstance.getInstance().getBus().getBusId());
         params.put("created", "2016-11-09 00:00:00");
-        params.put("bll_lat", String.valueOf(lat));
-        params.put("bll_long", String.valueOf(lon));
-        params.put("route",UserInstance.getInstance().getRoute().getRouteId());
-        params.put("position", String.valueOf(UserInstance.getInstance().getBusLocation()));
-        params.put("bus_stop", nextBusStop+"");
-        Log.e("Next Bus Stop",nextBusStop+"");
+        params.put(LATITUDE, String.valueOf(lat));
+        params.put(LONGITUDE, String.valueOf(lon));
+        params.put(BUS_ROUTE,UserInstance.getInstance().getRoute().getRouteId());
+        params.put(BUS_POSITION, String.valueOf(UserInstance.getInstance().getBusLocation()));
+        params.put(BUS_STOP, nextBusStop+"");
+        Log.e(BUS_NEXT_BUS_STOP,nextBusStop+"");
         JSONObject parameters = new JSONObject(params);
 
 

@@ -195,7 +195,8 @@
                 android:gravity="center"
 
                 android:text="@string/new_user"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorAccent"
+                android:visibility="invisible" />
 
         </LinearLayout>
     </ScrollView>

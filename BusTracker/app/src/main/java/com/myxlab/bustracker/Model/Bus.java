@@ -6,7 +6,7 @@ package com.myxlab.bustracker.Model;
 public class Bus {
 
 
-    private String name, plate, id, currentBusStop;
+    private String name, plate, id, currentBusStop, busPlate, busName;
     private Double lat, lon;
 
     /**
@@ -147,5 +147,24 @@ public class Bus {
      */
     public void setPlate(String plate) {
         this.plate = plate;
+    }
+
+
+    /**
+     * Gets bus plate.
+     *
+     * @return the bus plate
+     */
+    public String getBusPlate() {
+        return busPlate;
+    }
+
+    /**
+     * Gets bus name.
+     *
+     * @return the bus name
+     */
+    public String getBusName() {
+        return busName;
     }
 }
