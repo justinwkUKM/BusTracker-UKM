@@ -63,7 +63,11 @@ public class LoginActivity extends BaseActivity{
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 attemptLogin();
+
+
             }
         });
 
