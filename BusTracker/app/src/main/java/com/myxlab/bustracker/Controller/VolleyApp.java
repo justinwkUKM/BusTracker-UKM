@@ -32,6 +32,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.DefaultRetryPolicy;
 import com.myxlab.bustracker.DBHandler;
 import com.myxlab.bustracker.Model.AlertsData;
 import com.myxlab.bustracker.Model.Auth;
@@ -388,8 +389,76 @@ public class  VolleyApp {
                     public void onResponse(JSONObject response) {
                         Log.e("Res",response.toString());
 
-                        String  message = "";
+                       // String  message = "";
+
+
                         try {
+                            String message = response.getString("message");
+                            // token= response.getString("token");
+
+                            Log.e("message",message);
+
+                            if (message.equals("Request Complete")){
+
+
+                                forgotPassword_fragment.createCustomToast("Password reset sent, Please check your Email");
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                }, 1000);
+
+
+
+                            } else if (message.equals("Request change password limit")){
+                                forgotPassword_fragment.createCustomToast("Request change password limit");
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                }, 1000);
+
+                            }
+                            else if (message.equals("We can't find a user with that e-mail address.")){
+                                forgotPassword_fragment.createCustomToast("E-mail not found, Please SignUp");
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                }, 1000);
+
+                            }
+                            else{
+                                forgotPassword_fragment.createCustomToast("Error");
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                       /* try {
 
                             message = response.getString("message");
                             // token= response.getString("token");
@@ -398,7 +467,7 @@ public class  VolleyApp {
 
 
 
-                            if (message.equals("Request change password limit")){
+                            if (message.equals("Request Complete")){
 
 
                                 forgotPassword_fragment.createCustomToast("Password request more than 10 times, please check your email");
@@ -455,7 +524,7 @@ public class  VolleyApp {
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                        }
+                        } */
 
                     }
                 },
@@ -469,6 +538,11 @@ public class  VolleyApp {
                         volleyErrorResponse(error, context);
                     }
                 });
+
+        jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         if (!checkQueueServeTime()) {
             new Handler().postDelayed(new Runnable() {
@@ -1166,6 +1240,8 @@ public class  VolleyApp {
             }
 
         };
+
+
 
         if (!checkQueueServeTime()) {
             new Handler().postDelayed(new Runnable() {

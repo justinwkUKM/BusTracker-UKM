@@ -124,10 +124,13 @@ public class ForgotPassword_Fragment extends Fragment implements
 		/*else
 			Toast.makeText(getActivity(), "Check Email to reset your Password",
 					Toast.LENGTH_SHORT).show();*/
-		else {
-			mProgressView.setVisibility(View.VISIBLE);
-			UserInstance.getInstance().getVolleyApp().Forgot(getString(R.string.url_forgot_password), getEmailId,  getActivity(), mProgressView, mainLoginActivity, this);
-		}}
+	else {
+				mProgressView.setVisibility(View.VISIBLE);
+				UserInstance.getInstance().getVolleyApp().Forgot(getString(R.string.url_forgot_password), getEmailId, getActivity(), mProgressView, mainLoginActivity, this);
+			}
+		}
+
+
 
 	public void createCustomToast(String s){
 		new CustomToast().Show_Toast(getActivity(), view,
