@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.DefaultRetryPolicy;
 import com.myxlab.bustracker.DBHandler;
 import com.myxlab.bustracker.Model.AlertsData;
 import com.myxlab.bustracker.Model.Auth;
@@ -41,11 +44,15 @@ import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.Model.maps.Helper;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.View.AlertsFragment;
+import com.myxlab.bustracker.View.Login.CustomToast;
+import com.myxlab.bustracker.View.Login.ForgotPassword_Fragment;
 import com.myxlab.bustracker.View.Login.Login_Fragment;
 import com.myxlab.bustracker.View.Login.MainLoginActivity;
+import com.myxlab.bustracker.View.Login.SignUp_Fragment;
 import com.myxlab.bustracker.View.LoginActivity;
 import com.myxlab.bustracker.View.MainActivity;
 import com.myxlab.bustracker.View.MapsFragment;
+import com.myxlab.bustracker.View.SearchFragmentRoute;
 import com.myxlab.bustracker.View.SplashActivity;
 
 import org.json.JSONArray;
@@ -53,6 +60,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -64,12 +73,13 @@ import static com.myxlab.bustracker.View.MainActivity.BUS_STOP;
 /**
  * The type Volley app.
  */
-public class VolleyApp {
+public class  VolleyApp {
     private VolleyApp volleyApp;
     private Context context;
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
     private int delay = 1200;
+    private String status;
 
     /**
      * Instantiates a new Volley app.
@@ -131,8 +141,7 @@ public class VolleyApp {
 
     /**
      * User registration task.
-     *
-     * @param Url           the url
+     *  @param Url           the url
      * @param username      the username
      * @param password      the password
      * @param name          the name
@@ -140,17 +149,23 @@ public class VolleyApp {
      * @param context       the context
      * @param view          the view
      * @param loginActivity the login activity
+     * @param signUp_fragment
      */
-    public void UserRegistrationTask(final String Url, final String username, final String password, final String name, final String email, final Context context, final View view, final MainLoginActivity loginActivity) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void UserRegistrationTask(final String Url, final String username, final String password, final String name, final String email, final Context context, final View view, final MainLoginActivity loginActivity, final SignUp_Fragment signUp_fragment) {
+
+        SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat("yyyy-MM-dd  hh-mm-ss");
+        String format = simpleDateFormat.format(new Date());
 
         Map<String, String> params = new HashMap<>();
-        params.put("U_Name", name);
-        params.put("U_Username", username);
-        params.put("U_Password", password);
-        params.put("U_Email", email);
-        params.put("U_Created", "2016-10-12 00:00:00");
+        params.put("name", name);
+        params.put("username", username);
+        params.put("password", password);
+        params.put("email", email);
+      /*  params.put("U_Created", format);
         params.put("U_Active", "1");
-        params.put("U_Last_Login", "2016-10-12 00:00:00");
+        params.put("U_Last_Login", format);
         params.put("U_Last_Password", "");
         params.put("U_Address", "");
         params.put("U_Phone", "");
@@ -160,7 +175,7 @@ public class VolleyApp {
         params.put("U_Last_Longitud", "");
         params.put("U_Last_Origin", "");
         params.put("U_Last_Destination", "");
-        params.put("U_Update", "2016-10-12 00:00:00");
+        params.put("U_Update", format);
         params.put("U_Updated_By", "1");
         params.put("U_Point", "1");
         params.put("U_Refer_Id", "1");
@@ -169,12 +184,13 @@ public class VolleyApp {
         params.put("U_Fav_Destination", "");
         params.put("U_Gender", "1");
         params.put("U_Nationality", "");
-        params.put("U_Avatar", "");
-
+        params.put("U_Avatar", "");*/
         JSONObject parameters = new JSONObject(params);
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
                 new Response.Listener<JSONObject>() {
+
+
                     @Override
                     public void onResponse(JSONObject response) {
                 /*      UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
@@ -185,23 +201,84 @@ public class VolleyApp {
                         UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
                         UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );*/
                         Log.e("Res",response.toString());
-                        UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
-                        UserInstance.getInstance().getAuth().saveAuth(context, username, password);
 
-                        UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
-                        UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext() );
+                        try {
+                            status = response.getString("status");
+                            // token= response.getString("token");
 
-                        Intent intent = new Intent(context, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        loginActivity.finish();
-                        context.startActivity(intent);
-                        view.setVisibility(View.GONE);
+                            Log.e("status",status);
+
+                            if (status.equals("username is taken")){
+
+
+                                signUp_fragment.createCustomToast("Email address is already taken, please login");
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                }, 1000);
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            String token = response.getString("token");
+
+                         /*   if(token.startsWith("e")){
+                                Log.e("token", response.toString());
+
+                                UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
+                                UserInstance.getInstance().getAuth().saveAuth(context, username, password);
+
+                                UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                                UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext());
+
+                                Intent intent = new Intent(context, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                loginActivity.finish();
+                                context.startActivity(intent);
+                                view.setVisibility(View.GONE);
+                            }*/
+
+                         if(token.isEmpty()){
+
+                         }
+                         else {
+                             UserInstance.getInstance().getAuth().setAuth_token(response.optString("token"));
+                             UserInstance.getInstance().getAuth().saveAuth(context, username, password);
+
+                             UserInstance.getInstance().getVolleyApp().updatePOIDB(loginActivity.getString(R.string.url_poi_list), loginActivity.getApplicationContext());
+                             UserInstance.getInstance().getVolleyApp().updateBSDB(loginActivity.getString(R.string.url_bus_stop_list), loginActivity.getApplicationContext());
+
+                             Intent intent = new Intent(context, MainActivity.class);
+                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                             loginActivity.finish();
+                             context.startActivity(intent);
+                             view.setVisibility(View.GONE);
+                         }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 },
+
 
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
                         view.setVisibility(View.GONE);
                         volleyErrorResponse(error, context);
                     }
@@ -234,10 +311,13 @@ public class VolleyApp {
      * @param login_fragment the login fragment
      */
     public void UserLoginTask(final String Url, final String username, final String password, final Context context, final View view, final MainLoginActivity loginActivity, final Login_Fragment login_fragment) {
-
+        /*SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat("yyyy-MM-dd  hh-mm-ss");
+        String format = simpleDateFormat.format(new Date());*/
         Map<String, String> params = new HashMap<>();
         params.put(Auth.KEY_USERNAME, username);
         params.put(Auth.KEY_PASSWORD, password);
+       // params.put("U_Last_Login", format);
         JSONObject parameters = new JSONObject(params);
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
@@ -264,10 +344,205 @@ public class VolleyApp {
                         view.setVisibility(View.GONE);
                         if (error instanceof AuthFailureError) {
                             login_fragment.createCustomToast("Invalid Username and Password");
+
                         }
                         //volleyErrorResponse(error, context);
                     }
                 });
+
+
+
+        if (!checkQueueServeTime()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (loginActivity.getApplication() != null) {
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
+
+    /**
+     * Forgot Password.
+     * @param email         the email
+     */
+
+    public void Forgot(final String Url,  final String email, final Context context, final View view, final MainLoginActivity loginActivity, final ForgotPassword_Fragment forgotPassword_fragment) {
+
+
+        Map<String, String> params = new HashMap<>();
+
+        params.put("email", email);
+
+        JSONObject parameters = new JSONObject(params);
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, Url, parameters,
+                new Response.Listener<JSONObject>() {
+
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("Res",response.toString());
+
+                       // String  message = "";
+
+
+                        try {
+                            String message = response.getString("message");
+                            // token= response.getString("token");
+
+                            Log.e("message",message);
+
+                            if (message.equals("Request Complete")){
+
+
+                                forgotPassword_fragment.createCustomToast("Password reset sent, Please check your Email");
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                }, 1000);
+
+
+
+                            } else if (message.equals("Request change password limit")){
+                                forgotPassword_fragment.createCustomToast("Request change password limit");
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                }, 1000);
+
+                            }
+                            else if (message.equals("We can't find a user with that e-mail address.")){
+                                forgotPassword_fragment.createCustomToast("E-mail not found, Please SignUp");
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                }, 1000);
+
+                            }
+                            else{
+                                forgotPassword_fragment.createCustomToast("Error");
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                       /* try {
+
+                            message = response.getString("message");
+                            // token= response.getString("token");
+
+                            Log.e("message", message);
+
+
+
+                            if (message.equals("Request Complete")){
+
+
+                                forgotPassword_fragment.createCustomToast("Password request more than 10 times, please check your email");
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                },1100);
+
+
+
+                            }
+
+                            else if (message.equals("We can't find a user with that e-mail address.")){
+
+                                forgotPassword_fragment.createCustomToast("We can't find a user with that e-mail address, Please Register");
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                }, 1100);
+
+                            }
+
+                            else if (message.equals("Request Complete")){
+                                forgotPassword_fragment.createCustomToast("Please check your email to reset Password");
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(context, MainLoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        loginActivity.finish();
+                                        context.startActivity(intent);
+                                    }
+                                },1100);
+
+                            }
+
+                            else{
+                                forgotPassword_fragment.createCustomToast("Check your internet connection");
+                            }
+
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        } */
+
+                    }
+                },
+
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        view.setVisibility(View.GONE);
+                        volleyErrorResponse(error, context);
+                    }
+                });
+
+        jsonRequest.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         if (!checkQueueServeTime()) {
             new Handler().postDelayed(new Runnable() {
@@ -966,6 +1241,8 @@ public class VolleyApp {
 
         };
 
+
+
         if (!checkQueueServeTime()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1202,7 +1479,92 @@ public class VolleyApp {
         }
 
     }
+    /**
+     * Gets route list.
+     *
+     * @param url            the url
+     * @param view           the view
+     * @param context        the context
+     * @param searchFragmentRoute the search fragment route
+     */
+    public void getRouteListJoruney(final String url, final View view, final Context context, final SearchFragmentRoute searchFragmentRoute) {
 
+        String api = url + "?limit=all&token=" + UserInstance.getInstance().getAuth().getAuth_token();
+
+        final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, api,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        List<Route> routeList = new LinkedList<>();
+                        //Log.e("RouteListResponse", response.toString());
+                        try {
+                            JSONArray resultArray = response.getJSONArray("route");
+
+                            Log.e("resultlength",resultArray.length()+"");
+
+                            if (resultArray.length() != 0) {
+                                for (int i = 0; i < resultArray.length(); i++) {
+                                    JSONObject json = resultArray.getJSONObject(i);
+                                    List<BusStop> busStopList = new LinkedList<>();
+
+                                    Log.e("routelength",json.getJSONArray("route").length()+"");
+                                    for (int j = 0; j < json.getJSONArray("route").length(); j ++){
+                                        BusStop busStop = new BusStop(0,json.getJSONArray("route").getString(j),0.00,0.00);
+                                        busStopList.add(busStop);
+                                    }
+
+
+                                   /* JSONArray insideroute = json.getJSONArray("route");
+                                    if (insideroute != null  ) {
+                                        Log.e("FROMINSIDE",json.getString("name"));
+                                    }else {
+                                        Log.e("FROMINSIDE","NULL");
+                                    }*/
+
+
+                                    Log.e(json.getInt("id")+"",json.getString("name"));
+                                    Route route = new Route(String.valueOf(json.get("id")),String.valueOf(json.getString("name")), busStopList);
+                                    routeList.add(route);
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        searchFragmentRoute.populateRoute(routeList);
+                        view.setVisibility(View.GONE);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        volleyErrorResponse(error, context);
+                    }
+                }) {
+
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response){
+
+                return volleyParseNetworkResponse(response);
+            }
+
+        };
+
+        if (!checkQueueServeTime()){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (searchFragmentRoute.getActivity() != null){
+                        addQueue(jsonRequest);
+                    }
+                }
+            }, delay);
+
+        } else {
+            addQueue(jsonRequest);
+        }
+    }
     /**
      * Gets route list.
      *

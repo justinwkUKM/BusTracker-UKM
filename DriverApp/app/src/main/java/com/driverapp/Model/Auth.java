@@ -19,7 +19,7 @@ public class Auth {
     /**
      * The constant KEY_PASSWORD.
      */
-    public static final String KEY_PASSWORD = "pass";
+    public static final String KEY_PASSWORD = "password";
 
     /**
      * Instantiates a new Auth.

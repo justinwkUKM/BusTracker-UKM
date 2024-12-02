@@ -12,6 +12,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
 import com.android.volley.toolbox.Volley;
+import com.crashlytics.android.answers.Answers;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.myxlab.bustracker.BaseActivity;
 import com.myxlab.bustracker.Controller.VolleyApp;
@@ -20,6 +21,7 @@ import com.myxlab.bustracker.Model.UserInstance;
 import com.myxlab.bustracker.R;
 import com.myxlab.bustracker.Utility;
 import com.myxlab.bustracker.View.Login.MainLoginActivity;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * The type Splash activity.
@@ -33,6 +35,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Answers());
         setContentView(R.layout.activity_splash);
 
         //changing statusbar color

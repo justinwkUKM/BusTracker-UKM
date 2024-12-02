@@ -63,7 +63,11 @@ public class LoginActivity extends BaseActivity{
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 attemptLogin();
+
+
             }
         });
 
@@ -147,11 +151,11 @@ public class LoginActivity extends BaseActivity{
     }
 
     private boolean isUsernameValid(String email) {
-        return email.length() > 3;
+        return email.length() > 0;
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 3;
+        return password.length() > 2;
     }
 
 }

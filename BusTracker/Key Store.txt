@@ -1,0 +1,12 @@
+Key store path: C:\Users\esther pc\Desktop\BasKita\Upload Google Play\baskita.jks
+pw: 111111
+alias: baskita
+pw: 111111
+
+Certificate:
+MyXLab
+Faculti Teknologi dan Sains Maklumat
+Universiti Kebangsaan Malaysia
+43600 Bangi
+Selangor Malaysia
+60

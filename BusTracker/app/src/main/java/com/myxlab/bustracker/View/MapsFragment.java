@@ -213,16 +213,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
      */
     public void getData() {
 
+        if (busesMarker.isEmpty()){
 
+            Toast.makeText(context, "Please wait the buses to load", Toast.LENGTH_SHORT).show();
+        }
 
-        busStopGreenIndex=0;
-        clearAllMapMarkers();
+        else if (mCurrentLocation == null){
 
-        onResume();
-        onMapReady(map);
-        if (greenMarker!=null)
-            greenMarker=null;
-       setBus();
+            Toast.makeText(context, "Checking current location", Toast.LENGTH_SHORT).show();
+
+        }
+        else {
+
+            busStopGreenIndex = 0;
+            clearAllMapMarkers();
+
+            onResume();
+            onMapReady(map);
+            if (greenMarker != null)
+                greenMarker = null;
+            setBus();
+        }
     }
 
     /**
@@ -306,6 +317,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         if (!UserInstance.getInstance().getBuses().isEmpty()) {
             /*Checking Bus Marker is empty*/
             if (busesMarker.isEmpty()) {
+
                 /*Loop the bus list*/
                 for (int i = 0; UserInstance.getInstance().getBuses().size() > i; i++) {
                     /*String for bus maker title*/
@@ -483,16 +495,54 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private MarkerOptions busMarkerOptions(String name, String title, LatLng latLng) {
         MarkerOptions marker = new MarkerOptions().position(latLng).title(title);
 
+
         int markerIcon;
 
-        switch (name) {
+       /* switch (name) {
+            //Bus Zone 3 or Bus Zone 3 (Rabu)
             case "Bus Zone 3U":
                 markerIcon = R.drawable.ic_bus_3u;
                 break;
+
+            case "Bus Zon 3U (Rabu)":
+                markerIcon = R.drawable.ic_bus_3u;
+                break;
+
+            //Bus Zone 2 or Bus Zone 2 (Rabu)
             case "Bus Zone 2":
                 markerIcon = R.drawable.ic_bus_2;
                 break;
+
+            case "Bus Zone 2 (Rabu)":
+                markerIcon = R.drawable.ic_bus_2;
+                break;
+
+            //Bus Zone 6 or Bus Zone 6 (Malam)
             case "Bus Zone 6":
+                markerIcon = R.drawable.ic_bus_6;
+                break;
+
+            case "Bus Zone 6 (Malam)":
+                markerIcon = R.drawable.ic_bus_6;
+                break;
+            default:
+                markerIcon = R.drawable.ic_directions;
+                break;
+        }
+*/
+        switch ("" + name.charAt(9)) {
+            //Bus Zone 3 or Bus Zone 3 (Rabu)
+            case "3":
+                markerIcon = R.drawable.ic_bus_3u;
+                break;
+
+            //Bus Zone 2 or Bus Zone 2 (Rabu)
+            case "2":
+                markerIcon = R.drawable.ic_bus_2;
+                break;
+
+            //Bus Zone 6 or Bus Zone 6 (Malam)
+            case "6":
                 markerIcon = R.drawable.ic_bus_6;
                 break;
             default:
@@ -703,7 +753,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
             MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(UserInstance.getInstance().getBusStopList().get(i).getLat(), UserInstance.getInstance().getBusStopList().get(i).getLon()));
             markerOptions.title(UserInstance.getInstance().getBusStopList().get(i).getName());
-            //markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red)));
+            //markerOptions.icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(R.dra`ble.ic_bus_stops_red)));
             //markerOptions.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_busstop",10,10)));
             Bitmap smallStartMarker = Bitmap.createScaledBitmap(getMarkerBitmapFromView(R.drawable.ic_bus_stops_red),200, 200, false);
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallStartMarker));

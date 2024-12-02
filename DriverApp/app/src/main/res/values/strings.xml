@@ -57,7 +57,9 @@
     <string name="error_server">Sorry our Servers are currently down</string>
     <string name="error_opss">Oopss! something went wrong</string>
     <string name="finish_journey">Perjalanan anda sudah lengkap</string>
-    <string name="url_login">http://api.myxlab.solutions/api/v1/came_in</string>
+    <!--<string name="url_login">http://api.myxlab.solutions/api/v1/came_in</string>-->
+    <string name="url_login">http://api.myxlab.solutions/api/v1/authenticate</string>
+
     <string name="url_bus">http://api.myxlab.solutions/api/v1/sopir</string>
     <string name="url_route">http://api.myxlab.solutions/api/v1/way</string>
     <string name="url_driver">http://api.myxlab.solutions/api/v1/sopirlog</string>

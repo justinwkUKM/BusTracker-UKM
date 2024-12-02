@@ -22,7 +22,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_api_key" />
+            android:value="@string/googlemapsimapsi_api_key" />
 
         <activity
             android:name=".View.MainActivity"
@@ -55,13 +55,21 @@
             android:label="@string/title_activity_test_maps" />
         <activity
             android:name=".View.RouteMapsActivity"
-            android:label="@string/title_activity_route_maps"></activity>
-        <activity android:name=".View.MaintainaceActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
-        <activity android:name=".View.Login.MainLoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+            android:label="@string/title_activity_route_maps" />
+        <activity
+            android:name=".View.MaintainaceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".View.Login.MainLoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".View.RouteList"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a03ac43f9c2ac09abf8124f5e76b6609db10e006" />
     </application>
 
 </manifest>
